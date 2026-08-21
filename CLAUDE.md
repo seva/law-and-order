@@ -9,8 +9,12 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 3. Scan `IMPLEMENTATION.md` checkboxes — first unchecked task is current state
 4. Check open GitHub issues for failures and decisions
 5. Search memory for relevant prior knowledge
+6. Locate the project in the operating cycle (`CYCLE.md`) — which step is current?
 
 ## Conventions
+
+- Operating cycle: `CYCLE.md` — scope-anchored iteration loop (Orient → Decide → Execute → Audit → Repair → Repeat). Extends, does not replace, METHODOLOGY.md: the cycle selects the work, METHODOLOGY governs how each step is done
+- Scope position: S1 (single community, pre-beachhead) — updated by cycle step 1
 
 - Language/runtime: Python 3.11+ (developed on 3.12), async-first. TypeScript parity is a planned track; the language boundary will sit at the adapter layer, keeping the deterministic kernel single-source
 - Test runner: pytest — `python -m pytest`
