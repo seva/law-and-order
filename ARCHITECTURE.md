@@ -63,6 +63,9 @@ _Last verified: 2026-08-21_
 | `src/law_and_order/topology.py` | Network friction metric and phase detection | `Network.friction()`, `phase(Network)` |
 | `src/law_and_order/adapters/base.py` | Stateless platform adapter contract | `PlatformAdapter` protocol: `ingest`, `publish` |
 | `src/law_and_order/adapters/discord.py` | Discord adapter: MESSAGE_CREATE ingest, ruling publication to a dedicated arbitration channel | `DiscordAdapter(ruling_channel_id, send)` implements `PlatformAdapter`; `render_ruling` |
+| `src/law_and_order/adapters/sim.py` | Simulation adapter: dispute-event ingest, ruling emission | `SimAdapter(on_ruling)` implements `PlatformAdapter` |
+| `src/law_and_order/sim/population.py` | Deterministic conflict population | `Persona`, `default_population()` |
+| `src/law_and_order/sim/engine.py` | Simulation production surface: round-based conflict dynamics, protocol installation, friction measurement | `run(population, rounds, seed, installed, ruleset)` |
 
 _Last verified: 2026-08-21_
 
@@ -84,6 +87,7 @@ _Last verified: 2026-08-21_
 | Ruling publication | Dedicated arbitration channel, fixed at construction | Rulings appear in a status-free space, not inside the conflict — neutral arbitration by placement; destination is immutable config, not session state |
 | Identity-free ingest | `Signal` carries channel origin and content only; author identity is dropped at the seam | The judicial layer never sees who spoke; neutrality begins at sensing |
 | Inaugural ruleset | `rulesets/v1.json` — canonical JSON, versioned by filename and git, LF-guarded via `.gitattributes` for byte stability | The legislative layer's first frozen artifact: canonical form is the interchange format, round-trip integrity is testable, and the constitutional immune system (boundary compliance, unique ordered ids) is enforced by tests at load time |
+| Production-surface inversion | Self-generated simulation production surface first; Discord demoted from gate to falsification surface | No blocking accepted — the dependency is inverted: production is what the project generates (charter: custom chat simulation environments). The kernel is substrate-blind, so simulated parties are legitimate parties. Demonstrated at seed 7: friction 0.538 (disordered) → 0.000 (ordered), 7/7 grievances ruled and settled |
 | Language | Python 3.11+ first, TypeScript parity later | Listed platforms (Discord, Reddit, Slack) all have mature async Python SDKs; kernel is pure and portable |
 
 _Last verified: 2026-08-21_
@@ -98,5 +102,6 @@ _Last verified: 2026-08-21_
 - Adapters are stateless: every `ingest`/`publish` call is self-contained; no session state retained
 - Platform SDKs are confined to adapter modules (isolation of fragility)
 - LLM output never emits a ruling directly; it enters the kernel only as candidate `Rule`s frozen into a versioned `RuleSet`, or as classifications memoized by content hash
+- Simulation assumptions, declared: a published ruling settles its dispute durably; unvalued text starves without reaction; friction is pair-based over a sliding window. Live Discord operation is the falsification surface for these assumptions
 
 _Last verified: 2026-08-21_

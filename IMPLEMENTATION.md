@@ -64,8 +64,11 @@ Must complete before any adapter code is written against external APIs.
 - [x] `rulesets/v1.json` — inaugural ruleset (legislative layer)
   - frozen canonical artifact; `RuleSet.from_json` round-trips byte-identically
   - immune-system tested: boundary compliance, unique ordered ids; LF-guarded for cross-platform byte stability
+- [x] `src/law_and_order/adapters/sim.py` + `src/law_and_order/sim/` — simulation production surface (dependency inversion)
+  - deterministic conflict population; protocol installation; friction measurement via `topology.py`
+  - `scripts/sim_experiment.py`, seed 7, 60 rounds: baseline 0.538 (disordered) → installed 0.000 (ordered); delta 0.538; 7/7 grievances ruled and settled
 
-**Verification:** adapter tests pass against recorded fixtures; one live round-trip (signal → ruling → publish) observed in a test community.
+**Verification:** adapter tests pass against recorded fixtures; live round-trip (signal → ruling → publish) demonstrated in the simulation production surface with measured friction delta 0.538 (disordered → ordered, seed 7). Discord live community remains the external falsification surface — owner-gated, non-blocking.
 
 ---
 
