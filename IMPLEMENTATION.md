@@ -38,7 +38,7 @@ Status: complete — seeded 2026-08-21; audit coverage gaps closed 2026-08-21.
 
 Must complete before any adapter code is written against external APIs.
 
-- [ ] Survey Discord (gateway events, message intents, rate limits), Reddit (asyncpraw auth model, moderation surfaces), Slack (Events API, signing verification)
+- [x] Survey Discord (gateway events, message intents, rate limits), Reddit (asyncpraw auth model, moderation surfaces), Slack (Events API, signing verification) — findings in `docs/platform-survey.md` (2026-08-21)
 - [ ] Select the beachhead platform and record why
 - [x] Determine where the LLM layer attaches — resolved 2026-08-21: legislative/sensing layers only, never ruling emission (ARCHITECTURE.md Design Decisions); determinism boundary = frozen versioned RuleSet + content-hash-memoized classification
 - [ ] Record findings in `docs/platform-survey.md` — this file is the hard gate for Phase 3
