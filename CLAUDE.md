@@ -14,9 +14,11 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 
 - Language/runtime: Python 3.11+ (developed on 3.12), async-first. TypeScript parity is a planned track; the language boundary will sit at the adapter layer, keeping the deterministic kernel single-source
 - Test runner: pytest — `python -m pytest`
+- Coverage (post-phase audit): `python -m pytest --cov=law_and_order --cov-report=term-missing` — kernel stays 100%; adapters classified Acceptable until Phase 3
 - Formatting / linting: none configured yet
 - Behavioral rules (zero-ego, deterministic output, compute subsidization, neutral arbitration) live in `AGENTS.md` and are enforced in code by `BoundaryConstraints`
-- Deviations from METHODOLOGY.md: none
+- Deviations from METHODOLOGY.md:
+  - Test files do not mirror source structure one-to-one: a single `tests/test_determinism.py` covers the kernel. Accepted while kernel modules number ≤6 and the tested properties (determinism, boundary enforcement) are cross-module. Phase 3 adapter tests will mirror `src/law_and_order/adapters/`
 
 ## Current phase
 

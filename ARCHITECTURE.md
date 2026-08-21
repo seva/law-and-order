@@ -23,7 +23,7 @@ Code as documentation — names and structure must be self-explanatory. Comments
 ## System Diagram
 
 ```
-[LLM legislative layer]   offline: ruleset synthesis, conflict-edge sensing
+[LLM legislative layer]   (planned) offline: ruleset synthesis, conflict-edge sensing
         |  candidate Rules, frozen into versioned RuleSet
         v
      [RuleSet]
