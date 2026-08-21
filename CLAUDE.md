@@ -17,3 +17,7 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 - Formatting / linting: none configured yet
 - Behavioral rules (zero-ego, deterministic output, compute subsidization, neutral arbitration) live in `AGENTS.md` and are enforced in code by `BoundaryConstraints`
 - Deviations from METHODOLOGY.md: none
+
+## Current phase
+
+Phase 2 — Discovery: Platform Integration. First unchecked task in `IMPLEMENTATION.md` is current state.

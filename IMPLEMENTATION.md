@@ -20,10 +20,17 @@ No Phase 0 gate applies: the kernel depends on no external interfaces, APIs, or 
   - phase transition on friction drop
 - [x] `src/law_and_order/protocol.py`, `ruleset.py`, `state_machine.py`, `arbitration.py`, `topology.py`, `adapters/base.py`
   - frozen/slotted dataclasses; pure transition functions; hash tie-break
+- [x] `tests/test_determinism.py` — coverage-gap closure (post-phase audit 2026-08-21)
+  - arbitrator coerces forbidden action to abstain
+  - tie-break exercises both branches via swapped pair
+  - oversize payload rejected at boundary
+  - unmatched valued signal routes to arbitration
+  - compressed_size consistent with canonical bytes
+  - empty network: zero friction, ordered phase
 
-**Verification:** `python -m pytest` — 7 tests pass.
+**Verification:** `python -m pytest` — 13 tests pass; kernel coverage 100%, adapters uncovered (Acceptable: contract-only until Phase 3).
 
-Status: complete at epistegrity instantiation (work predates scaffold adoption; checkboxes reflect verified state).
+Status: complete — seeded 2026-08-21; audit coverage gaps closed 2026-08-21.
 
 ---
 
