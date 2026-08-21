@@ -53,12 +53,14 @@ Must complete before any adapter code is written against external APIs.
 
 ### Tasks
 
-- [ ] `tests/adapters/test_discord.py`
+- [x] `tests/adapters/test_discord.py`
   - ingest produces well-formed Signals from recorded raw payloads
   - publish serializes a Ruling to the platform's message shape
   - adapter retains no state between calls
-- [ ] `src/law_and_order/adapters/discord.py`
+  - spec-accurate synthetic fixtures; live-recorded fixtures pending bot account
+- [x] `src/law_and_order/adapters/discord.py`
   - implements `PlatformAdapter` against Phase 2 findings
+  - dependency-inverted `send` callable; discord.py confined to live wiring
 
 **Verification:** adapter tests pass against recorded fixtures; one live round-trip (signal → ruling → publish) observed in a test community.
 

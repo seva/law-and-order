@@ -62,6 +62,7 @@ _Last verified: 2026-08-21_
 | `src/law_and_order/arbitration.py` | Identity-free neutral arbitration | `Arbitrator.resolve(Dispute) -> Ruling` |
 | `src/law_and_order/topology.py` | Network friction metric and phase detection | `Network.friction()`, `phase(Network)` |
 | `src/law_and_order/adapters/base.py` | Stateless platform adapter contract | `PlatformAdapter` protocol: `ingest`, `publish` |
+| `src/law_and_order/adapters/discord.py` | Discord adapter: MESSAGE_CREATE ingest, ruling publication to a dedicated arbitration channel | `DiscordAdapter(ruling_channel_id, send)` implements `PlatformAdapter`; `render_ruling` |
 
 _Last verified: 2026-08-21_
 
@@ -79,6 +80,9 @@ _Last verified: 2026-08-21_
 | Error handling | Total functions on the ruling path: every input yields a `Ruling`; rejection is an action (`drop`, `abstain`, `reject_oversize`), never an exception | Coding Hygiene's "explicit error types" is satisfied by explicit rejection actions; exceptions would add non-deterministic control flow and untracked failure states |
 | LLM seam | Legislative and sensing layers only: ruleset synthesis, conflict-edge sensing, optional content-hash-memoized classification. Never at ruling emission | The judicial layer must remain a pure function of (signal, ruleset, boundaries). Non-determinism is confined to producing frozen, versioned rulesets, which are auditable via canonical form; memoization restores per-content determinism for classification |
 | Beachhead platform | Discord | Survey (`docs/platform-survey.md`): complete enforcement surface (timeout/ban/delete/API-manageable AutoMod) enables self-enforcing rulings — the proof requirement; MESSAGE_CONTENT free below 10k unique users; maximal conflict density maximizes the measurable friction delta. Slack cannot enforce rulings at standard-app tier; Reddit's surface is contracting (registration deadline 2026-09-30, Devvit migration) |
+| Adapter dependency inversion | `DiscordAdapter` takes an async `send` callable and immutable config; discord.py is confined to the live wiring layer | Isolation of fragility: SDK churn touches only wiring; adapter tests run dependency-free against spec-accurate fixtures |
+| Ruling publication | Dedicated arbitration channel, fixed at construction | Rulings appear in a status-free space, not inside the conflict — neutral arbitration by placement; destination is immutable config, not session state |
+| Identity-free ingest | `Signal` carries channel origin and content only; author identity is dropped at the seam | The judicial layer never sees who spoke; neutrality begins at sensing |
 | Language | Python 3.11+ first, TypeScript parity later | Listed platforms (Discord, Reddit, Slack) all have mature async Python SDKs; kernel is pure and portable |
 
 _Last verified: 2026-08-21_
