@@ -39,25 +39,25 @@ Status: complete — seeded 2026-08-21; audit coverage gaps closed 2026-08-21.
 Must complete before any adapter code is written against external APIs.
 
 - [x] Survey Discord (gateway events, message intents, rate limits), Reddit (asyncpraw auth model, moderation surfaces), Slack (Events API, signing verification) — findings in `docs/platform-survey.md` (2026-08-21)
-- [ ] Select the beachhead platform and record why
+- [x] Select the beachhead platform and record why — **Discord**, 2026-08-21: survey RAROC ≈ 2.0 vs Reddit 1.0 / Slack 0.3 — enforcement completeness (self-enforcing rulings), sub-10k-user intent exemption, maximal conflict density (`docs/platform-survey.md`, ARCHITECTURE.md Design Decisions)
 - [x] Determine where the LLM layer attaches — resolved 2026-08-21: legislative/sensing layers only, never ruling emission (ARCHITECTURE.md Design Decisions); determinism boundary = frozen versioned RuleSet + content-hash-memoized classification
-- [x] Record findings in `docs/platform-survey.md` — this file is the hard gate for Phase 3 (recorded 2026-08-21; gate satisfied pending owner beachhead selection)
+- [x] Record findings in `docs/platform-survey.md` — this file is the hard gate for Phase 3 (recorded 2026-08-21; gate satisfied; beachhead Discord)
 
 **Outputs:** structured discovery artifact committed to `docs/`.
 
 ---
 
-## Phase 3 — First Platform Adapter
+## Phase 3 — First Platform Adapter (Discord)
 
-**Goal:** the kernel arbitrates live signals on one platform through a stateless adapter.
+**Goal:** the kernel arbitrates live signals on Discord through a stateless adapter.
 
 ### Tasks
 
-- [ ] `tests/adapters/test_[platform].py`
+- [ ] `tests/adapters/test_discord.py`
   - ingest produces well-formed Signals from recorded raw payloads
   - publish serializes a Ruling to the platform's message shape
   - adapter retains no state between calls
-- [ ] `src/law_and_order/adapters/[platform].py`
+- [ ] `src/law_and_order/adapters/discord.py`
   - implements `PlatformAdapter` against Phase 2 findings
 
 **Verification:** adapter tests pass against recorded fixtures; one live round-trip (signal → ruling → publish) observed in a test community.
@@ -66,10 +66,10 @@ Must complete before any adapter code is written against external APIs.
 
 ## Open Questions
 
-1. Beachhead platform: Discord, Reddit, or Slack — open, Phase 2
+1. Beachhead platform: Discord, Reddit, or Slack — resolved 2026-08-21: Discord, see ARCHITECTURE.md Design Decisions
 2. LLM attachment point and how determinism is preserved at that seam — resolved 2026-08-21, see ARCHITECTURE.md Design Decisions
 3. TypeScript parity: parallel kernel or wrapper over the Python kernel — open
-4. Source of network graph data for `topology.py` on each platform — open, Phase 2
+4. Source of network graph data for `topology.py` — open, Phase 3 (Discord channel activity sampling; survey open item 5)
 
 ---
 

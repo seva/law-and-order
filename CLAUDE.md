@@ -26,4 +26,4 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 
 ## Current phase
 
-Phase 2 — Discovery: Platform Integration. First unchecked task in `IMPLEMENTATION.md` is current state.
+Phase 3 — First Platform Adapter (Discord). First unchecked task in `IMPLEMENTATION.md` is current state.
