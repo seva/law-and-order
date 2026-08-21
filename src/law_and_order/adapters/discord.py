@@ -5,6 +5,7 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 
 from ..protocol import Ruling, Signal
+from .base import render_ruling
 
 Send = Callable[[int, str], Awaitable[None]]
 
@@ -31,7 +32,3 @@ class DiscordAdapter:
 
     async def publish(self, ruling: Ruling) -> None:
         await self.send(self.ruling_channel_id, render_ruling(ruling))
-
-
-def render_ruling(ruling: Ruling) -> str:
-    return f"[{ruling.rule_id}] {ruling.action} — case {ruling.digest[:16]}"

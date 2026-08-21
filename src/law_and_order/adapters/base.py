@@ -10,3 +10,7 @@ class PlatformAdapter(Protocol):
     async def ingest(self, raw: str, source: str) -> Signal: ...
 
     async def publish(self, ruling: Ruling) -> None: ...
+
+
+def render_ruling(ruling: Ruling) -> str:
+    return f"[{ruling.rule_id}] {ruling.action} — case {ruling.digest[:16]}"
