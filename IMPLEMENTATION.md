@@ -67,6 +67,10 @@ Must complete before any adapter code is written against external APIs.
 - [x] `src/law_and_order/adapters/sim.py` + `src/law_and_order/sim/` — simulation production surface (dependency inversion)
   - deterministic conflict population; protocol installation; friction measurement via `topology.py`
   - `scripts/sim_experiment.py`, seed 7, 60 rounds: baseline 0.538 (disordered) → installed 0.000 (ordered); delta 0.538; 7/7 grievances ruled and settled
+- [x] polity-001 — first live adjudication against real (artificial) minds (`docs/polity-001/`)
+  - unscripted subagent disputants under opposing mandates; kernel adjudicated all 6 statements, replay-stable
+  - settlement: claimant ACCEPT, respondent APPEAL — due process exercised live; durable-settlement assumption revised
+  - legislative gaps exposed: stance-blind matching, no evidence surface, no appellate instance
 
 **Verification:** adapter tests pass against recorded fixtures; live round-trip (signal → ruling → publish) demonstrated in the simulation production surface with measured friction delta 0.538 (disordered → ordered, seed 7). Discord live community remains the external falsification surface — owner-gated, non-blocking.
 

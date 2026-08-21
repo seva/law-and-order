@@ -1,0 +1,6 @@
+{"round": 1, "phase": "argument", "party": "claimant", "action": "order_refund", "rule_id": "R1"}
+{"round": 1, "phase": "argument", "party": "respondent", "action": "order_refund", "rule_id": "R1"}
+{"round": 2, "phase": "argument", "party": "claimant", "action": "order_refund", "rule_id": "R1"}
+{"round": 2, "phase": "argument", "party": "respondent", "action": "order_refund", "rule_id": "R1"}
+{"round": 3, "phase": "settlement", "party": "claimant", "action": "order_refund", "rule_id": "R1"}
+{"round": 3, "phase": "settlement", "party": "respondent", "action": "order_refund", "rule_id": "R1"}
