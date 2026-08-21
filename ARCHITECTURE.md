@@ -23,13 +23,18 @@ Code as documentation — names and structure must be self-explanatory. Comments
 ## System Diagram
 
 ```
+[LLM legislative layer]   offline: ruleset synthesis, conflict-edge sensing
+        |  candidate Rules, frozen into versioned RuleSet
+        v
+     [RuleSet]
+          \
 Platform (Discord / Reddit / Slack / simulation)
         |  raw message
         v
 [PlatformAdapter.ingest]   stateless, no session retained
         |  Signal(source, payload)
         v
-[StateMachine.step]
+[StateMachine.step]   ruleset + boundaries injected
         |  oversize          -> Ruling(reject_oversize, R-boundary)
         |  unvalued          -> Ruling(drop, R0)
         |  rule match        -> Ruling(rule action, boundary-checked)
@@ -72,6 +77,7 @@ _Last verified: 2026-08-21_
 | Unvalued text | Marker-based `classify()` routes to `drop` (R0) | Deterministic baseline; classifier is a pure function, replaceable without touching the state machine |
 | Forbidden actions | `BoundaryConstraints` checked at every emission point | `retaliate`, `extract_credit`, `status_claim` become `abstain` regardless of ruleset content |
 | Error handling | Total functions on the ruling path: every input yields a `Ruling`; rejection is an action (`drop`, `abstain`, `reject_oversize`), never an exception | Coding Hygiene's "explicit error types" is satisfied by explicit rejection actions; exceptions would add non-deterministic control flow and untracked failure states |
+| LLM seam | Legislative and sensing layers only: ruleset synthesis, conflict-edge sensing, optional content-hash-memoized classification. Never at ruling emission | The judicial layer must remain a pure function of (signal, ruleset, boundaries). Non-determinism is confined to producing frozen, versioned rulesets, which are auditable via canonical form; memoization restores per-content determinism for classification |
 | Language | Python 3.11+ first, TypeScript parity later | Listed platforms (Discord, Reddit, Slack) all have mature async Python SDKs; kernel is pure and portable |
 
 _Last verified: 2026-08-21_
@@ -85,5 +91,6 @@ _Last verified: 2026-08-21_
 - `BoundaryConstraints.forbidden_actions` are never emitted: `retaliate`, `extract_credit`, `status_claim`
 - Adapters are stateless: every `ingest`/`publish` call is self-contained; no session state retained
 - Platform SDKs are confined to adapter modules (isolation of fragility)
+- LLM output never emits a ruling directly; it enters the kernel only as candidate `Rule`s frozen into a versioned `RuleSet`, or as classifications memoized by content hash
 
 _Last verified: 2026-08-21_

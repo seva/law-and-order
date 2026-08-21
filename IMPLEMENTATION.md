@@ -40,7 +40,7 @@ Must complete before any adapter code is written against external APIs.
 
 - [ ] Survey Discord (gateway events, message intents, rate limits), Reddit (asyncpraw auth model, moderation surfaces), Slack (Events API, signing verification)
 - [ ] Select the beachhead platform and record why
-- [ ] Determine where the LLM layer attaches — classification, ruleset synthesis, or ruling draft — and record the determinism boundary at that seam
+- [x] Determine where the LLM layer attaches — resolved 2026-08-21: legislative/sensing layers only, never ruling emission (ARCHITECTURE.md Design Decisions); determinism boundary = frozen versioned RuleSet + content-hash-memoized classification
 - [ ] Record findings in `docs/platform-survey.md` — this file is the hard gate for Phase 3
 
 **Outputs:** structured discovery artifact committed to `docs/`.
@@ -67,7 +67,7 @@ Must complete before any adapter code is written against external APIs.
 ## Open Questions
 
 1. Beachhead platform: Discord, Reddit, or Slack — open, Phase 2
-2. LLM attachment point and how determinism is preserved at that seam — open, Phase 2
+2. LLM attachment point and how determinism is preserved at that seam — resolved 2026-08-21, see ARCHITECTURE.md Design Decisions
 3. TypeScript parity: parallel kernel or wrapper over the Python kernel — open
 4. Source of network graph data for `topology.py` on each platform — open, Phase 2
 
