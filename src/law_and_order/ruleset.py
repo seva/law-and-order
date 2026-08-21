@@ -15,6 +15,13 @@ class Rule:
 class RuleSet:
     rules: tuple[Rule, ...]
 
+    @classmethod
+    def from_json(cls, raw: str) -> RuleSet:
+        items = json.loads(raw)
+        if not isinstance(items, list):
+            raise ValueError("ruleset artifact must be a JSON array of rules")
+        return cls(rules=tuple(Rule(**item) for item in items))
+
     def ordered(self) -> tuple[Rule, ...]:
         return tuple(sorted(self.rules, key=lambda rule: rule.rule_id))
 

@@ -57,7 +57,7 @@ _Last verified: 2026-08-21_
 | Component | Responsibility | Key interface |
 |---|---|---|
 | `src/law_and_order/protocol.py` | Immutable core types and boundary enforcement | `Signal`, `Ruling`, `BoundaryConstraints.permits`, `SignalKind`, `Phase` |
-| `src/law_and_order/ruleset.py` | Compute subsidization: canonical compressed rulesets | `Rule`, `RuleSet.ordered / canonical / compressed_size` |
+| `src/law_and_order/ruleset.py` | Compute subsidization: canonical compressed rulesets | `Rule`, `RuleSet.ordered / canonical / compressed_size / from_json` |
 | `src/law_and_order/state_machine.py` | Zero-emotional-latency transitions; classify and route signals | `StateMachine.step(Signal) -> Ruling`, `classify` |
 | `src/law_and_order/arbitration.py` | Identity-free neutral arbitration | `Arbitrator.resolve(Dispute) -> Ruling` |
 | `src/law_and_order/topology.py` | Network friction metric and phase detection | `Network.friction()`, `phase(Network)` |
@@ -83,6 +83,7 @@ _Last verified: 2026-08-21_
 | Adapter dependency inversion | `DiscordAdapter` takes an async `send` callable and immutable config; discord.py is confined to the live wiring layer | Isolation of fragility: SDK churn touches only wiring; adapter tests run dependency-free against spec-accurate fixtures |
 | Ruling publication | Dedicated arbitration channel, fixed at construction | Rulings appear in a status-free space, not inside the conflict — neutral arbitration by placement; destination is immutable config, not session state |
 | Identity-free ingest | `Signal` carries channel origin and content only; author identity is dropped at the seam | The judicial layer never sees who spoke; neutrality begins at sensing |
+| Inaugural ruleset | `rulesets/v1.json` — canonical JSON, versioned by filename and git, LF-guarded via `.gitattributes` for byte stability | The legislative layer's first frozen artifact: canonical form is the interchange format, round-trip integrity is testable, and the constitutional immune system (boundary compliance, unique ordered ids) is enforced by tests at load time |
 | Language | Python 3.11+ first, TypeScript parity later | Listed platforms (Discord, Reddit, Slack) all have mature async Python SDKs; kernel is pure and portable |
 
 _Last verified: 2026-08-21_

@@ -61,6 +61,9 @@ Must complete before any adapter code is written against external APIs.
 - [x] `src/law_and_order/adapters/discord.py`
   - implements `PlatformAdapter` against Phase 2 findings
   - dependency-inverted `send` callable; discord.py confined to live wiring
+- [x] `rulesets/v1.json` — inaugural ruleset (legislative layer)
+  - frozen canonical artifact; `RuleSet.from_json` round-trips byte-identically
+  - immune-system tested: boundary compliance, unique ordered ids; LF-guarded for cross-platform byte stability
 
 **Verification:** adapter tests pass against recorded fixtures; one live round-trip (signal → ruling → publish) observed in a test community.
 
