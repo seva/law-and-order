@@ -25,7 +25,7 @@ Never queue a second step; the next is chosen only after the current one complet
 
 ### 3. Execute
 
-TDD per METHODOLOGY.md — tests first; done means the verification statement is true, not that code was written. Commit discipline applies; public-contract changes update `ARCHITECTURE.md` in the same commit.
+TDD per METHODOLOGY.md — tests first. Done means the Definition of Success holds (below), not that code was written. Commit discipline applies; public-contract changes update `ARCHITECTURE.md` in the same commit.
 
 ### 4. Audit — evaluate against the constitution
 
@@ -39,12 +39,26 @@ Output: classified gap list. Zero gaps is the only passing state.
 
 ### 5. Repair
 
-Gaps ranked by RAROC, executed in order. Each gap is an atomic step of a repair sub-cycle: return to step 4 after repairs until the audit passes clean.
+Gaps ranked by RAROC, executed in order. Each gap is an atomic step of a repair sub-cycle — the same Definition of Success applies: return to step 4 after repairs until the audit passes clean.
 
 ### 6. Repeat
 
 Loop invariant at cycle exit: constitution clean, scope position non-decreasing.
 Session end within a cycle: checkboxes updated, comment on the open issue, WaLRuS if the session had meaningful scope.
+
+---
+
+## Definition of Success
+
+An atomic task succeeds iff all five hold. Success is a decidable conjunction, not a judgment:
+
+1. **Pre-declared verification** — before execution, the task states one concrete, observable verification statement. Success is that statement being true. A task without a verification statement is not started.
+2. **Proof, not claim** — the verification is checked externally: tests run, CI green, remote confirms, API responds. Self-report is not evidence.
+3. **No constitutional regression** — `ARCHITECTURE.md` matches code; records in sync (issues ↔ `IMPLEMENTATION.md`); commit discipline observed; coverage has not regressed, and any new gap is closed or classified.
+4. **Scope delta ≥ 0** — after completion, scope position is non-decreasing, and the task's contribution toward the next rung is nameable. Repair tasks satisfy this at delta = 0 by restoring the loop invariant.
+5. **Legible** — completion leaves a trace: commit references its issue, checkbox flipped in the same commit, comment on the open issue.
+
+**Corollary (atomicity test):** if any condition is undecidable within one session, the task is not atomic — split it until success becomes decidable. Atomicity and decidability of success define each other.
 
 ---
 
