@@ -100,6 +100,8 @@ No Phase 0 gate applies: the appellate is a pure kernel institution with no exte
 
 **Verification:** the appellate instance adjudicates polity-001's pending appeal from the committed transcript — deterministic, replay-stable; final settlement recomputed under the corrected settlement assumption; suite green; package coverage 100%; CI green.
 
+Status: complete — verification satisfied 2026-08-24: polity-001's appeal re-heard, AFFIRMED under v1 [R1], replay-stable (byte-identical across runs); final_settlement true — the dispute open since 2026-08-21 is durably settled through due process; 60 tests, package coverage 100%.
+
 ---
 
 ## Open Questions
