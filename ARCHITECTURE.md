@@ -103,7 +103,7 @@ _Last verified: 2026-08-21_
 - Adapters are stateless: every `ingest`/`publish` call is self-contained; no session state retained
 - Platform SDKs are confined to adapter modules (isolation of fragility)
 - LLM output never emits a ruling directly; it enters the kernel only as candidate `Rule`s frozen into a versioned `RuleSet`, or as classifications memoized by content hash
-- Simulation assumptions, declared: a published ruling settles its dispute durably; unvalued text starves without reaction; friction is pair-based over a sliding window. Live operation against real minds is the falsification surface for these assumptions
+- Simulation assumptions, declared with falsification status: settlement is mediated by due process — a ruling settles its dispute only if no party appeals (durable settlement falsified by polity-001, 2026-08-21); unvalued text starves without reaction (unexercised in the wild — polity-001 produced no insults); friction is pair-based over a sliding window. Live operation against real minds is the falsification surface for these assumptions
 - Autonomy: the cycle is self-sufficient. By default no step may require owner action or externally provisioned accounts; live surfaces are surfaces the project controls or autonomously stands up, and the first live polity is artificial minds under opposing mandates (S11 — substrate-blind design makes them legitimate parties). External platforms are optional expansions, never gates. The owner may sanction exceptions by prompt — a sanctioned prompt is the only legitimate path by which an external dependency enters the cycle, and every sanction is recorded on the relevant issue
 
-_Last verified: 2026-08-21_
+_Last verified: 2026-08-23_
