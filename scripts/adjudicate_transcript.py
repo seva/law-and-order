@@ -3,7 +3,14 @@ import sys
 from pathlib import Path
 
 from law_and_order import RuleSet
-from law_and_order.polity import adjudicate, analyze, load_transcript, settlement_signals
+from law_and_order.polity import (
+    adjudicate,
+    adjudicate_appeals,
+    analyze,
+    final_settlement,
+    load_transcript,
+    settlement_signals,
+)
 
 
 def main() -> None:
@@ -30,7 +37,22 @@ def main() -> None:
                 }
             )
         )
-    print(json.dumps(analyze(statements, rulings, settlements)))
+    appeals = adjudicate_appeals(statements, rulings, ruleset)
+    for party, ruling in appeals.items():
+        print(
+            json.dumps(
+                {
+                    "appellate": True,
+                    "party": party,
+                    "action": ruling.action,
+                    "rule_id": ruling.rule_id,
+                }
+            )
+        )
+    summary = analyze(statements, rulings, settlements)
+    summary["appellate"] = {party: ruling.action for party, ruling in appeals.items()}
+    summary["final_settlement"] = final_settlement(settlements, appeals)
+    print(json.dumps(summary))
 
 
 if __name__ == "__main__":

@@ -88,8 +88,8 @@ def test_adjudicate_appeals_hears_every_appeal_deterministically():
         },
     )
     rulings = adjudicate(statements, load_ruleset(), "t")
-    first = adjudicate_appeals(statements, rulings, load_ruleset(), "t")
-    second = adjudicate_appeals(statements, rulings, load_ruleset(), "t")
+    first = adjudicate_appeals(statements, rulings, load_ruleset())
+    second = adjudicate_appeals(statements, rulings, load_ruleset())
     assert first == second
     assert set(first) == {"respondent"}
     assert first["respondent"].action == "affirm"
@@ -106,12 +106,32 @@ def test_final_settlement_rules():
     assert final_settlement({}, {}) is False
 
 
+def test_adjudicate_appeals_requires_two_parties():
+    statements = (
+        {"round": 1, "phase": "argument", "party": "claimant", "text": "demand a refund"},
+        {"round": 2, "phase": "settlement", "party": "claimant", "text": "APPEAL. unfair"},
+    )
+    rulings = adjudicate(statements, load_ruleset(), "t")
+    assert adjudicate_appeals(statements, rulings, load_ruleset()) == {}
+
+
+def test_adjudicate_appeals_skips_appellant_without_argument_statement():
+    statements = (
+        {"round": 1, "phase": "argument", "party": "claimant", "text": "demand a refund"},
+        {"round": 1, "phase": "argument", "party": "respondent", "text": "refuse the refund"},
+        {"round": 2, "phase": "settlement", "party": "claimant", "text": "ACCEPT."},
+        {"round": 2, "phase": "settlement", "party": "latecomer", "text": "APPEAL. unheard"},
+    )
+    rulings = adjudicate(statements, load_ruleset(), "t")
+    assert adjudicate_appeals(statements, rulings, load_ruleset()) == {}
+
+
 def test_polity_001_appeal_is_reheard_deterministically():
     transcript = Path(__file__).resolve().parents[1] / "docs" / "polity-001" / "transcript.jsonl"
     statements = load_transcript(transcript.read_text(encoding="utf-8"))
     rulings = adjudicate(statements, load_ruleset(), "polity-001")
-    first = adjudicate_appeals(statements, rulings, load_ruleset(), "polity-001")
-    second = adjudicate_appeals(statements, rulings, load_ruleset(), "polity-001")
+    first = adjudicate_appeals(statements, rulings, load_ruleset())
+    second = adjudicate_appeals(statements, rulings, load_ruleset())
     assert first == second
     assert set(first) == {"respondent"}
     assert first["respondent"].action == "affirm"

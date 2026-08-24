@@ -86,17 +86,17 @@ No Phase 0 gate applies: the appellate is a pure kernel institution with no exte
 
 ### Tasks
 
-- [ ] `tests/test_appeals.py` + `tests/test_polity.py` appeal extensions — spec first
+- [x] `tests/test_appeals.py` + `tests/test_polity.py` appeal extensions — spec first
   - appellate ruling deterministic and replay-stable; identity-free (depends on dispute, contested ruling, and ground content only)
   - affirm when merits re-adjudication matches the contested action; overturn when it differs — both branches exercised
   - forbidden action coerced to abstain at the appellate emission point
   - appeal construction from transcript: dispute from first-argument statements, contested ruling from the appellant's last argument statement, ground from the settlement text
   - final settlement under the corrected assumption: ACCEPT settles; APPEAL settles only if affirmed; REJECT unsettles
-- [ ] `src/law_and_order/appeals.py` + polity harness + ARCHITECTURE.md in the same commit (public contract)
+- [x] `src/law_and_order/appeals.py` + polity harness + ARCHITECTURE.md in the same commit (public contract)
   - `Appeal(dispute, ruling, ground)` frozen/slotted, content-addressed digest
   - `Appellate(ruleset, boundaries).resolve(Appeal) -> Ruling` — merits re-adjudicated via `Arbitrator` over (claim + ground, counterclaim); affirm/overturn; boundary-checked at emission
   - polity: `adjudicate_appeals`, final-settlement recompute, CLI emits appellate rulings
-- [ ] polity-001 appeal re-heard from the committed transcript; outcome recorded on the issue
+- [x] polity-001 appeal re-heard from the committed transcript; outcome recorded on the issue
 
 **Verification:** the appellate instance adjudicates polity-001's pending appeal from the committed transcript — deterministic, replay-stable; final settlement recomputed under the corrected settlement assumption; suite green; package coverage 100%; CI green.
 

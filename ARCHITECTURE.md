@@ -43,12 +43,15 @@ Platform (Discord / Reddit / Slack / simulation)
 [Arbitrator.resolve]       identity-free Dispute(claim, counterclaim)
         |  Ruling(action, rule_id)
         v
+[Appellate.resolve]        Appeal(dispute, ruling, ground) — due process
+        |  Ruling(affirm | overturn, merits rule)
+        v
 [PlatformAdapter.publish]
 
 [Network / phase]          friction = conflict-edge density; DISORDERED -> ORDERED
 ```
 
-_Last verified: 2026-08-21_
+_Last verified: 2026-08-24_
 
 ---
 
@@ -60,15 +63,16 @@ _Last verified: 2026-08-21_
 | `src/law_and_order/ruleset.py` | Compute subsidization: canonical compressed rulesets | `Rule`, `RuleSet.ordered / canonical / compressed_size / from_json` |
 | `src/law_and_order/state_machine.py` | Zero-emotional-latency transitions; classify and route signals | `StateMachine.step(Signal) -> Ruling`, `classify` |
 | `src/law_and_order/arbitration.py` | Identity-free neutral arbitration | `Arbitrator.resolve(Dispute) -> Ruling` |
+| `src/law_and_order/appeals.py` | Appellate instance: due-process review of contested rulings | `Appeal(dispute, ruling, ground)`, `Appellate.resolve(Appeal) -> Ruling` |
 | `src/law_and_order/topology.py` | Network friction metric and phase detection | `Network.friction()`, `phase(Network)` |
-| `src/law_and_order/polity.py` | Transcript adjudication: offline rulings and settlement analysis for polity records | `load_transcript`, `adjudicate`, `settlement_signals`, `analyze` |
+| `src/law_and_order/polity.py` | Transcript adjudication: offline rulings, appeal re-hearing, and settlement analysis for polity records | `load_transcript`, `adjudicate`, `adjudicate_appeals`, `settlement_signals`, `final_settlement`, `analyze` |
 | `src/law_and_order/adapters/base.py` | Stateless platform adapter contract; shared ruling renderer | `PlatformAdapter` protocol: `ingest`, `publish`; `render_ruling` |
 | `src/law_and_order/adapters/discord.py` | Discord adapter: MESSAGE_CREATE ingest, ruling publication to a dedicated arbitration channel | `DiscordAdapter(ruling_channel_id, send)` implements `PlatformAdapter` |
 | `src/law_and_order/adapters/sim.py` | Simulation adapter: dispute-event ingest, ruling emission | `SimAdapter(on_ruling)` implements `PlatformAdapter` |
 | `src/law_and_order/sim/population.py` | Deterministic conflict population | `Persona`, `default_population()` |
 | `src/law_and_order/sim/engine.py` | Simulation production surface: round-based conflict dynamics, protocol installation, friction measurement | `run(population, rounds, seed, installed, ruleset)` |
 
-_Last verified: 2026-08-23_
+_Last verified: 2026-08-24_
 
 ---
 
@@ -81,6 +85,7 @@ _Last verified: 2026-08-23_
 | Tie-break | SHA-256 comparison of claim texts | Deterministic, symmetric, status-free; identical disputes always yield identical rulings |
 | Unvalued text | Marker-based `classify()` routes to `drop` (R0) | Deterministic baseline; classifier is a pure function, replaceable without touching the state machine |
 | Forbidden actions | `BoundaryConstraints` checked at every emission point | `retaliate`, `extract_credit`, `status_claim` become `abstain` regardless of ruleset content |
+| Appellate instance | Merits re-adjudication: the dispute expanded with the appeal ground is re-ruled under the ruleset in force; affirm if the merits action matches the contested action, overturn otherwise; one instance — affirm exhausts due process and settles durably | Due process as a pure function: the appellate ruling is content-addressed over (dispute, contested ruling, ground), identity-free, deterministic. The institution hears every appeal; the outcome depends on the law in force — under stance-blind v1, polity-001's appeal affirms, exposing that appellate teeth require legislative evolution. One instance: no infinite regress |
 | Error handling | Total functions on the ruling path: every input yields a `Ruling`; rejection is an action (`drop`, `abstain`, `reject_oversize`), never an exception | Coding Hygiene's "explicit error types" is satisfied by explicit rejection actions; exceptions would add non-deterministic control flow and untracked failure states |
 | LLM seam | Legislative and sensing layers only: ruleset synthesis, conflict-edge sensing, optional content-hash-memoized classification. Never at ruling emission | The judicial layer must remain a pure function of (signal, ruleset, boundaries). Non-determinism is confined to producing frozen, versioned rulesets, which are auditable via canonical form; memoization restores per-content determinism for classification |
 | Beachhead platform | Discord | Survey (`docs/platform-survey.md`): complete enforcement surface (timeout/ban/delete/API-manageable AutoMod) enables self-enforcing rulings — the proof requirement; MESSAGE_CONTENT free below 10k unique users; maximal conflict density maximizes the measurable friction delta. Slack cannot enforce rulings at standard-app tier; Reddit's surface is contracting (registration deadline 2026-09-30, Devvit migration) |
@@ -92,7 +97,7 @@ _Last verified: 2026-08-23_
 | Owner sanction | Autonomy is the default regime, not an absolute: the owner may sanction violations by prompt | The owner stands outside the cycle as its legislative layer; a sanctioned prompt is an auditable constitutional act and the only legitimate path by which external dependencies enter the cycle. Absent sanction, the cycle never stalls on external provisioning |
 | Language | Python 3.11+ first, TypeScript parity later | Listed platforms (Discord, Reddit, Slack) all have mature async Python SDKs; kernel is pure and portable |
 
-_Last verified: 2026-08-21_
+_Last verified: 2026-08-24_
 
 ---
 
@@ -104,7 +109,7 @@ _Last verified: 2026-08-21_
 - Adapters are stateless: every `ingest`/`publish` call is self-contained; no session state retained
 - Platform SDKs are confined to adapter modules (isolation of fragility)
 - LLM output never emits a ruling directly; it enters the kernel only as candidate `Rule`s frozen into a versioned `RuleSet`, or as classifications memoized by content hash
-- Simulation assumptions, declared with falsification status: settlement is mediated by due process — a ruling settles its dispute only if no party appeals (durable settlement falsified by polity-001, 2026-08-21); unvalued text starves without reaction (unexercised in the wild — polity-001 produced no insults); friction is pair-based over a sliding window. Live operation against real minds is the falsification surface for these assumptions
+- Simulation assumptions, declared with falsification status: settlement is mediated by due process — a ruling settles its dispute if no party appeals, or if the appellate instance affirms on appeal (institutionalized 2026-08-24; durable settlement falsified by polity-001, 2026-08-21); unvalued text starves without reaction (unexercised in the wild — polity-001 produced no insults); friction is pair-based over a sliding window. Live operation against real minds is the falsification surface for these assumptions
 - Autonomy: the cycle is self-sufficient. By default no step may require owner action or externally provisioned accounts; live surfaces are surfaces the project controls or autonomously stands up, and the first live polity is artificial minds under opposing mandates (S11 — substrate-blind design makes them legitimate parties). External platforms are optional expansions, never gates. The owner may sanction exceptions by prompt — a sanctioned prompt is the only legitimate path by which an external dependency enters the cycle, and every sanction is recorded on the relevant issue
 
-_Last verified: 2026-08-23_
+_Last verified: 2026-08-24_
