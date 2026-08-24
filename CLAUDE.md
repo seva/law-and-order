@@ -14,7 +14,7 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 ## Conventions
 
 - Operating cycle: `CYCLE.md` — scope-anchored iteration loop (Orient → Decide → Execute → Audit → Repair → Repeat). Extends, does not replace, METHODOLOGY.md: the cycle selects the work, METHODOLOGY governs how each step is done
-- Scope position: S1 (single community, pre-beachhead) — updated by cycle step 1
+- Scope position: S1 in operation (polity-001 live; appellate instance pending — Phase 4) — updated by cycle step 1
 
 - Language/runtime: Python 3.11+ (developed on 3.12), async-first. TypeScript parity is a planned track; the language boundary will sit at the adapter layer, keeping the deterministic kernel single-source
 - Test runner: pytest — `python -m pytest`
@@ -22,8 +22,9 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 - Formatting / linting: none configured yet
 - Behavioral rules (zero-ego, deterministic output, compute subsidization, neutral arbitration) live in `AGENTS.md` and are enforced in code by `BoundaryConstraints`
 - Deviations from METHODOLOGY.md:
-  - Test files do not mirror source structure one-to-one: a single `tests/test_determinism.py` covers the kernel. Accepted while kernel modules number ≤6 and the tested properties (determinism, boundary enforcement) are cross-module. Phase 3 adapter tests will mirror `src/law_and_order/adapters/`
+  - Test files do not mirror source structure one-to-one: a single `tests/test_determinism.py` covers cross-module kernel properties. Re-declared 2026-08-24 (original condition — kernel modules ≤6 — lapsed with Phase 4): accepted while `test_determinism.py` covers only cross-module properties and every module with its own contract has a dedicated test file (`test_ruleset_v1.py`, `test_polity.py`, `test_appeals.py`, adapters, sim)
+  - Post-phase audit extends METHODOLOGY.md with a fourth step (declared 2026-08-24; local bridge pending extraction to epistegrity upstream): **declared claims vs evidence** — every ARCHITECTURE.md statement that asserts something about the world (assumptions, measured numbers, verification dates) is checked against `docs/` and issue evidence; stale or falsified claims are corrected in the same commit as the falsifying evidence, or marked open
 
 ## Current phase
 
-Phases 1–3 complete (2026-08-23). No phase defined: next step selected by `CYCLE.md` Orient/Decide — legislative agenda sourced from polity-001 (`docs/polity-001/record.md`): stance-aware matching, evidence surface, appellate instance.
+Phase 4 — Appellate Instance. First unchecked task in `IMPLEMENTATION.md` is current state.
