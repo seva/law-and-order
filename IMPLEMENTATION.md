@@ -74,6 +74,8 @@ Must complete before any adapter code is written against external APIs.
 
 **Verification:** adapter tests pass against recorded fixtures; live round-trip (signal → ruling → publish) demonstrated in the simulation production surface with measured friction delta 0.538 (disordered → ordered, seed 7). Discord live community remains the external falsification surface — owner-gated, non-blocking.
 
+Status: complete — verification re-run 2026-08-23 (48 tests, package coverage 100%, friction delta 0.538 reproduced); post-phase audit executed and repaired 2026-08-23.
+
 ---
 
 ## Open Questions
