@@ -26,4 +26,4 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 
 ## Current phase
 
-Phases 1–4 complete (2026-08-24). No phase defined: next step selected by `CYCLE.md` Orient/Decide — legislative agenda sourced from polity-001 and the appellate affirm: stance-aware matching (v2), evidence surface.
+Phase 5 — Legislative Evolution: Stance-Aware Ruleset v2. First unchecked task in `IMPLEMENTATION.md` is current state.

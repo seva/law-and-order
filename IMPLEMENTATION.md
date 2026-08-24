@@ -104,6 +104,26 @@ Status: complete — verification satisfied 2026-08-24: polity-001's appeal re-h
 
 ---
 
+## Phase 5 — Legislative Evolution: Stance-Aware Ruleset v2
+
+**Goal:** the law distinguishes claim from refusal and content from contestation — the stance-blindness exposed by polity-001 and demonstrated by the cycle-7 appellate affirm is corrected at the legislative layer.
+
+No Phase 0 gate applies: a pure legislative artifact over the existing kernel.
+
+### Tasks
+
+- [ ] `tests/test_ruleset_v2.py` + polity stance extensions — spec first
+  - canonical form, byte-stable round-trip, immune system (every action permitted, ids unique and ordered)
+  - stance discrimination on the polity-001 transcript: claim statements → `order_refund`; refusal/contestation statements → non-`order_refund` actions
+  - determinism through the state machine; appellate re-hearing under v2 replay-stable
+- [ ] `rulesets/v2.json` + ARCHITECTURE.md in the same commit (legislative design decision)
+  - ordered stance markers before general content match; v1 frozen, unmodified
+- [ ] polity-001 re-adjudicated under v2; appellate re-hearing outcome recorded with the res-judicata status of the v1 settlement
+
+**Verification:** `rulesets/v2.json` committed in canonical form, LF-guarded, immune-system-passing; stance discrimination proven on the polity-001 committed transcript; appellate re-hearing under v2 deterministic and replay-stable with its outcome recorded alongside the res-judicata status of the v1 settlement; suite green; package coverage 100%; CI green.
+
+---
+
 ## Open Questions
 
 1. Beachhead platform: Discord, Reddit, or Slack — resolved 2026-08-21: Discord, see ARCHITECTURE.md Design Decisions
