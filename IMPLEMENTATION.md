@@ -112,15 +112,17 @@ No Phase 0 gate applies: a pure legislative artifact over the existing kernel.
 
 ### Tasks
 
-- [ ] `tests/test_ruleset_v2.py` + polity stance extensions — spec first
+- [x] `tests/test_ruleset_v2.py` + polity stance extensions — spec first
   - canonical form, byte-stable round-trip, immune system (every action permitted, ids unique and ordered)
   - stance discrimination on the polity-001 transcript: claim statements → `order_refund`; refusal/contestation statements → non-`order_refund` actions
   - determinism through the state machine; appellate re-hearing under v2 replay-stable
-- [ ] `rulesets/v2.json` + ARCHITECTURE.md in the same commit (legislative design decision)
+- [x] `rulesets/v2.json` + ARCHITECTURE.md in the same commit (legislative design decision)
   - ordered stance markers before general content match; v1 frozen, unmodified
-- [ ] polity-001 re-adjudicated under v2; appellate re-hearing outcome recorded with the res-judicata status of the v1 settlement
+- [x] polity-001 re-adjudicated under v2; appellate re-hearing outcome recorded with the res-judicata status of the v1 settlement
 
 **Verification:** `rulesets/v2.json` committed in canonical form, LF-guarded, immune-system-passing; stance discrimination proven on the polity-001 committed transcript; appellate re-hearing under v2 deterministic and replay-stable with its outcome recorded alongside the res-judicata status of the v1 settlement; suite green; package coverage 100%; CI green.
+
+Status: complete — verification satisfied 2026-08-24: stance discrimination proven (claimant order_refund [R7]; refusal escalate_to_arbitration [R1]; contestation reopen_arbitration [R3]); appellate re-hearing under v2 OVERTURNS the contested ruling [R1] — first overturn, replay-stable; v1 settlement stands as res judicata; 68 tests, package coverage 100%.
 
 ---
 
