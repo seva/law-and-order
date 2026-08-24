@@ -1,6 +1,6 @@
-# CYCLE.md — Operating Methodology
+# Operating Cycle
 
-A simple, iterative, scope-anchored loop. Deterministic: identical state yields identical next action. WIP limit = 1. Runs until the terminal form (see `docs/scope.md`).
+A simple, iterative, scope-anchored loop. Deterministic: identical state yields identical next action. WIP limit = 1. Runs until the terminal form declared in the project's scope document (`docs/scope.md`).
 
 ---
 
@@ -8,9 +8,9 @@ A simple, iterative, scope-anchored loop. Deterministic: identical state yields 
 
 ### 1. Orient — status quo against maximal scope
 
-Inputs: `docs/scope.md` (S1–S15), `IMPLEMENTATION.md`, open issues, latest WaLRuS, and realized RAROC of completed tasks.
+Inputs: `docs/scope.md`, `IMPLEMENTATION.md`, open issues, latest WaLRuS, and realized RAROC of completed tasks.
 Output: current scope position and the gap to the next rung.
-Question answered: *where is the project on the ladder, and what is missing to reach the next level?*
+Question answered: *where is the project on its ladder, and what is missing to reach the next level?*
 
 ### 2. Decide — the next required atomic step
 
@@ -18,7 +18,9 @@ Select exactly one step satisfying all three:
 
 - **Atomic** — completable in one session, one commit unit, verifiable
 - **Gated** — depends on no undiscovered interface (METHODOLOGY.md Phase Gate)
-- **Maximal** — highest RAROC = (V×P)/C among steps that advance scope position
+- **Maximal** — highest RAROC among steps that advance scope position
+
+RAROC = (V × P) / C — V: value protected or unlocked (1–5), P: probability it materializes (0–1), C: cost to remediate or execute (1–5).
 
 Output: the step, recorded as a GitHub issue or an `IMPLEMENTATION.md` task, together with its expected-RAROC forecast (V, P, C) — the value that success must demonstrate.
 Never queue a second step; the next is chosen only after the current one completes.
@@ -64,11 +66,20 @@ An atomic task succeeds iff all five hold. Success is a decidable conjunction, n
 
 ---
 
+## Autonomy
+
+The cycle is self-sufficient by default: no step may require owner action or externally provisioned resources. When a step appears blocked on an external dependency, the dependency is inverted — the production surface is generated or reused by the project itself — before the step may be declared blocked.
+
+The owner stands outside the cycle as its legislative layer and may sanction exceptions by prompt. A sanctioned prompt is an auditable constitutional act and the only legitimate path by which an external dependency enters the cycle. Every sanction is recorded on the relevant issue. Absent sanction, the cycle never stalls on external provisioning.
+
+---
+
 ## Selection function (compressed)
 
 ```
 next_step = argmax  RAROC(s)   over   s ∈ feasible
-feasible  = { s : advances scope position ∧ passes phase gate ∧ atomic }
+feasible  = { s : advances scope position ∧ passes phase gate ∧ atomic
+                ∧ requires no unsanctioned external dependency }
 proof     = working in production ∧ expected RAROC actively demonstrated
 ```
 
@@ -76,4 +87,4 @@ proof     = working in production ∧ expected RAROC actively demonstrated
 
 ## Termination
 
-Asymptotic. The cycle runs until the terminal form — protocol ambient, agent idle. There is no completion, only convergence.
+Asymptotic. The cycle runs until the terminal form declared in `docs/scope.md`. There is no completion, only convergence.
