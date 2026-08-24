@@ -61,13 +61,14 @@ _Last verified: 2026-08-21_
 | `src/law_and_order/state_machine.py` | Zero-emotional-latency transitions; classify and route signals | `StateMachine.step(Signal) -> Ruling`, `classify` |
 | `src/law_and_order/arbitration.py` | Identity-free neutral arbitration | `Arbitrator.resolve(Dispute) -> Ruling` |
 | `src/law_and_order/topology.py` | Network friction metric and phase detection | `Network.friction()`, `phase(Network)` |
-| `src/law_and_order/adapters/base.py` | Stateless platform adapter contract | `PlatformAdapter` protocol: `ingest`, `publish` |
-| `src/law_and_order/adapters/discord.py` | Discord adapter: MESSAGE_CREATE ingest, ruling publication to a dedicated arbitration channel | `DiscordAdapter(ruling_channel_id, send)` implements `PlatformAdapter`; `render_ruling` |
+| `src/law_and_order/polity.py` | Transcript adjudication: offline rulings and settlement analysis for polity records | `load_transcript`, `adjudicate`, `settlement_signals`, `analyze` |
+| `src/law_and_order/adapters/base.py` | Stateless platform adapter contract; shared ruling renderer | `PlatformAdapter` protocol: `ingest`, `publish`; `render_ruling` |
+| `src/law_and_order/adapters/discord.py` | Discord adapter: MESSAGE_CREATE ingest, ruling publication to a dedicated arbitration channel | `DiscordAdapter(ruling_channel_id, send)` implements `PlatformAdapter` |
 | `src/law_and_order/adapters/sim.py` | Simulation adapter: dispute-event ingest, ruling emission | `SimAdapter(on_ruling)` implements `PlatformAdapter` |
 | `src/law_and_order/sim/population.py` | Deterministic conflict population | `Persona`, `default_population()` |
 | `src/law_and_order/sim/engine.py` | Simulation production surface: round-based conflict dynamics, protocol installation, friction measurement | `run(population, rounds, seed, installed, ruleset)` |
 
-_Last verified: 2026-08-21_
+_Last verified: 2026-08-23_
 
 ---
 
