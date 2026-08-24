@@ -36,6 +36,7 @@ Post-Phase Audit procedure (METHODOLOGY.md), generalized:
 1. `ARCHITECTURE.md` interfaces versus current code
 2. Coverage run; uncovered lines classified *Acceptable* or *Gap*
 3. Cross-cutting: placeholders, `.gitignore`, record sync (issues ↔ `IMPLEMENTATION.md`), session-protocol compliance
+4. Declared claims versus evidence: constitutional statements about the world (assumptions, measured numbers, verification dates) checked against `docs/` and issue evidence; stale or falsified claims corrected or marked open
 
 Output: classified gap list. Zero gaps is the only passing state.
 
@@ -71,6 +72,8 @@ An atomic task succeeds iff all five hold. Success is a decidable conjunction, n
 The cycle is self-sufficient by default: no step may require owner action or externally provisioned resources. When a step appears blocked on an external dependency, the dependency is inverted — the production surface is generated or reused by the project itself — before the step may be declared blocked.
 
 The owner stands outside the cycle as its legislative layer and may sanction exceptions by prompt. A sanctioned prompt is an auditable constitutional act and the only legitimate path by which an external dependency enters the cycle. Every sanction is recorded on the relevant issue. Absent sanction, the cycle never stalls on external provisioning.
+
+External prerequisites are real: they block the deployments they gate, and gap analysis states them plainly. Sanction is permission, not provision — the owner legislates the exception; the provisioning work belongs to the cycle (autonomous stand-up). "Blocked on owner" is not a state the cycle may occupy; absent sanction, the state is inversion, not waiting.
 
 ---
 

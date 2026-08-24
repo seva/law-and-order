@@ -74,6 +74,9 @@ After each phase completion, before writing the WaLRuS, audit the current projec
 1. **ARCHITECTURE.md** — verify every component's key interface matches current code signatures
 2. **Coverage** — run coverage; classify uncovered lines as *Acceptable* (document why) or *Gap* (add test)
 3. **Cross-cutting** — scan for placeholder content, missing `.gitignore` entries, undocumented error types
+4. **Declared claims vs evidence** — every constitutional statement that asserts something about the world (assumptions, measured numbers, verification dates) is checked against the project's evidence (`docs/`, issues, runs); stale or falsified claims are corrected in the same commit as the falsifying evidence, or marked open
+
+Steps 1–3 check internal consistency (code↔records); step 4 checks external consistency (claims↔world). Internal consistency alone cannot catch a claim that survives its own falsification.
 
 Gaps must be closed or classified before the WaLRuS is written. The audit is a gate, not a suggestion.
 
