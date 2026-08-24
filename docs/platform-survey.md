@@ -1,6 +1,6 @@
 # Platform Survey — Phase 2 Discovery
 
-Date: 2026-08-21. Status: **hard gate for Phase 3 — satisfied pending owner beachhead selection.**
+Date: 2026-08-21. Status: **hard gate for Phase 3 — satisfied; beachhead selected: Discord (2026-08-21, recorded on #2, ARCHITECTURE.md Design Decisions).**
 Sources: official documentation via web research (Discord Developer Docs, Reddit Data API Wiki / asyncpraw docs, Slack Developer Docs), current as of mid-2026.
 
 Dimensions Phase 3 requires: ingest model, publish path, auth model, rate limits, moderation/enforcement surfaces, statelessness fit.
@@ -69,7 +69,7 @@ Mitigations adopted:
 2. AutoMod carries marker-level filtering at the platform layer; the kernel adjudicates what AutoMod cannot — separation of crude and nuanced arbitration.
 3. Deployment contract: bot requires a moderation role above ordinary members (role hierarchy is a configuration fact, recorded at install).
 
-**Selection remains owner-gated** (IMPLEMENTATION.md Phase 2). This recommendation is the survey's output; the decision is the owner's.
+**Selection was made 2026-08-21** — Discord, agent-executed under owner instruction to run the loop, recorded on #2, veto-reversible at the cost of one checkbox (ARCHITECTURE.md Design Decisions). This recommendation was the survey's output; the decision followed it.
 
 ---
 
@@ -77,6 +77,6 @@ Mitigations adopted:
 
 1. Bot account + application, `MESSAGE_CONTENT` toggle, moderation role in a test community
 2. Recorded raw-payload fixtures for adapter tests (ingest/publish/statelessness)
-3. Ruling publication shape: reply-with-ruling vs dedicated arbitration channel vs thread
+3. Ruling publication shape: reply-with-ruling vs dedicated arbitration channel vs thread — resolved: dedicated arbitration channel, fixed at construction (ARCHITECTURE.md Design Decisions)
 4. AutoMod rule template as part of the installed protocol (compute subsidization at the platform layer)
 5. Friction measurement hook: how conflict-edge density is sampled from channel activity (feeds topology.py)

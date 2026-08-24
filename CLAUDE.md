@@ -22,7 +22,7 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 - Formatting / linting: none configured yet
 - Behavioral rules (zero-ego, deterministic output, compute subsidization, neutral arbitration) live in `AGENTS.md` and are enforced in code by `BoundaryConstraints`
 - Deviations from METHODOLOGY.md:
-  - Test files do not mirror source structure one-to-one: a single `tests/test_determinism.py` covers cross-module kernel properties. Re-declared 2026-08-24 (original condition — kernel modules ≤6 — lapsed with Phase 4): accepted while `test_determinism.py` covers only cross-module properties and every module with its own contract has a dedicated test file (`test_ruleset_v1.py`, `test_polity.py`, `test_appeals.py`, adapters, sim)
+  - Test files do not mirror source structure one-to-one: a single `tests/test_determinism.py` covers cross-module kernel properties. Re-declared 2026-08-24 (original condition — kernel modules ≤6 — lapsed with Phase 4): accepted while `test_determinism.py` covers only cross-module properties and every module with its own contract has a dedicated test file (`test_ruleset_v1.py`, `test_ruleset_v2.py`, `test_polity.py`, `test_appeals.py`, adapters, sim)
 
 ## Current phase
 

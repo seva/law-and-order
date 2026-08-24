@@ -29,3 +29,7 @@ Real conflict — not self-authored conflict — generated the ruleset's first e
 3. **No appellate instance.** R4 reopens arbitration, but nothing adjudicates the reopened case. The polity's first act of due process is waiting on a forum.
 
 These three are the legislative agenda for the next cycle, sourced from live operation.
+
+## Status (2026-08-24)
+
+The appeal was adjudicated: AFFIRMED under v1 [R1], `final_settlement: true` — the dispute is durably settled through due process (Phase 4). Re-heard under stance-aware v2: OVERTURN [R1] — appellate teeth arrived with legislative evolution; the v1 settlement stands as res judicata (Phase 5). Of the three legislative gaps above: the appellate instance was built (Phase 4), stance-blind matching produced v2 (Phase 5), the evidence surface remains open.
