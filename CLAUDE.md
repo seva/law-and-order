@@ -26,4 +26,4 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 
 ## Current phase
 
-Phases 1–5 complete (2026-08-24). No phase defined: next step selected by `CYCLE.md` Orient/Decide — pressures sourced from the v2 overturn: merits/procedure separation, evidence surface, second polity (multi-party).
+Phase 6 — Merits/Procedure Separation. First unchecked task in `IMPLEMENTATION.md` is current state.
