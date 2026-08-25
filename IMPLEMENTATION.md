@@ -134,15 +134,17 @@ No Phase 0 gate applies: a pure kernel correction.
 
 ### Tasks
 
-- [ ] `tests/test_appeals.py` gaming-resistance spec — red
+- [x] `tests/test_appeals.py` gaming-resistance spec — red
   - a crafted appeal whose ground contains markers absent from the dispute cannot shift the merits outcome
   - existing appellate behavior preserved (affirm/overturn branches, boundary coercion, identity-freedom, digest)
-- [ ] `src/law_and_order/appeals.py` correction + ARCHITECTURE.md in the same commit
+- [x] `src/law_and_order/appeals.py` correction + ARCHITECTURE.md in the same commit
   - merits = `Arbitrator.resolve(appeal.dispute)` under the ruleset in force — no ground expansion
   - ground remains content-addressed in the appeal digest (provenance)
-- [ ] polity-001 replay verified under v1 (AFFIRM [R1]) and v2 (OVERTURN [R1]); outcomes recorded
+- [x] polity-001 replay verified under v1 (AFFIRM [R1]) and v2 (OVERTURN [R1]); outcomes recorded
 
 **Verification:** appellate merits exclude the appeal ground; crafted-appeal gaming test passes; polity-001 replay preserved under both rulesets, byte-identical across runs; suite green; package coverage 100%; CI green.
+
+Status: complete — verification satisfied 2026-08-24: gaming-resistance proven (ground markers absent from the dispute cannot shift the merits; ground remains provenance via the digest); polity-001 replay preserved — v1 AFFIRM [R1] with final_settlement true, v2 OVERTURN [R1], both byte-identical across runs; 69 tests, package coverage 100%.
 
 ---
 

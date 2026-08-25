@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from hashlib import sha256
 
-from .arbitration import Arbitrator, Dispute
+from .arbitration import Arbitrator
 from .protocol import BoundaryConstraints, Ruling
 from .ruleset import RuleSet
 
@@ -31,12 +31,7 @@ class Appellate:
         self._boundaries = boundaries
 
     def resolve(self, appeal: Appeal) -> Ruling:
-        merits = Arbitrator(self._ruleset, self._boundaries).resolve(
-            Dispute(
-                claim=f"{appeal.dispute.claim} {appeal.ground}",
-                counterclaim=appeal.dispute.counterclaim,
-            )
-        )
+        merits = Arbitrator(self._ruleset, self._boundaries).resolve(appeal.dispute)
         action = "affirm" if merits.action == appeal.ruling.action else "overturn"
         if not self._boundaries.permits(action):
             return Ruling(digest=appeal.digest, action="abstain", rule_id="R-boundary")
