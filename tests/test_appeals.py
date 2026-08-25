@@ -50,6 +50,18 @@ def test_appeal_is_identity_free_by_construction():
     assert {field.name for field in fields(Appeal)} == {"dispute", "ruling", "ground"}
 
 
+def test_merits_exclude_appeal_ground():
+    ruleset = RuleSet(rules=(Rule("R1", "refund", "order_refund"),))
+    dispute = Dispute(claim="the delivery failed", counterclaim="the delivery succeeded")
+    contested = Ruling(digest=dispute.digest, action="order_refund", rule_id="R1")
+    appeal = Appeal(dispute=dispute, ruling=contested, ground="demand a refund")
+    ruling = Appellate(ruleset).resolve(appeal)
+    assert ruling.action == "overturn"
+    other_ground = Appeal(dispute=dispute, ruling=contested, ground="entirely different words")
+    assert appeal.digest != other_ground.digest
+    assert Appellate(ruleset).resolve(other_ground).action == ruling.action
+
+
 def test_forbidden_action_coerced_at_appellate_emission():
     boundaries = BoundaryConstraints(forbidden_actions=("affirm",))
     ruling = Appellate(make_ruleset(), boundaries).resolve(make_appeal())
