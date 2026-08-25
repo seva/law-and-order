@@ -14,7 +14,7 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 ## Conventions
 
 - Operating cycle: `CYCLE.md` — scope-anchored iteration loop (Orient → Decide → Execute → Audit → Repair → Repeat). Extends, does not replace, METHODOLOGY.md: the cycle selects the work, METHODOLOGY governs how each step is done
-- Scope position: S1 in operation (v2 stance-aware law in force 2026-08-24; first overturn measured; next pressures: merits/procedure separation, evidence surface, second polity) — updated by cycle step 1
+- Scope position: S1 in operation (appellate game-proofed 2026-08-24; next pressures: evidence surface, second polity) — updated by cycle step 1
 
 - Language/runtime: Python 3.11+ (developed on 3.12), async-first. TypeScript parity is a planned track; the language boundary will sit at the adapter layer, keeping the deterministic kernel single-source
 - Test runner: pytest — `python -m pytest`
@@ -26,4 +26,4 @@ Protocol Infiltration Agent: installs deterministic arbitration protocols into d
 
 ## Current phase
 
-Phase 6 — Merits/Procedure Separation. First unchecked task in `IMPLEMENTATION.md` is current state.
+Phases 1–6 complete (2026-08-24). No phase defined: next step selected by `CYCLE.md` Orient/Decide — pressures: evidence surface (the appellant's ground was evidentiary and no rule admits it), second polity (multi-party).
