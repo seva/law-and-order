@@ -51,7 +51,7 @@ Platform (Discord / Reddit / Slack / simulation)
 [Network / phase]          friction = conflict-edge density; DISORDERED -> ORDERED
 ```
 
-_Last verified: 2026-08-25_
+_Last verified: 2026-08-26_
 
 ---
 
@@ -72,7 +72,7 @@ _Last verified: 2026-08-25_
 | `src/law_and_order/sim/population.py` | Deterministic conflict population | `Persona`, `default_population()` |
 | `src/law_and_order/sim/engine.py` | Simulation production surface: round-based conflict dynamics, protocol installation, friction measurement | `run(population, rounds, seed, installed, ruleset)` |
 
-_Last verified: 2026-08-25_
+_Last verified: 2026-08-26_
 
 ---
 
@@ -98,7 +98,7 @@ _Last verified: 2026-08-25_
 | Owner sanction | Autonomy is the default regime, not an absolute: the owner may sanction violations by prompt | The owner stands outside the cycle as its legislative layer; a sanctioned prompt is an auditable constitutional act and the only legitimate path by which external dependencies enter the cycle. Absent sanction, the cycle never stalls on external provisioning. Sanction is permission, not provision: prerequisites block the deployments they gate — honestly — but their resolution is autonomous stand-up by the cycle, never owner labor |
 | Language | Python 3.11+ first, TypeScript parity later | Listed platforms (Discord, Reddit, Slack) all have mature async Python SDKs; kernel is pure and portable |
 
-_Last verified: 2026-08-25_
+_Last verified: 2026-08-26_
 
 ---
 
@@ -114,4 +114,4 @@ _Last verified: 2026-08-25_
 - Autonomy: the cycle is self-sufficient. By default no step may require owner action or externally provisioned accounts; live surfaces are surfaces the project controls or autonomously stands up, and the first live polity is artificial minds under opposing mandates (S11 — substrate-blind design makes them legitimate parties). External platforms are optional expansions, never gates. The owner may sanction exceptions by prompt — a sanctioned prompt is the only legitimate path by which an external dependency enters the cycle, and every sanction is recorded on the relevant issue
 - Sanction and blocking (interpretation constitutionalized 2026-08-24): external prerequisites are real — they block the deployments they gate, and gap analysis states them plainly. Sanction is permission, not owner labor: the owner legislates the exception, the provisioning work belongs to the cycle (autonomous stand-up). "Blocked on owner" is not a state the cycle may occupy; absent sanction the state is inversion, not waiting
 
-_Last verified: 2026-08-25_
+_Last verified: 2026-08-26_
