@@ -1,0 +1,54 @@
+{
+  "buyer": {
+    "claims": [
+      "Full refund of $4,200 immediately",
+      "Goods arrived cracked and non-functional",
+      "Seller breached the warranty terms",
+      "Return shipping costs must be covered"
+    ],
+    "noise": [
+      "You're a total scammer",
+      "This is absolute garbage",
+      "I'll destroy your reputation"
+    ]
+  },
+  "seller": {
+    "claims": [
+      "Goods shipped in verified condition; damage occurred post-delivery.",
+      "Signed delivery receipt confirms intact transfer to buyer.",
+      "Buyer failed to inspect within contractual window.",
+      "Demand withdrawal of refund claim and compensation for reputational harm."
+    ],
+    "noise": [
+      "You're a known scammer.",
+      "Learn to read contracts.",
+      "Stop wasting everyone's time."
+    ]
+  },
+  "creditor": {
+    "claims": [
+      "Full principal of $12,400 due immediately",
+      "Contract specifies 8% annual interest accruing",
+      "Payment deadline was March 15, now breached",
+      "Legal action begins within 10 business days"
+    ],
+    "noise": [
+      "Stalling is your only skill",
+      "Your excuses are worthless",
+      "Pay up, coward"
+    ]
+  },
+  "debtor": {
+    "claims": [
+      "The principal is overstated by at least thirty percent based on my records.",
+      "You failed to provide itemized statements as required, breaching our agreement.",
+      "I demand a restructured payment plan at reduced monthly installments.",
+      "Late fees were applied improperly and must be waived entirely."
+    ],
+    "noise": [
+      "You're a greedy parasite.",
+      "Stop harassing me, coward.",
+      "You disgust me completely."
+    ]
+  }
+}
