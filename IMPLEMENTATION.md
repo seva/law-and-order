@@ -157,6 +157,25 @@ Status: complete — verification satisfied 2026-08-24: gaming-resistance proven
 
 ---
 
+## Phase 8 — Content-Sensitive Resolution
+
+**Goal:** the friction delta becomes a function of the conflict content, not the arena — the nonsense test fails, and a valid prime-directive measurement becomes possible.
+
+No Phase 0 gate applies: pure kernel/engine work over existing interfaces.
+
+### Tasks
+
+- [x] `docs/content-sensitivity-spec.md` — the spec the Critic found missing (downgraded "precisely specified" → "precisely diagnosed"). Mechanism in dependency order: remove catch-all auto-resolution; generalize the noise filter; model party reaction to rulings (appeal path). Acceptance criterion: the nonsense test, standing at every audit.
+- [ ] Mechanism 1 — remove catch-all auto-resolution: a dispute resolves only on a matched non-inert rule; unmatched disputes persist. TDD: nonsense test flips.
+- [ ] Mechanism 2 — generalize the noise filter beyond the authored vocabulary (expanded markers or content-hash-memoized classifier).
+- [ ] Mechanism 3 — party reaction to rulings / appeal path (largest; may split to its own phase).
+
+**Verification:** the nonsense test (nonsense-content and empty-ruleset substitutions both change the delta; determinism and replay-stability preserved). Real-content delta recorded whatever it is, including near-zero.
+
+Status: spec complete 2026-08-30; implementation not started.
+
+---
+
 ## Phase 7 — Review Separation, Sharpened Criterion, First Falsified Measurement
 
 **Goal:** the review mechanism exists and is exercised against self-deception; the prime directive is sharpened to close the arena/conflict loophole; the first measurement attempt is executed and honestly recorded as falsified.

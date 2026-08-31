@@ -31,4 +31,4 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 
 ## Current phase
 
-Phases 1–7 complete (Phase 7 reverse-defined from achieved progress, 2026-08-30). Prime directive unmet: the first measurement attempt was Critic-falsified — the delta was a property of the project-authored arena, blind to the non-authored conflict. The gap is precisely diagnosed: the engine must let conflict content drive the dynamics before any run can measure the mission.
+Phases 1–7 complete. Phase 8 — Content-Sensitive Resolution — in progress: spec complete (`docs/content-sensitivity-spec.md`), implementation not started. Prime directive unmet: the first measurement attempt was Critic-falsified — the delta was a property of the project-authored arena, blind to the non-authored conflict. Acceptance criterion: the nonsense test (substituted content must change the delta).
