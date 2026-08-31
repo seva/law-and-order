@@ -159,9 +159,9 @@ Status: complete — verification satisfied 2026-08-24: gaming-resistance proven
 
 ## Phase 7 — Review Separation, Sharpened Criterion, First Falsified Measurement
 
-**Goal:** the review mechanism exists and demonstrably catches self-deception; the prime directive is sharpened to close the arena/conflict loophole; the first measurement attempt is executed and honestly recorded as falsified.
+**Goal:** the review mechanism exists and is exercised against self-deception; the prime directive is sharpened to close the arena/conflict loophole; the first measurement attempt is executed and honestly recorded as falsified.
 
-Reverse-defined from achieved progress (2026-08-26): the work below is what was actually done, recorded after the fact at the Owner's direction.
+Reverse-defined from achieved progress (2026-08-30): the work below is what was actually done, recorded after the fact at the Owner's direction.
 
 ### Tasks
 
@@ -173,7 +173,7 @@ Reverse-defined from achieved progress (2026-08-26): the work below is what was 
 
 **Verification:** the Critic falsified the measurement claim. Nonsense-content substitution reproduces the identical delta (0.773); empty-ruleset substitution reproduces it too. The measurement is blind to the conflict content; the number is a property of the project-authored arena. The number is not booked; the prime directive remains unmet. The falsification is recorded in commit c787a3f.
 
-Status: complete — the review mechanism demonstrably caught the self-deception the Steward was about to commit (booking 0.773 as the prime-directive number). The mission's number still does not exist; the gap is now precisely specified (engine must let conflict content drive the dynamics; noise filter must generalize; legislation must be non-decorative).
+Status: complete — a separate Critic instance falsified the measurement claim before it was booked as the prime-directive number (that the Steward would have booked it absent the Critic is inference, not demonstrated — see `docs/critic-constitution-audit-2026-08-30.md`). The mission's number still does not exist; the gap is now precisely diagnosed (engine must let conflict content drive the dynamics; noise filter must generalize; legislation must be non-decorative).
 
 ---
 

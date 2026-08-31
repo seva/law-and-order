@@ -23,7 +23,7 @@ Select exactly one step satisfying all four:
 
 RAROC = (V × P) / C — V: value protected or unlocked (1–5), P: probability it materializes (0–1), C: cost to remediate or execute (1–5).
 
-Every step that advances scope position is scored and its value made visible — including steps requiring unsanctioned external dependencies. If the top-scoring step is unchoosable solely for lack of sanction, it is surfaced to the Owner as a sanction decision rather than silently dropped. "Optional" (not a gate) governs whether the cycle stalls, never whether a step is scored.
+Every step that advances scope position is scored and its value made visible — including steps requiring unsanctioned external dependencies. Whenever the top-scoring feasible step is unchoosable solely for lack of sanction, it is surfaced to the Owner as a sanction decision — whether or not a lower-scoring choosable step executes. "Optional" (not a gate) governs whether the cycle stalls, never whether a step is scored or surfaced.
 
 Output: the step, recorded as a GitHub issue or an `IMPLEMENTATION.md` task, together with its expected-RAROC forecast (V, P, C) — the value that success must demonstrate.
 Never queue a second step; the next is chosen only after the current one completes.
@@ -87,7 +87,9 @@ feasible  = { s : advances scope position ∧ passes phase gate ∧ atomic }
 choosable = { s ∈ feasible : requires no unsanctioned external dependency }
 scored    = feasible — every feasible step is scored and made visible, sanctioned or not
 next_step = argmax RAROC(s) over s ∈ choosable, if choosable ≠ ∅
-            else escalate the top-scoring feasible step to the Owner as a sanction decision
+            else no step executes; the top-scoring feasible step awaits sanction
+surface   = whenever the top-scoring feasible step is unchoosable, escalate it to the
+            Owner as a sanction decision, whether or not a choosable step executes
 proof     = working in production ∧ expected RAROC actively demonstrated
 ```
 
