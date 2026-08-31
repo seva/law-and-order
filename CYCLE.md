@@ -21,6 +21,8 @@ Select exactly one step satisfying all four:
 - **Choosable** — requires no unsanctioned external dependency
 - **Maximal** — highest RAROC among choosable steps that advance scope position
 
+**Decomposability** — atomicity constrains step granularity, never goal eligibility. A direction (a multi-step goal) that outranks the current step on RAROC must be decomposed into atomic steps and scored; it may not be dismissed as infeasible. RAROC ranks directions; Decide picks the next atomic step toward the top-ranked direction.
+
 RAROC = (V × P) / C — V: value protected or unlocked (1–5), P: probability it materializes (0–1), C: cost to remediate or execute (1–5).
 
 Every step that advances scope position is scored and its value made visible — including steps requiring unsanctioned external dependencies. Whenever the top-scoring feasible step is unchoosable solely for lack of sanction, it is surfaced to the Owner as a sanction decision — whether or not a lower-scoring choosable step executes. "Optional" (not a gate) governs whether the cycle stalls, never whether a step is scored or surfaced.
@@ -86,6 +88,10 @@ External prerequisites are real: they block the deployments they gate, and gap a
 feasible  = { s : advances scope position ∧ passes phase gate ∧ atomic }
 choosable = { s ∈ feasible : requires no unsanctioned external dependency }
 scored    = feasible — every feasible step is scored and made visible, sanctioned or not
+decompose = atomicity constrains step granularity, never goal eligibility; a direction
+            that outranks the current step is decomposed into atomic steps and scored,
+            never dismissed whole; RAROC ranks directions, Decide picks the next atomic
+            step toward the top-ranked direction
 next_step = argmax RAROC(s) over s ∈ choosable, if choosable ≠ ∅
             else no step executes; the top-scoring feasible step awaits sanction
 surface   = whenever the top-scoring feasible step is unchoosable, escalate it to the
