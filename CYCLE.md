@@ -22,6 +22,8 @@ Select exactly one step satisfying all three:
 
 RAROC = (V × P) / C — V: value protected or unlocked (1–5), P: probability it materializes (0–1), C: cost to remediate or execute (1–5).
 
+**Capacity value-cap.** Work that builds capacity — kernel features, institutions, legislation, adapters, harnesses — is capped at V≤2 until that capacity is exercised in a live installation that produces or moves toward the prime-directive measurement (CLAUDE.md). Capacity has derivative value and is not priced as intrinsic; only work on the measurement itself may score V≥3.
+
 Output: the step, recorded as a GitHub issue or an `IMPLEMENTATION.md` task, together with its expected-RAROC forecast (V, P, C) — the value that success must demonstrate.
 Never queue a second step; the next is chosen only after the current one completes.
 
