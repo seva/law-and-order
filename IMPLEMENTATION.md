@@ -157,6 +157,22 @@ Status: complete — verification satisfied 2026-08-24: gaming-resistance proven
 
 ---
 
+## Directions (decomposed) — added per decomposability rule, RCA 2026-08-30
+
+Directions are multi-step goals. RAROC ranks directions; Decide picks the next atomic step toward the top-ranked direction. A direction is never dismissed whole as infeasible.
+
+### Discord deployment — the beachhead, decomposed
+
+| Step | Atomic? | Choosable? | V | P | C | RAROC |
+|---|---|---|---|---|---|---|
+| (a) Wiring layer vs. test server (discord.py client; adapter exists, live wiring does not) | yes | yes — mockable, no sanction to build | 4 | 0.8 | 2 | 1.6 |
+| (b) Enforcement actuation (rulings that timeout/delete/AutoMod; advisory→judicial) | yes | yes — buildable against the adapter contract | 4 | 0.7 | 2 | 1.4 |
+| (c) Stand-up in a real community (bot account, server, MESSAGE_CONTENT intent, moderation role) | yes | **no — requires Owner sanction** | 5 | 0.5 | 3 | 0.83 |
+
+Step (c) is the standing sanction decision. Steps (a) and (b) are choosable and scored into the candidate set. Note: Discord's measurement also depends on Phase 8 (content-sensitive resolution) — without it a Discord measurement would be content-blind too — so Phase 8 Mechanism 1 is a prerequisite for any Discord measurement and currently outranks (a) as the bottleneck.
+
+---
+
 ## Phase 8 — Content-Sensitive Resolution
 
 **Goal:** the friction delta becomes a function of the conflict content, not the arena — the nonsense test fails, and a valid prime-directive measurement becomes possible.
