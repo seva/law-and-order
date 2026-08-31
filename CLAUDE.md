@@ -31,4 +31,4 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 
 ## Current phase
 
-Phases 1–6 complete (2026-08-24). No phase defined: next step selected by `CYCLE.md` Orient/Decide — pressures: evidence surface (the appellant's ground was evidentiary and no rule admits it), second polity (multi-party).
+Phases 1–7 complete (Phase 7 reverse-defined from achieved progress, 2026-08-26). Prime directive unmet: the first measurement attempt was Critic-falsified — the delta was a property of the project-authored arena, blind to the non-authored conflict. The gap is precisely specified: the engine must let conflict content drive the dynamics before any run can measure the mission.
