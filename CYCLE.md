@@ -31,7 +31,7 @@ TDD per METHODOLOGY.md — tests first. Done means the Definition of Success hol
 
 ### 4. Audit — evaluate against the constitution
 
-Post-Phase Audit procedure (METHODOLOGY.md), generalized:
+Post-Phase Audit procedure (METHODOLOGY.md), generalized, executed per the role separation in `ROLES.md`: the Auditor verifies, the Critic falsifies, the Steward does not grade its own work.
 
 1. `ARCHITECTURE.md` interfaces versus current code
 2. Coverage run; uncovered lines classified *Acceptable* or *Gap*

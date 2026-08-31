@@ -25,6 +25,7 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 - Coverage (post-phase audit): `python -m pytest --cov=law_and_order --cov-report=term-missing` — package stays 100% (kernel and adapters)
 - Formatting / linting: none configured yet
 - Behavioral rules (zero-ego, deterministic output, compute subsidization, neutral arbitration) live in `AGENTS.md` and are enforced in code by `BoundaryConstraints`
+- Review roles (Steward, Critic, Auditor, Owner) and their separation live in `ROLES.md`; no role grades its own work
 - Deviations from METHODOLOGY.md:
   - Test files do not mirror source structure one-to-one: a single `tests/test_determinism.py` covers cross-module kernel properties. Re-declared 2026-08-24 (original condition — kernel modules ≤6 — lapsed with Phase 4): accepted while `test_determinism.py` covers only cross-module properties and every module with its own contract has a dedicated test file (`test_ruleset_v1.py`, `test_ruleset_v2.py`, `test_polity.py`, `test_appeals.py`, adapters, sim)
 
