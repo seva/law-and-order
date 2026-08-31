@@ -1,0 +1,1 @@
+[{"action":"order_refund","match":"refund","rule_id":"R1"},{"action":"escalate_to_arbitration","match":"breach","rule_id":"R2"},{"action":"escalate_to_human","match":"threat","rule_id":"R3"},{"action":"reopen_arbitration","match":"appeal","rule_id":"R4"}]
