@@ -163,13 +163,15 @@ Directions are multi-step goals. RAROC ranks directions; Decide picks the next a
 
 ### Discord deployment — the beachhead, decomposed
 
+**SANCTION GRANTED 2026-08-30, under close supervision.** The Owner sanctioned the Discord deployment direction — the first live sanction under the CYCLE.md sanction doctrine. Close supervision: each atomic step gets Owner review before the next proceeds; no batching ahead. The sanction covers the direction; each step still needs its own verification and Owner checkpoint.
+
 | Step | Atomic? | Choosable? | V | P | C | RAROC |
 |---|---|---|---|---|---|---|
 | (a) Wiring layer vs. test server (discord.py client; adapter exists, live wiring does not) | yes | yes — mockable, no sanction to build | 4 | 0.8 | 2 | 1.6 |
 | (b) Enforcement actuation (rulings that timeout/delete/AutoMod; advisory→judicial) | yes | yes — buildable against the adapter contract | 4 | 0.7 | 2 | 1.4 |
-| (c) Stand-up in a real community (bot account, server, MESSAGE_CONTENT intent, moderation role) | yes | **no — requires Owner sanction** | 5 | 0.5 | 3 | 0.83 |
+| (c) Stand-up in a real community (bot account, server, MESSAGE_CONTENT intent, moderation role) | yes | **SANCTIONED 2026-08-30, close supervision** | 5 | 0.7 | 3 | 1.17 |
 
-Step (c) is the standing sanction decision. Steps (a) and (b) are choosable and scored into the candidate set. Note: Discord's measurement also depends on Phase 8 (content-sensitive resolution) — without it a Discord measurement would be content-blind too — so Phase 8 Mechanism 1 is a prerequisite for any Discord measurement and currently outranks (a) as the bottleneck.
+Execution order: (a) → (b) → (c). Note: Discord's measurement also depends on Phase 8 (content-sensitive resolution) — without it a Discord measurement would be content-blind too — so Phase 8 Mechanism 1 must land before the Discord measurement is booked.
 
 ---
 
