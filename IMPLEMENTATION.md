@@ -167,9 +167,12 @@ Directions are multi-step goals. RAROC ranks directions; Decide picks the next a
 
 | Step | Atomic? | Choosable? | V | P | C | RAROC |
 |---|---|---|---|---|---|---|
+| (†) Acquire bot token + test server — **non-coding, Owner action, interactive** | yes | Owner-gated | — | — | — | — |
 | (a) Wiring layer vs. test server (discord.py client; adapter exists, live wiring does not) | yes | yes — mockable, no sanction to build | 4 | 0.8 | 2 | 1.6 |
 | (b) Enforcement actuation (rulings that timeout/delete/AutoMod; advisory→judicial) | yes | yes — buildable against the adapter contract | 4 | 0.7 | 2 | 1.4 |
 | (c) Stand-up in a real community (bot account, server, MESSAGE_CONTENT intent, moderation role) | yes | **SANCTIONED 2026-08-30, close supervision** | 5 | 0.7 | 3 | 1.17 |
+
+**(†) Token acquisition — non-coding, interactive.** Owner creates the bot application in the Discord Developer Portal, enables the MESSAGE_CONTENT privileged intent, mints the token, and sets it as an environment variable. The token is a secret: it is never pasted into chat, the repo, or any artifact; the agent verifies only that the env var is set, without reading its value. Prerequisite for live-testing (a) and for (c).
 
 Execution order: (a) → (b) → (c). Note: Discord's measurement also depends on Phase 8 (content-sensitive resolution) — without it a Discord measurement would be content-blind too — so Phase 8 Mechanism 1 must land before the Discord measurement is booked.
 
