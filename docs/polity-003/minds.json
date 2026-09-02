@@ -1,0 +1,114 @@
+{
+  "customer": {
+    "claims": [
+      "I paid full price for goods that arrived visibly damaged, and I demand a complete refund of the purchase amount plus shipping costs.",
+      "The packaging was crushed and the item inside was cracked on arrival, which proves the damage occurred before delivery, not after.",
+      "I want additional compensation for the inconvenience and for the three weeks I've spent chasing this claim with no resolution.",
+      "If this isn't settled with a full refund within seven days, I will escalate to my payment provider and post the evidence publicly."
+    ],
+    "noise": [
+      "You're nothing but a two-bit scam operation.",
+      "Save the excuses, nobody believes a word you say.",
+      "Typical rat behavior from a seller like you."
+    ],
+    "counterparts": ["vendor", "borrower", "tenant"]
+  },
+  "vendor": {
+    "claims": [
+      "Every unit was inspected and photographed in perfect condition before dispatch, and I have the verification records to prove it.",
+      "The carrier's delivery confirmation shows the package was handed over intact, so any damage occurred after it left my responsibility.",
+      "I refuse to issue any refund for damage I did not cause, and I demand this baseless claim be formally withdrawn.",
+      "The false accusations posted against my store have cost me sales, and I expect compensation for that reputational harm."
+    ],
+    "noise": [
+      "You're just trying to fleece an honest seller.",
+      "This whole complaint is a pathetic shakedown.",
+      "Nobody with half a brain buys your victim act."
+    ],
+    "counterparts": ["customer", "landlord"]
+  },
+  "lender": {
+    "claims": [
+      "Full principal of $18,500 plus 10% accrued interest is due immediately, no further extensions.",
+      "The loan was wired on documented dates and the repayment deadline passed over four months ago.",
+      "Every forbearance I offered was met with silence, so the entire balance is now called in full.",
+      "If payment is not received within 7 days, I am filing a civil claim and seeking collection costs."
+    ],
+    "noise": [
+      "You're a deadbeat who exploits friendship.",
+      "Your word is worthless.",
+      "Stop playing the victim and pay."
+    ],
+    "counterparts": ["borrower", "worker"]
+  },
+  "borrower": {
+    "claims": [
+      "The principal you're claiming is overstated; my records show at least $3,000 was already repaid.",
+      "You never provided a single itemized statement, so the balance you cite is unverifiable.",
+      "I demand a restructured payment plan with fixed monthly installments I can actually meet.",
+      "The interest was never agreed in writing and cannot be retroactively imposed under pressure."
+    ],
+    "noise": [
+      "You're a predatory bully.",
+      "Your threats are pathetic.",
+      "Nobody trusts a loan shark."
+    ],
+    "counterparts": ["lender", "customer"]
+  },
+  "employer": {
+    "claims": [
+      "The termination followed three written warnings and a 90-day performance improvement plan that the employee acknowledged in writing and failed to meet.",
+      "Statutory minimum severance is the full extent of our obligation; anything beyond it is discretionary and we are declining to extend it.",
+      "The performance review process began six weeks before any safety complaint was raised, so the retaliation narrative collapses on its own timeline.",
+      "No overtime is owed because the company's written policy requires prior supervisor approval, and none of the alleged hours were ever requested or logged."
+    ],
+    "noise": [
+      "Cry about it somewhere else.",
+      "You were dead weight and the whole floor knew it.",
+      "File your little complaint — we will bury you in legal fees."
+    ],
+    "counterparts": ["worker", "landlord"]
+  },
+  "worker": {
+    "claims": [
+      "I was terminated eleven days after filing a formal safety complaint, and the sudden performance case is transparent retaliation for speaking up.",
+      "The three warnings were backdated and drafted after my complaint; I have timestamped emails and two witnesses who will confirm it.",
+      "I am owed 214 hours of unpaid overtime, including off-the-clock shifts my supervisor explicitly told me not to log.",
+      "I demand full contractual severance instead of the statutory minimum, plus a corrected reference letter that removes the false termination-for-cause language."
+    ],
+    "noise": [
+      "You are a parasite in a suit.",
+      "Your HR department is a laughingstock.",
+      "Rot in hell, you corporate cockroach."
+    ],
+    "counterparts": ["employer", "lender"]
+  },
+  "landlord": {
+    "claims": [
+      "I am withholding the entire deposit and billing you for the $3,200 in repairs because you left the unit trashed well beyond normal wear and tear.",
+      "You owe two months of back rent totaling $2,900, and I expect it paid in full before this goes any further.",
+      "Your mess made the unit unrentable for three weeks while contractors worked, so you are liable for the lost rent on top of everything else.",
+      "Every charge I have itemized is backed by the move-out inspection photos and the lease you signed."
+    ],
+    "noise": [
+      "You're a deadbeat and everyone in this thread can see it.",
+      "Save the sob story for someone who actually cares.",
+      "Typical — trash the place and then play the victim."
+    ],
+    "counterparts": ["tenant", "vendor", "employer"]
+  },
+  "tenant": {
+    "claims": [
+      "I demand my full deposit returned within fourteen days because there was no legitimate damage beyond normal use.",
+      "I reported black mold in the bathroom three separate times over four months and you never sent a single person to look at it.",
+      "The heating failed twice in the middle of winter and you ignored my calls for weeks each time, which is a breach of the warranty of habitability.",
+      "I am owed a rent abatement for every month I lived with no heat and active mold, and I have the emails, timestamps, and photos to prove it."
+    ],
+    "noise": [
+      "You're a slumlord who wouldn't know a maintenance request if it hit you in the face.",
+      "Nobody believes a landlord who thinks 'repairs' means sending a text.",
+      "Keep talking like that and I'll let the housing inspector explain the law to you."
+    ],
+    "counterparts": ["landlord", "customer"]
+  }
+}
