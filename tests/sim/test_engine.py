@@ -2,7 +2,7 @@ from pathlib import Path
 
 from law_and_order import RuleSet
 from law_and_order.sim.engine import CRITICAL_FRICTION, WINDOW, run
-from law_and_order.sim.population import default_population
+from law_and_order.sim.population import Persona, default_population
 
 RULESET_PATH = Path(__file__).resolve().parents[2] / "rulesets" / "v1.json"
 ROUNDS = 60
@@ -54,3 +54,56 @@ def test_friction_delta_is_positive():
     baseline_tail = sum(tail_frictions(baseline)) / WINDOW
     installed_tail = sum(tail_frictions(installed)) / WINDOW
     assert baseline_tail - installed_tail > 0
+
+
+def unmatched_population() -> tuple[Persona, ...]:
+    return (
+        Persona(
+            name="alpha",
+            claims=("gamma delta epsilon", "zeta eta theta"),
+            noise=("iota kappa lambda",),
+            counterparts=("beta",),
+        ),
+        Persona(
+            name="beta",
+            claims=("mu nu xi", "omicron pi rho"),
+            noise=("sigma tau upsilon",),
+            counterparts=("alpha",),
+        ),
+    )
+
+
+def test_unmatched_disputes_persist_without_rulings():
+    population = unmatched_population()
+    baseline, _, _ = run(population, ROUNDS, SEED)
+    installed, published, resolved = run(
+        population, ROUNDS, SEED, installed=True, ruleset=load_ruleset()
+    )
+    assert resolved == 0
+    assert published == ()
+    assert [record.friction for record in baseline] == [
+        record.friction for record in installed
+    ]
+
+
+def test_matched_content_resolves_while_unmatched_persists():
+    mixed = (
+        Persona(
+            name="claimant",
+            claims=("demand a refund",),
+            noise=("gamma delta epsilon",),
+            counterparts=("denier",),
+        ),
+        Persona(
+            name="denier",
+            claims=("mu nu xi",),
+            noise=("zeta eta theta",),
+            counterparts=("claimant",),
+        ),
+    )
+    _, published, resolved = run(
+        mixed, ROUNDS, SEED, installed=True, ruleset=load_ruleset()
+    )
+    assert resolved > 0
+    assert len(published) > 0
+    assert all(ruling.rule_id != "R-default" for ruling in published)
