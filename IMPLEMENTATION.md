@@ -176,6 +176,8 @@ Directions are multi-step goals. RAROC ranks directions; Decide picks the next a
 
 Execution order: (a) → (b) → (c). Note: Discord's measurement also depends on Phase 8 (content-sensitive resolution) — without it a Discord measurement would be content-blind too — so Phase 8 Mechanism 1 must land before the Discord measurement is booked.
 
+Session note 2026-09-01: (a) confirmed live — round-trip on the real gateway ("demand a refund" → `[R7] order_refund — case …` posted). Ruling channel moved by Owner to #agentic-indoctrination (1478480447431376966); channel input check removed (see Decision Debt). Bot currently runs detached via WMI (not reboot-persistent; scheduled task `law-order-discord-bot` exists but is flaky). Next session: Decide (b) enforcement actuation vs Phase 8 Mechanism 1.
+
 ---
 
 ## Phase 8 — Content-Sensitive Resolution
