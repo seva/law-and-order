@@ -16,6 +16,9 @@ UNVALUED_MARKERS = frozenset(
 )
 
 
+DEFAULT_RULE_ID = "R-default"
+
+
 def classify(signal: Signal) -> SignalKind:
     text = signal.payload.lower()
     if any(marker in text for marker in UNVALUED_MARKERS):
@@ -42,4 +45,4 @@ class StateMachine:
             if rule.match in text:
                 action = rule.action if self._boundaries.permits(rule.action) else "abstain"
                 return Ruling(digest=signal.digest, action=action, rule_id=rule.rule_id)
-        return Ruling(digest=signal.digest, action="route_to_arbitration", rule_id="R-default")
+        return Ruling(digest=signal.digest, action="route_to_arbitration", rule_id=DEFAULT_RULE_ID)

@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from ..adapters.sim import SimAdapter
 from ..protocol import Ruling
 from ..ruleset import RuleSet
-from ..state_machine import StateMachine
+from ..state_machine import DEFAULT_RULE_ID, StateMachine
 from ..topology import Network
 from .population import Persona
 
@@ -60,7 +60,7 @@ def run(
         raw = json.dumps({"dispute_key": "|".join(sorted(pair)), "text": text})
         signal = asyncio.run(adapter.ingest(raw, source="sim"))
         ruling = machine.step(signal)
-        if ruling.action in INERT_ACTIONS or ruling.rule_id == "R-default":
+        if ruling.action in INERT_ACTIONS or ruling.rule_id == DEFAULT_RULE_ID:
             return False
         asyncio.run(adapter.publish(ruling))
         resolved_count += 1

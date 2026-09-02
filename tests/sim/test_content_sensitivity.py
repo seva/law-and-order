@@ -70,11 +70,15 @@ def friction_delta(population, ruleset) -> float:
     return tail_friction(baseline) - tail_friction(installed)
 
 
+REAL_DELTA = 0.7733333333333333
+
+
 def test_nonsense_substitution_changes_the_delta():
     population = load_polity002_population()
     real_delta = friction_delta(population, load_ruleset())
     nonsense_delta = friction_delta(nonsense_population(), load_ruleset())
-    assert real_delta > 0
+    assert real_delta == REAL_DELTA
+    assert nonsense_delta == 0.0
     assert nonsense_delta != real_delta
 
 
@@ -82,7 +86,20 @@ def test_empty_ruleset_changes_the_delta():
     population = load_polity002_population()
     real_delta = friction_delta(population, load_ruleset())
     empty_delta = friction_delta(population, load_empty_ruleset())
+    assert real_delta == REAL_DELTA
+    assert empty_delta == 0.0
     assert empty_delta != real_delta
+
+
+def test_polity002_measurement_is_pinned():
+    population = load_polity002_population()
+    baseline, _, _ = run(population, ROUNDS, SEED)
+    installed, published, resolved = run(
+        population, ROUNDS, SEED, installed=True, ruleset=load_ruleset()
+    )
+    assert tail_friction(baseline) - tail_friction(installed) == REAL_DELTA
+    assert resolved == 4
+    assert len(published) == 4
 
 
 def test_polity002_measurement_is_replay_stable():
