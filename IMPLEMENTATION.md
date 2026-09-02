@@ -176,7 +176,7 @@ Directions are multi-step goals. RAROC ranks directions; Decide picks the next a
 
 Execution order: (a) → (b) → (c). Note: Discord's measurement also depends on Phase 8 (content-sensitive resolution) — without it a Discord measurement would be content-blind too — so Phase 8 Mechanism 1 must land before the Discord measurement is booked.
 
-Session note 2026-09-01: (a) confirmed live — round-trip on the real gateway ("demand a refund" → `[R7] order_refund — case …` posted). Ruling channel moved by Owner to #agentic-indoctrination (1478480447431376966); channel input check removed (see Decision Debt). Bot currently runs detached via WMI (not reboot-persistent; scheduled task `law-order-discord-bot` exists but is flaky). Phase 8 Mechanism 1 completed 2026-09-01 (issue #9): the nonsense test flips and is standing. Next session: Decide (b) enforcement actuation vs Phase 8 Mechanism 2 (noise-filter generalization) — Mechanism 2 raises the measurement's resolution; (b) makes the bot judicial.
+Session note 2026-09-01: (a) confirmed live — round-trip on the real gateway ("demand a refund" → `[R7] order_refund — case …` posted). Ruling channel moved by Owner to #agentic-indoctrination (1478480447431376966); channel input check removed (see Decision Debt). Bot currently runs detached via WMI (not reboot-persistent; scheduled task `law-order-discord-bot` exists but is flaky). Phase 8 Mechanism 1 completed 2026-09-01 (issue #9): the nonsense test flips and is standing. Polity-003 saturation break completed 2026-09-01: the delta now grades legislative coverage (0.212 v2 / 0.110 probe / 0.000 nonsense). Next session: Decide (b) enforcement actuation vs Phase 8 Mechanism 2 (noise-filter generalization).
 
 ---
 
@@ -190,12 +190,13 @@ No Phase 0 gate applies: pure kernel/engine work over existing interfaces.
 
 - [x] `docs/content-sensitivity-spec.md` — the spec the Critic found missing (downgraded "precisely specified" → "precisely diagnosed"). Mechanism in dependency order: remove catch-all auto-resolution; generalize the noise filter; model party reaction to rulings (appeal path). Acceptance criterion: the nonsense test, standing at every audit.
 - [x] Mechanism 1 — remove catch-all auto-resolution: a dispute resolves only on a matched non-inert rule; unmatched disputes persist. TDD: nonsense test flips — flipped 2026-09-01: real content + v2 → delta 0.773 (4/4 pairs resolved); nonsense substitution → 0.000; empty-ruleset substitution → 0.000; replay-stable. The nonsense test is now executable and standing (`tests/sim/test_content_sensitivity.py`)
+- [x] polity-003 — saturation break (arena evolution, 2026-09-01): eight subagent-generated minds across four domains; 9-pair counterpart graph in the `minds.json` schema; graded measurement proven — full v2 delta 0.212 (5/9 resolved, installed tail 0.218), v2-minus-R7 probe 0.110 (2/9), nonsense 0.000; standing tests pin the values (`tests/sim/test_polity003.py`); harness `scripts/polity003.py`; polity-002 artifact reproduces its frozen numbers unchanged
 - [ ] Mechanism 2 — generalize the noise filter beyond the authored vocabulary (expanded markers or content-hash-memoized classifier).
 - [ ] Mechanism 3 — party reaction to rulings / appeal path (largest; may split to its own phase).
 
 **Verification:** the nonsense test (nonsense-content and empty-ruleset substitutions both change the delta; determinism and replay-stability preserved). Real-content delta recorded whatever it is, including near-zero.
 
-Status: spec complete 2026-08-30; Mechanism 1 complete 2026-09-01 (nonsense test flips, executable and standing). Saturation caveat: polity-002's 4-pair topology makes the delta binary, not graded — arena graph growth or Mechanism 3 dynamics are the cure. Mechanisms 2–3 not started.
+Status: spec complete 2026-08-30; Mechanism 1 complete 2026-09-01 (nonsense test flips, executable and standing); saturation broken 2026-09-01 by polity-003 (graded deltas measured — 0.212 / 0.110 / 0.000; order as degree under partial coverage). Mechanisms 2–3 not started.
 
 ---
 

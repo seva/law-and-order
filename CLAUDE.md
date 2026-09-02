@@ -31,4 +31,4 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 
 ## Current phase
 
-Phases 1–7 complete. Phase 8 — Content-Sensitive Resolution — in progress: Mechanism 1 complete 2026-09-01 (catch-all auto-resolution removed; the nonsense test flips and is executable and standing — `tests/sim/test_content_sensitivity.py`); Mechanisms 2–3 not started. Prime directive unmet: no measurement booked. Saturation caveat on record: polity-002's 4-pair topology makes the current delta binary, not graded.
+Phases 1–7 complete. Phase 8 — Content-Sensitive Resolution — in progress: Mechanism 1 complete 2026-09-01 (catch-all auto-resolution removed; the nonsense test flips and is executable and standing — `tests/sim/test_content_sensitivity.py`); saturation broken 2026-09-01 by polity-003 (9-pair graph; graded deltas 0.212 v2 / 0.110 probe / 0.000 nonsense); Mechanisms 2–3 not started. Prime directive unmet: no measurement booked.
