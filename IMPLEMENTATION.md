@@ -230,3 +230,9 @@ reddit = ["asyncpraw>=7.7"]
 slack = ["slack-bolt>=1.18"]
 dev = ["pytest>=8", "pytest-cov>=5"]
 ```
+
+---
+
+## Decision Debt
+
+- **Ruling-channel boundary removed (2026-08-31).** The channel check (`if message.channel.id == ruling_channel_id: return`) was removed from `wiring/discord_live.py` at Owner direction. The loop-breaker (author check) is untouched, so no self-ingestion loop. **Lost:** the "rulings go out, disputes come in" neutral-placement boundary (ARCHITECTURE.md design decision) and meta-message protection — a human replying to a ruling in the ruling channel is now ingested as a new dispute. **Gained:** simpler code, no `ruling_channel_id` config footgun in the handler. **Revisit:** is neutral placement load-bearing for the mission, or a nicety? If load-bearing, restore the boundary or enforce it another way.
