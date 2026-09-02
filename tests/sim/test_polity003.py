@@ -10,6 +10,8 @@ MINDS_PATH = ROOT / "docs" / "polity-003" / "minds.json"
 RULESET_PATH = ROOT / "rulesets" / "v2.json"
 ROUNDS = 60
 SEED = 7
+BASELINE_TAIL = 0.4299404142767987
+INSTALLED_TAIL = 0.21793601651186792
 FULL_DELTA = 0.21200439776493077
 REDUCED_DELTA = 0.10971643535716757
 RESOLVED_FULL = 5
@@ -91,7 +93,8 @@ def test_resolution_is_graded_not_saturated():
     )
     baseline_tail = tail_friction(baseline)
     installed_tail = tail_friction(installed)
-    assert baseline_tail > installed_tail > 0
+    assert baseline_tail == BASELINE_TAIL
+    assert installed_tail == INSTALLED_TAIL
     assert resolved == RESOLVED_FULL
 
 

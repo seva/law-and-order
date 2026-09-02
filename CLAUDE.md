@@ -18,7 +18,7 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 ## Conventions
 
 - Operating cycle: `CYCLE.md` — scope-anchored iteration loop (Orient → Decide → Execute → Audit → Repair → Repeat). Extends, does not replace, METHODOLOGY.md: the cycle selects the work, METHODOLOGY governs how each step is done
-- Scope position: S1 in operation (appellate game-proofed 2026-08-24; next pressures: evidence surface, second polity) — updated by cycle step 1
+- Scope position: S1 in operation (appellate game-proofed 2026-08-24; polities 001–003 stood up, measurement graded since 2026-09-02; next pressures: enforcement actuation, party reaction (Mechanism 3), evidence surface) — updated by cycle step 1
 
 - Language/runtime: Python 3.11+ (developed on 3.12), async-first. TypeScript parity is a planned track; the language boundary will sit at the adapter layer, keeping the deterministic kernel single-source
 - Test runner: pytest — `python -m pytest`
@@ -31,4 +31,4 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 
 ## Current phase
 
-Phases 1–7 complete. Phase 8 — Content-Sensitive Resolution — in progress: Mechanism 1 complete 2026-09-01 (catch-all auto-resolution removed; the nonsense test flips and is executable and standing — `tests/sim/test_content_sensitivity.py`); saturation broken 2026-09-01 by polity-003 (9-pair graph; graded deltas 0.212 v2 / 0.110 probe / 0.000 nonsense); Mechanisms 2–3 not started. Prime directive unmet: no measurement booked.
+Phases 1–7 complete. Phase 8 — Content-Sensitive Resolution — in progress: Mechanism 1 complete 2026-09-01 (catch-all auto-resolution removed; the nonsense test flips and is executable and standing — `tests/sim/test_content_sensitivity.py`); saturation broken 2026-09-02 by polity-003 (9-pair graph; graded deltas 0.212 v2 / 0.110 probe / 0.000 nonsense; provenance and limits in `docs/polity-003/record.md`); Mechanisms 2–3 not started. Prime directive unmet: no measurement booked.
