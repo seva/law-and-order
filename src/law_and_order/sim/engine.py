@@ -60,7 +60,7 @@ def run(
         raw = json.dumps({"dispute_key": "|".join(sorted(pair)), "text": text})
         signal = asyncio.run(adapter.ingest(raw, source="sim"))
         ruling = machine.step(signal)
-        if ruling.action in INERT_ACTIONS:
+        if ruling.action in INERT_ACTIONS or ruling.rule_id == "R-default":
             return False
         asyncio.run(adapter.publish(ruling))
         resolved_count += 1

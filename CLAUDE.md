@@ -31,4 +31,4 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 
 ## Current phase
 
-Phases 1–7 complete. Phase 8 — Content-Sensitive Resolution — in progress: spec complete (`docs/content-sensitivity-spec.md`), implementation not started. Prime directive unmet: the first measurement attempt was Critic-falsified — the delta was a property of the project-authored arena, blind to the non-authored conflict. Acceptance criterion: the nonsense test (substituted content must change the delta).
+Phases 1–7 complete. Phase 8 — Content-Sensitive Resolution — in progress: Mechanism 1 complete 2026-09-01 (catch-all auto-resolution removed; the nonsense test flips and is executable and standing — `tests/sim/test_content_sensitivity.py`); Mechanisms 2–3 not started. Prime directive unmet: no measurement booked. Saturation caveat on record: polity-002's 4-pair topology makes the current delta binary, not graded.
