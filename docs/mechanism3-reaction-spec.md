@@ -33,6 +33,7 @@ react(ruling: Ruling, statement: str, party: Party) -> Reaction
 **Stance markers (arena policy, initial set):**
 - CLAIM: `demand a refund`, `refund of`, `full refund`, `refund within`
 - REFUSAL: `refuse`, `refusal`, `decline`, `will not refund`, `no refund`
+- a statement carrying both classes: REFUSAL takes precedence (v2 doctrine — negation governs; refusal markers rule before general claim matches)
 - no marker → NEUTRAL
 
 **Reaction table (arena policy, initial set):**
@@ -53,6 +54,7 @@ Semantics: ACCEPT — this ruling settles my side. APPEAL — unfavorable final 
 - Procedural actions never settle: escalation and reopening are continuation, not resolution — both perspectives REJECT.
 - Unknown actions REJECT by default: totality without invented settlement.
 - Identity-freedom: `react` consumes (ruling, statement, party) only. Who spoke never enters the function.
+- Consequence, stated before engine integration (audit finding N2): under the initial table, both-ACCEPT is unreachable — every final ruling yields (ACCEPT, APPEAL), everything else (REJECT, REJECT), so all first-instance settlement flows through appellate affirm. Consistent with polity-001's history (its settlement came through appeal affirm); known consequence for step 3: the engine's settlement rate will be governed by the appellate affirm rate. A richer table (mutually settleable rulings) is arena evolution, gated on measurement evidence.
 
 ---
 
