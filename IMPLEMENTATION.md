@@ -196,7 +196,7 @@ No Phase 0 gate applies: pure kernel/engine work over existing interfaces.
 
 **Verification:** the nonsense test (nonsense-content and empty-ruleset substitutions both change the delta; determinism and replay-stability preserved). Real-content delta recorded whatever it is, including near-zero.
 
-Status: spec complete 2026-08-30; Mechanism 1 complete 2026-09-01 (nonsense test flips, executable and standing); saturation broken 2026-09-02 by polity-003 (graded deltas measured — 0.212 / 0.110 / 0.000; order as degree under partial coverage, grading marketplace/tenancy vocabulary); Mechanism 3 step 1 complete 2026-09-02 (reaction spec + red contract). Mechanism 2 not started; Mechanism 3 engine integration pending.
+Status: spec complete 2026-08-30; Mechanism 1 complete 2026-09-01 (nonsense test flips, executable and standing); saturation broken 2026-09-02 by polity-003 (graded deltas measured — 0.212 / 0.110 / 0.000; order as degree under partial coverage, grading marketplace/tenancy vocabulary); Mechanism 3 steps 1–2 complete 2026-09-02 (reaction spec + red contract; reaction.py green, module coverage 100%, c013d2b). Mechanism 2 not started; Mechanism 3 engine integration pending.
 
 ---
 

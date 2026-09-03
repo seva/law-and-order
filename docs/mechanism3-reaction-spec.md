@@ -1,6 +1,6 @@
 # Mechanism 3 — Party Reaction to Rulings: Specification
 
-Status: specification (step 1 of Mechanism 3). The reaction module is not implemented; `tests/test_reaction.py` is committed red against it. Engine integration is the next atomic step, not this one.
+Status: steps 1–2 complete (2026-09-02). Contract implemented in `src/law_and_order/reaction.py`; `tests/test_reaction.py` green (commit c013d2b). Engine integration is the next atomic step, not this one.
 
 ---
 
@@ -34,6 +34,7 @@ react(ruling: Ruling, statement: str, party: Party) -> Reaction
 - CLAIM: `demand a refund`, `refund of`, `full refund`, `refund within`
 - REFUSAL: `refuse`, `refusal`, `decline`, `will not refund`, `no refund`
 - a statement carrying both classes: REFUSAL takes precedence (v2 doctrine — negation governs; refusal markers rule before general claim matches)
+- matching is case-insensitive substring, no word-boundary enforcement (v2 matching convention): "declined" carries `decline`, "I DEMAND A REFUND" carries `demand a refund`
 - no marker → NEUTRAL
 
 **Reaction table (arena policy, initial set):**

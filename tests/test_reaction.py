@@ -36,6 +36,13 @@ def test_stance_of_refusal_takes_precedence_on_overlap():
     assert stance_of(OVERLAP_STATEMENT) is Stance.REFUSAL
 
 
+def test_stance_of_matching_is_case_insensitive_substring():
+    assert stance_of("I DEMAND A REFUND OF THE FULL AMOUNT.") is Stance.CLAIM
+    assert stance_of("the offer was declined yesterday") is Stance.REFUSAL
+    assert stance_of("she refused the delivery outright") is Stance.REFUSAL
+    assert stance_of("") is Stance.NEUTRAL
+
+
 def test_reaction_is_total():
     for action, party in itertools.product((*KNOWN_ACTIONS, UNKNOWN_ACTION), Party):
         for statement in (CLAIM_STATEMENT, REFUSAL_STATEMENT, NEUTRAL_STATEMENT):
