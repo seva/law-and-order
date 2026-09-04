@@ -16,6 +16,8 @@ FULL_DELTA = 0.16590041231110014
 REDUCED_DELTA = 0.0
 RESOLVED_FULL = 4
 RESOLVED_REDUCED = 0
+PUBLISHED_FULL = 10
+PUBLISHED_REDUCED = 13
 
 NONSENSE_CLAIMS = (
     "alpha beta gamma delta",
@@ -69,8 +71,8 @@ def tail_friction(records) -> float:
 
 def measure(population, ruleset):
     baseline, _, _ = run(population, ROUNDS, SEED)
-    installed, _, resolved = run(population, ROUNDS, SEED, installed=True, ruleset=ruleset)
-    return tail_friction(baseline) - tail_friction(installed), resolved
+    installed, published, resolved = run(population, ROUNDS, SEED, installed=True, ruleset=ruleset)
+    return tail_friction(baseline) - tail_friction(installed), resolved, len(published)
 
 
 def test_counterpart_graph_is_symmetric_and_rich():
@@ -100,24 +102,26 @@ def test_resolution_is_graded_not_saturated():
 
 def test_two_rulesets_give_two_deltas():
     population = load_polity003_population()
-    full_delta, full_resolved = measure(population, load_v2())
-    reduced_delta, reduced_resolved = measure(population, reduced_v2())
+    full_delta, full_resolved, full_published = measure(population, load_v2())
+    reduced_delta, reduced_resolved, reduced_published = measure(population, reduced_v2())
     assert full_delta == FULL_DELTA
     assert full_resolved == RESOLVED_FULL
+    assert full_published == PUBLISHED_FULL
     assert reduced_delta == REDUCED_DELTA
     assert reduced_resolved == RESOLVED_REDUCED
+    assert reduced_published == PUBLISHED_REDUCED
 
 
 def test_nonsense_substitution_changes_the_delta():
     population = load_polity003_population()
-    real_delta, _ = measure(population, load_v2())
-    nonsense_delta, _ = measure(nonsense_population(), load_v2())
+    real_delta, _, _ = measure(population, load_v2())
+    nonsense_delta, _, _ = measure(nonsense_population(), load_v2())
     assert real_delta == FULL_DELTA
     assert nonsense_delta == 0.0
 
 
 def test_measurement_is_replay_stable():
     population = load_polity003_population()
-    first, _ = measure(population, load_v2())
-    second, _ = measure(population, load_v2())
+    first, _, _ = measure(population, load_v2())
+    second, _, _ = measure(population, load_v2())
     assert first == second

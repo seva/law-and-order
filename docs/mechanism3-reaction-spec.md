@@ -1,6 +1,6 @@
 # Mechanism 3 — Party Reaction to Rulings: Specification
 
-Status: steps 1–2 complete (2026-09-02). Contract implemented in `src/law_and_order/reaction.py`; `tests/test_reaction.py` green (commit c013d2b). Engine integration is the next atomic step, not this one.
+Status: steps 1–2 complete (2026-09-02); engine integration complete 2026-09-04 (commit f35e090 — settlement by due process live in `sim/engine.py`). Appeal determinism (open question 3) held: the appellate path added no randomness, replay byte-stable.
 
 ---
 
