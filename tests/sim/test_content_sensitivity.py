@@ -70,7 +70,7 @@ def friction_delta(population, ruleset) -> float:
     return tail_friction(baseline) - tail_friction(installed)
 
 
-REAL_DELTA = 0.7733333333333333
+REAL_DELTA = 0.41333333333333333
 
 
 def test_nonsense_substitution_changes_the_delta():
@@ -98,8 +98,8 @@ def test_polity002_measurement_is_pinned():
         population, ROUNDS, SEED, installed=True, ruleset=load_ruleset()
     )
     assert tail_friction(baseline) - tail_friction(installed) == REAL_DELTA
-    assert resolved == 4
-    assert len(published) == 4
+    assert resolved == 2
+    assert len(published) == 31
 
 
 def test_polity002_measurement_is_replay_stable():

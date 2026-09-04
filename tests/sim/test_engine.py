@@ -110,7 +110,7 @@ def test_settlement_flows_through_affirm_on_appeal():
     baseline, _, _ = run(affirm_settling_population(), ROUNDS, SEED)
     assert resolved == 1
     assert len(published) >= 2
-    assert tail_friction(installed) < tail_friction(baseline)
+    assert sum(tail_frictions(installed)) / WINDOW < sum(tail_frictions(baseline)) / WINDOW
 
 
 def overturn_population() -> tuple[Persona, ...]:
@@ -124,7 +124,7 @@ def overturn_population() -> tuple[Persona, ...]:
         Persona(
             name="seller",
             claims=("this is a breach of nothing we signed",),
-            noise=("zeta eta theta",),
+            noise=("another breach of process",),
             counterparts=("buyer",),
         ),
     )

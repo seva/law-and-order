@@ -6,7 +6,10 @@ import random
 from dataclasses import dataclass
 
 from ..adapters.sim import SimAdapter
+from ..appeals import Appeal, Appellate
+from ..arbitration import Dispute
 from ..protocol import Ruling
+from ..reaction import Party, Reaction, react
 from ..ruleset import RuleSet
 from ..state_machine import DEFAULT_RULE_ID, StateMachine
 from ..topology import Network
@@ -48,21 +51,43 @@ def run(
             published.append(ruling)
 
         adapter = SimAdapter(on_ruling=on_ruling)
+        appellate = Appellate(ruleset)
 
     open_disputes: set[frozenset[str]] = set()
     resolved: set[frozenset[str]] = set()
     window_exchanges: list[tuple[int, str, str, bool]] = []
     history: list[RoundRecord] = []
     resolved_count = 0
+    last_said: dict[frozenset[str], dict[str, str]] = {}
 
-    def adjudicate(pair: frozenset[str], text: str) -> bool:
+    def adjudicate(pair: frozenset[str], speaker: str, text: str) -> bool:
         nonlocal resolved_count
+        counterparty = next(iter(pair - {speaker}))
+        counter_text = last_said.get(pair, {}).get(counterparty)
+        if counter_text is None:
+            return False
         raw = json.dumps({"dispute_key": "|".join(sorted(pair)), "text": text})
         signal = asyncio.run(adapter.ingest(raw, source="sim"))
         ruling = machine.step(signal)
         if ruling.action in INERT_ACTIONS or ruling.rule_id == DEFAULT_RULE_ID:
             return False
         asyncio.run(adapter.publish(ruling))
+        author_reaction = react(ruling, text, Party.AUTHOR)
+        counter_reaction = react(ruling, text, Party.COUNTERPARTY)
+        if author_reaction is Reaction.ACCEPT and counter_reaction is Reaction.ACCEPT:
+            settled = True
+        elif author_reaction is Reaction.APPEAL or counter_reaction is Reaction.APPEAL:
+            dispute = Dispute(claim=text, counterclaim=counter_text)
+            ground = text if author_reaction is Reaction.APPEAL else counter_text
+            appellate_ruling = appellate.resolve(
+                Appeal(dispute=dispute, ruling=ruling, ground=ground)
+            )
+            asyncio.run(adapter.publish(appellate_ruling))
+            settled = appellate_ruling.action == "affirm"
+        else:
+            settled = False
+        if not settled:
+            return False
         resolved_count += 1
         return True
 
@@ -82,7 +107,8 @@ def run(
                 text = rng.choice(persona.claims)
             exchanges.append((speaker, other, text, True))
             window_exchanges.append((round_index, speaker, other, True))
-            if machine is not None and adjudicate(pair, text):
+            last_said.setdefault(pair, {})[speaker] = text
+            if machine is not None and adjudicate(pair, speaker, text):
                 open_disputes.discard(pair)
                 resolved.add(pair)
 
@@ -105,10 +131,8 @@ def run(
                 text = rng.choice(persona.claims)
             exchanges.append((persona.name, other, text, True))
             window_exchanges.append((round_index, persona.name, other, True))
-            if machine is not None and adjudicate(pair, text):
-                resolved.add(pair)
-            else:
-                open_disputes.add(pair)
+            last_said.setdefault(pair, {})[persona.name] = text
+            open_disputes.add(pair)
 
         for persona in population:
             if rng.random() >= P_CHAT:

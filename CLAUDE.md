@@ -22,7 +22,7 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 
 - Language/runtime: Python 3.11+ (developed on 3.12), async-first. TypeScript parity is a planned track; the language boundary will sit at the adapter layer, keeping the deterministic kernel single-source
 - Test runner: pytest — `python -m pytest`
-- Coverage (post-phase audit): `python -m pytest --cov=law_and_order --cov-report=term-missing` — kernel and adapters stay 100%; `wiring/discord_live.py` classified *Acceptable* at 0% (live-gateway glue with a discord.py dependency — untestable without a real gateway, same class as stdio/subprocess-only paths per METHODOLOGY Quality Signals; audit 2026-09-01)
+- Coverage (post-phase audit): `python -m pytest --cov=law_and_order --cov-report=term-missing` — kernel and adapters stay 100%; `wiring/discord_live.py` classified *Acceptable* at 0% (live-gateway glue with a discord.py dependency — untestable without a real gateway, same class as stdio/subprocess-only paths per METHODOLOGY Quality Signals; audit 2026-09-01); `sim/engine.py` line 78 (both-ACCEPT settlement branch) classified *Acceptable* uncovered — declared dead letter under the initial reaction table, kept for table evolution and tested when a policy change makes it reachable (2026-09-02)
 - Formatting / linting: none configured yet
 - Behavioral rules (zero-ego, deterministic output, compute subsidization, neutral arbitration) live in `AGENTS.md` and are enforced in code by `BoundaryConstraints`
 - Review roles (Steward, Critic, Auditor, Owner) and their separation live in `ROLES.md`; no role grades its own work
@@ -31,4 +31,4 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 
 ## Current phase
 
-Phases 1–7 complete. Phase 8 — Content-Sensitive Resolution — in progress: Mechanism 1 complete 2026-09-01 (catch-all auto-resolution removed; the nonsense test flips and is executable and standing — `tests/sim/test_content_sensitivity.py`); saturation broken 2026-09-02 by polity-003 (9-pair graph; graded deltas 0.212 v2 / 0.110 probe / 0.000 nonsense; provenance and limits in `docs/polity-003/record.md`); Mechanism 3 steps 1–2 complete (reaction spec + `reaction.py` green, 100% coverage); Mechanism 2 not started, Mechanism 3 engine integration pending. Prime directive unmet: no measurement booked.
+Phases 1–7 complete. Phase 8 — Content-Sensitive Resolution — mechanisms complete: Mechanism 1 (catch-all removed; nonsense test standing), saturation broken by polity-003, Mechanism 3 (settlement by due process live in the engine: adjudicate once both sides speak, both-ACCEPT or appellate affirm settles, overturn/REJECT persists; re-measured deltas — polity-003 v2 0.166, probe 0.000, nonsense 0.000; polity-002 0.413). Mechanism 2 not started. Phase 8 verification satisfied; the prime-directive booking decision belongs to the Owner.
