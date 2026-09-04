@@ -86,24 +86,61 @@ def test_unmatched_disputes_persist_without_rulings():
     ]
 
 
-def test_matched_content_resolves_while_unmatched_persists():
-    mixed = (
+def affirm_settling_population() -> tuple[Persona, ...]:
+    return (
         Persona(
             name="claimant",
-            claims=("demand a refund",),
+            claims=("demand a refund for the goods",),
             noise=("gamma delta epsilon",),
             counterparts=("denier",),
         ),
         Persona(
             name="denier",
-            claims=("mu nu xi",),
+            claims=("I refuse to pay anything further",),
             noise=("zeta eta theta",),
             counterparts=("claimant",),
         ),
     )
-    _, published, resolved = run(
-        mixed, ROUNDS, SEED, installed=True, ruleset=load_ruleset()
+
+
+def test_settlement_flows_through_affirm_on_appeal():
+    installed, published, resolved = run(
+        affirm_settling_population(), ROUNDS, SEED, installed=True, ruleset=load_ruleset()
     )
-    assert resolved > 0
-    assert len(published) > 0
-    assert all(ruling.rule_id != "R-default" for ruling in published)
+    baseline, _, _ = run(affirm_settling_population(), ROUNDS, SEED)
+    assert resolved == 1
+    assert len(published) >= 2
+    assert tail_friction(installed) < tail_friction(baseline)
+
+
+def overturn_population() -> tuple[Persona, ...]:
+    return (
+        Persona(
+            name="buyer",
+            claims=("full refund due immediately",),
+            noise=("gamma delta epsilon",),
+            counterparts=("seller",),
+        ),
+        Persona(
+            name="seller",
+            claims=("this is a breach of nothing we signed",),
+            noise=("zeta eta theta",),
+            counterparts=("buyer",),
+        ),
+    )
+
+
+def test_counterclaim_marker_overturns_and_the_dispute_persists():
+    v2 = RuleSet.from_json(
+        (Path(__file__).resolve().parents[2] / "rulesets" / "v2.json").read_text(encoding="utf-8")
+    )
+    population = overturn_population()
+    baseline, _, _ = run(population, ROUNDS, SEED)
+    installed, published, resolved = run(
+        population, ROUNDS, SEED, installed=True, ruleset=v2
+    )
+    assert resolved == 0
+    assert len(published) >= 1
+    assert [record.friction for record in baseline] == [
+        record.friction for record in installed
+    ]
