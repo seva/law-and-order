@@ -1,6 +1,6 @@
 # Polity-004 — Provenance Protocol
 
-Status: protocol. Committed **before** generation. The commit ordering (mandates precede outputs) is part of the evidence.
+Status: protocol. Committed **before** generation. The commit ordering (mandates precede outputs) is part of the evidence. Amended 2026-09-05 (post-generation, disclosed): store-corroboration capture added — applies from polity-004 onward.
 
 ---
 
@@ -22,6 +22,7 @@ Each generation instance persists, in-repo:
 - `mandates/<domain>.md` — the exact prompt sent, committed before generation.
 - `provenance/<domain>.output.json` — the raw response, byte-for-byte, no edits.
 - `record.md` — instance id, generation timestamp, and the sha256 of each output file.
+- `corroboration.json` — the external session-store link, extracted read-only: session metadata, verbatim sent-prompt and output text, and sha256 of each message/part row so any store copy can re-verify the hashes. Machine-checked: single request/response per session, sent prompt equals the committed mandate body, stored output parses identical to the persisted output file.
 
 ## Invariants
 

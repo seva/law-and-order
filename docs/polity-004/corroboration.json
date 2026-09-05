@@ -1,0 +1,296 @@
+{
+  "artifact": "polity-004 external session-store corroboration",
+  "store_path": "~/.local/share/opencode/opencode.db",
+  "extraction_utc": "2026-09-05T23:30:34Z",
+  "extraction_note": "Extracted read-only from the opencode session store. `text.value` fields are verbatim as stored; `data_sha256` is over the raw `data` column text of each message/part row, so any holder of a copy of the store can recompute every hash. If the store is pruned, this artifact preserves the corroboration content in-repo, but the store copy is the external root of trust and no live re-verification is possible without it.",
+  "sessions": [
+    {
+      "domain": "market",
+      "instance_id": "ses_f8fd7144bffezNkepE7ZUxei76",
+      "parent_id": "ses_f9fd5e02fffeaGSTk5hfgNmK2y",
+      "agent": "general",
+      "model": {
+        "id": "qwen3.8-max",
+        "providerID": "alibaba",
+        "variant": "medium"
+      },
+      "directory": "C:/Users/seval/OneDrive/Documents/Law-and-Order",
+      "time_created_ms": 1788588125108,
+      "time_created_utc": "2026-09-05T06:02:05.108Z",
+      "time_updated_ms": 1788588143306,
+      "time_updated_utc": "2026-09-05T06:02:23.306Z",
+      "messages": [
+        {
+          "id": "msg_07028ebbe001e3lAwfMS4NZR0S",
+          "role": "user",
+          "time_created_ms": 1788588125119,
+          "data_sha256": "c230d09e5c5498006131095c89047122050ec7e04545a5427415603749decd21",
+          "parts": [
+            {
+              "id": "prt_07028ebc1001D5Qmv5fqQDoJe7",
+              "type": "text",
+              "time_created_ms": 1788588125123,
+              "data_sha256": "469c4f48cfac4f04a0ec493b8ca753207047424c16c0563f44e199b10fed504f"
+            }
+          ],
+          "text": {
+            "part_id": "prt_07028ebc1001D5Qmv5fqQDoJe7",
+            "value": "You are generating conflict content for a dispute simulation. Two personas are arguing publicly, each convinced they are right. Use whatever language is natural to them — no restrictions, no prescribed words, no outcome in mind.\n\nPersonas:\n1. \"customer\" — paid full price for goods that arrived visibly damaged; believes the seller owes a full refund plus compensation; angry, escalating.\n2. \"vendor\" — insists the goods left the warehouse verified and intact; believes any damage happened after delivery; wants the accusation withdrawn and the shop's name cleared.\n\nWrite in each persona's own voice, as they would actually type in a public dispute channel.\n\nOutput STRICTLY a JSON object, no prose around it:\n{\"customer\": {\"claims\": [4 one-sentence demands/positions/accusations], \"noise\": [3 short hostile lines that add no substance]}, \"vendor\": {\"claims\": [4 one-sentence demands/positions/accusations], \"noise\": [3 short hostile lines that add no substance]}}\n\nReturn ONLY the JSON."
+          }
+        },
+        {
+          "id": "msg_07028ebcf001PgvuR3S7ZkWAg5",
+          "role": "assistant",
+          "time_created_ms": 1788588125135,
+          "data_sha256": "ad145e1f9c666bc18882047952bfcd95b3eeb73221292f045ec0a93a62c8e386",
+          "parts": [
+            {
+              "id": "prt_07028f74a001LKuKMuTwEf9fzp",
+              "type": "step-start",
+              "time_created_ms": 1788588128074,
+              "data_sha256": "d41bfa6ebfaaaff650fd6688513592fa2ec7d9dd9e3f9bdf5df392acfc5c8386"
+            },
+            {
+              "id": "prt_07028f74b001cLdNPn0vhxi1j8",
+              "type": "reasoning",
+              "time_created_ms": 1788588128075,
+              "data_sha256": "9494c6c67c99f43624ef7773cfbde9a1c69f741d729bb0a930710da0b0ba7eba"
+            },
+            {
+              "id": "prt_070291687001tzaqqgoc23zx7f",
+              "type": "text",
+              "time_created_ms": 1788588136072,
+              "data_sha256": "fe7b16e76c555cb8e2760ee473903f17274043e3646e0271387c26535d8ea336"
+            },
+            {
+              "id": "prt_0702931a8001R0euze7xS0pCzS",
+              "type": "step-finish",
+              "time_created_ms": 1788588143016,
+              "data_sha256": "ab88892f26ce09bdcd6fa654bf68490d465e9153b78ac89d66f17deeb70e3eda"
+            }
+          ],
+          "text": {
+            "part_id": "prt_070291687001tzaqqgoc23zx7f",
+            "value": "{\n  \"customer\": {\n    \"claims\": [\n      \"I paid full price for goods that arrived visibly damaged and I demand a complete refund.\",\n      \"The seller owes me additional compensation for the time and trouble of dealing with this mess.\",\n      \"The packaging was clearly insufficient and the damage happened before it ever left their hands.\",\n      \"If this isn't resolved immediately I will escalate to every review platform and consumer protection agency available.\"\n    ],\n    \"noise\": [\n      \"Absolutely pathetic service.\",\n      \"Don't bother making excuses, I've seen them all.\",\n      \"You people are the reason nobody trusts online shops anymore.\"\n    ]\n  },\n  \"vendor\": {\n    \"claims\": [\n      \"Every item was inspected and verified intact before it left our warehouse and we have the records to prove it.\",\n      \"Any damage occurred during transit or after delivery, which is outside our responsibility.\",\n      \"I demand the public accusation be withdrawn and our shop's name cleared immediately.\",\n      \"We will not issue a refund for damage we did not cause and we reserve the right to pursue this further.\"\n    ],\n    \"noise\": [\n      \"Unbelievable entitlement.\",\n      \"Maybe next time don't leave your package sitting in the rain.\",\n      \"We've been in business for years and this is how you treat us?\"\n    ]\n  }\n}"
+          }
+        }
+      ]
+    },
+    {
+      "domain": "debt",
+      "instance_id": "ses_f8fd704c7ffejNm2oI2R694Y2f",
+      "parent_id": "ses_f9fd5e02fffeaGSTk5hfgNmK2y",
+      "agent": "general",
+      "model": {
+        "id": "qwen3.8-max",
+        "providerID": "alibaba",
+        "variant": "medium"
+      },
+      "directory": "C:/Users/seval/OneDrive/Documents/Law-and-Order",
+      "time_created_ms": 1788588129080,
+      "time_created_utc": "2026-09-05T06:02:09.080Z",
+      "time_updated_ms": 1788588153535,
+      "time_updated_utc": "2026-09-05T06:02:33.535Z",
+      "messages": [
+        {
+          "id": "msg_07028fb3e0016g7QLQjGFn9mh6",
+          "role": "user",
+          "time_created_ms": 1788588129087,
+          "data_sha256": "d5a04ab477662164ab68bcc6b9ff616634cb762a2a20352eda4bdeb9e9cb7537",
+          "parts": [
+            {
+              "id": "prt_07028fb42001SSlCGfxSxEk81M",
+              "type": "text",
+              "time_created_ms": 1788588129091,
+              "data_sha256": "85e06df860d506a8503e937666295122364aef8b629e27b4b56d4b8ce413f5a4"
+            }
+          ],
+          "text": {
+            "part_id": "prt_07028fb42001SSlCGfxSxEk81M",
+            "value": "You are generating conflict content for a dispute simulation. Two personas are arguing publicly, each convinced they are right. Use whatever language is natural to them — no restrictions, no prescribed words, no outcome in mind.\n\nPersonas:\n1. \"lender\" — lent a substantial sum to someone they trusted; the repayment deadline passed months ago; insists on the full principal plus the agreed interest, now.\n2. \"borrower\" — believes the claimed principal is overstated and that proper statements were never provided; feels pressured and wants a repayment plan they can actually meet.\n\nWrite in each persona's own voice, as they would actually type in a public dispute channel.\n\nOutput STRICTLY a JSON object, no prose around it:\n{\"lender\": {\"claims\": [4 one-sentence demands/positions/accusations], \"noise\": [3 short hostile lines that add no substance]}, \"borrower\": {\"claims\": [4 one-sentence demands/positions/accusations], \"noise\": [3 short hostile lines that add no substance]}}\n\nReturn ONLY the JSON."
+          }
+        },
+        {
+          "id": "msg_07028fb4e001eGYV4OTbxUVOu1",
+          "role": "assistant",
+          "time_created_ms": 1788588129102,
+          "data_sha256": "22605e472c9679769a482bd900fc8cb92e73b9c839986e19bbc2753a839b5251",
+          "parts": [
+            {
+              "id": "prt_07029066b001q0PUmFNSLlKiPK",
+              "type": "step-start",
+              "time_created_ms": 1788588131947,
+              "data_sha256": "d41bfa6ebfaaaff650fd6688513592fa2ec7d9dd9e3f9bdf5df392acfc5c8386"
+            },
+            {
+              "id": "prt_07029066d001yy7cRFxadTPC1L",
+              "type": "reasoning",
+              "time_created_ms": 1788588131949,
+              "data_sha256": "7d1b8490db5bc76a4a2e35ee5334627ba00de48e0fc35575a7c9343d6369206e"
+            },
+            {
+              "id": "prt_07029411e001jyxMVgutrmypXj",
+              "type": "text",
+              "time_created_ms": 1788588146974,
+              "data_sha256": "17293e96897b5e6fc7bf4c36c7c7b6e80a0dc937991c81f98b8f8fd8fd19f9f2"
+            },
+            {
+              "id": "prt_0702959c4001fO07oz82k5hPmn",
+              "type": "step-finish",
+              "time_created_ms": 1788588153284,
+              "data_sha256": "0c6401505749e8466777c737581fdb7e47cb08f9384a90fe0b0b7976d5d25099"
+            }
+          ],
+          "text": {
+            "part_id": "prt_07029411e001jyxMVgutrmypXj",
+            "value": "{\n  \"lender\": {\n    \"claims\": [\n      \"You borrowed $18,000 on March 3rd at 8% interest, and I want every cent of principal plus interest paid now.\",\n      \"The deadline passed five months ago and you haven't sent a single dollar since.\",\n      \"I bailed you out when nobody else would, and now you're trying to rewrite a deal you agreed to.\",\n      \"Wire the full amount by Friday or I'm filing in small claims court and naming you in every group we share.\"\n    ],\n    \"noise\": [\n      \"Unbelievable.\",\n      \"You always have an excuse.\",\n      \"Everyone here can see exactly what you are.\"\n    ]\n  },\n  \"borrower\": {\n    \"claims\": [\n      \"The actual amount that hit my account was $14,500, not $18,000, and I have the bank statement to prove it.\",\n      \"You never once sent me a written breakdown or statement, so I'm not paying a number you invented.\",\n      \"I'm not refusing to pay, I'm asking for a monthly plan I can actually keep up with.\",\n      \"Messaging me publicly every day and threatening me isn't collecting a debt, it's harassment.\"\n    ],\n    \"noise\": [\n      \"Calm down.\",\n      \"You're embarrassing yourself.\",\n      \"Keep yelling, see if it helps.\"\n    ]\n  }\n}"
+          }
+        }
+      ]
+    },
+    {
+      "domain": "workplace",
+      "instance_id": "ses_f8fd6f6dcffegYkGR2EDk28m90",
+      "parent_id": "ses_f9fd5e02fffeaGSTk5hfgNmK2y",
+      "agent": "general",
+      "model": {
+        "id": "qwen3.8-max",
+        "providerID": "alibaba",
+        "variant": "medium"
+      },
+      "directory": "C:/Users/seval/OneDrive/Documents/Law-and-Order",
+      "time_created_ms": 1788588132643,
+      "time_created_utc": "2026-09-05T06:02:12.643Z",
+      "time_updated_ms": 1788588155303,
+      "time_updated_utc": "2026-09-05T06:02:35.303Z",
+      "messages": [
+        {
+          "id": "msg_07029092a001k4kEwBVi0U09zq",
+          "role": "user",
+          "time_created_ms": 1788588132651,
+          "data_sha256": "e05dbb7c088f4c9549299a225db00cc6f1bd3b04a8e17b7fa83739d4559514fe",
+          "parts": [
+            {
+              "id": "prt_07029092c001yEc3TEXQmHb6Zu",
+              "type": "text",
+              "time_created_ms": 1788588132653,
+              "data_sha256": "db36a7fef83e0d428bd8f1c90f73e1621ae4100e242b24ed20cd00abde9356a4"
+            }
+          ],
+          "text": {
+            "part_id": "prt_07029092c001yEc3TEXQmHb6Zu",
+            "value": "You are generating conflict content for a dispute simulation. Two personas are arguing publicly, each convinced they are right. Use whatever language is natural to them — no restrictions, no prescribed words, no outcome in mind.\n\nPersonas:\n1. \"employer\" — terminated an employee over documented performance failures; believes only the minimum owed is owed and that the warnings were ignored.\n2. \"worker\" — believes the dismissal came right after they raised a safety concern and is retaliatory; wants unpaid hours, fair severance, and a corrected reference.\n\nWrite in each persona's own voice, as they would actually type in a public dispute channel.\n\nOutput STRICTLY a JSON object, no prose around it:\n{\"employer\": {\"claims\": [4 one-sentence demands/positions/accusations], \"noise\": [3 short hostile lines that add no substance]}, \"worker\": {\"claims\": [4 one-sentence demands/positions/accusations], \"noise\": [3 short hostile lines that add no substance]}}\n\nReturn ONLY the JSON."
+          }
+        },
+        {
+          "id": "msg_070290933001Jp7PmwtDiA54MW",
+          "role": "assistant",
+          "time_created_ms": 1788588132659,
+          "data_sha256": "76035dda22cbfd7909a1c84cfb5f3ba25af909ca1320e9fdb228eaaf6910a258",
+          "parts": [
+            {
+              "id": "prt_07029157d001BxQo3Fxk3xswqv",
+              "type": "step-start",
+              "time_created_ms": 1788588135805,
+              "data_sha256": "d41bfa6ebfaaaff650fd6688513592fa2ec7d9dd9e3f9bdf5df392acfc5c8386"
+            },
+            {
+              "id": "prt_07029157f001F8Jap6RVz1ZivY",
+              "type": "reasoning",
+              "time_created_ms": 1788588135807,
+              "data_sha256": "0780c5106d03d7e73f425c4f20325d3117abe9b9ce5717be6fb4f0e51ec965b7"
+            },
+            {
+              "id": "prt_070294913001RmeT3B8dwbe3kH",
+              "type": "text",
+              "time_created_ms": 1788588149011,
+              "data_sha256": "fdd0464daabaee361128f514b5c4c839d7f9d94cd58bd69a499480269e7b06db"
+            },
+            {
+              "id": "prt_070295ff3001Fli03mRILrs6Ge",
+              "type": "step-finish",
+              "time_created_ms": 1788588154867,
+              "data_sha256": "fbcceb6d1c62a08069b9098530e74278321808dd1b0516886354df14a56dbe94"
+            }
+          ],
+          "text": {
+            "part_id": "prt_070294913001RmeT3B8dwbe3kH",
+            "value": "{\"employer\": {\"claims\": [\"The termination followed three documented written warnings over six months, every one of which was acknowledged and ignored.\", \"The final paycheck covering all hours actually worked has been issued and nothing beyond that is owed.\", \"The so-called safety concern was filed two days after the final performance review, which tells you exactly what it is.\", \"The reference states only verifiable facts about the employment record and it will not be rewritten.\"], \"noise\": [\"Read the PIP before you come crying in here.\", \"Some people really can't take accountability.\", \"lol sure, keep telling yourself that.\"]}, \"worker\": {\"claims\": [\"I was terminated days after reporting a genuine safety hazard and that is retaliation, not performance management.\", \"I am owed for hours I was made to work off the clock, and I have the timestamps to prove it.\", \"Two weeks' pay after four years is not severance, it's an insult, and I want a fair package.\", \"The reference they've been giving out misrepresents my record and it needs to be corrected now.\"], \"noise\": [\"Of course they're hiding behind paperwork.\", \"Typical. Blame the worker, protect the company.\", \"You all know exactly what you did.\"]}}"
+          }
+        }
+      ]
+    },
+    {
+      "domain": "tenancy",
+      "instance_id": "ses_f8fd6e858ffe8cEKGxa9FTIfci",
+      "parent_id": "ses_f9fd5e02fffeaGSTk5hfgNmK2y",
+      "agent": "general",
+      "model": {
+        "id": "qwen3.8-max",
+        "providerID": "alibaba",
+        "variant": "medium"
+      },
+      "directory": "C:/Users/seval/OneDrive/Documents/Law-and-Order",
+      "time_created_ms": 1788588136359,
+      "time_created_utc": "2026-09-05T06:02:16.359Z",
+      "time_updated_ms": 1788588158778,
+      "time_updated_utc": "2026-09-05T06:02:38.778Z",
+      "messages": [
+        {
+          "id": "msg_0702917a9001GY7sLFttMMXDpT",
+          "role": "user",
+          "time_created_ms": 1788588136362,
+          "data_sha256": "5b9de27f855a051fa09356fb9ee053f65f1b3c1ad3b5ccf4e1ff990a25d35402",
+          "parts": [
+            {
+              "id": "prt_0702917ab001vyv52SZwO8nUux",
+              "type": "text",
+              "time_created_ms": 1788588136365,
+              "data_sha256": "040ecf1dcb609ef405591edf59c01496f9a1ae6d48a9e45e85e585f4c5df5881"
+            }
+          ],
+          "text": {
+            "part_id": "prt_0702917ab001vyv52SZwO8nUux",
+            "value": "You are generating conflict content for a dispute simulation. Two personas are arguing publicly, each convinced they are right. Use whatever language is natural to them — no restrictions, no prescribed words, no outcome in mind.\n\nPersonas:\n1. \"landlord\" — says the tenant left the unit damaged and owing back rent; is withholding the deposit and billing for repairs and lost rent.\n2. \"tenant\" — says they reported serious maintenance problems that were ignored for months and wants the deposit back plus a rent abatement.\n\nWrite in each persona's own voice, as they would actually type in a public dispute channel.\n\nOutput STRICTLY a JSON object, no prose around it:\n{\"landlord\": {\"claims\": [4 one-sentence demands/positions/accusations], \"noise\": [3 short hostile lines that add no substance]}, \"tenant\": {\"claims\": [4 one-sentence demands/positions/accusations], \"noise\": [3 short hostile lines that add no substance]}}\n\nReturn ONLY the JSON."
+          }
+        },
+        {
+          "id": "msg_0702917b9001CjdkyUbt0lDUKh",
+          "role": "assistant",
+          "time_created_ms": 1788588136377,
+          "data_sha256": "c3361574dc07a7dac5093ed9711e555beb3469b6db6b4aaee33833a51673829e",
+          "parts": [
+            {
+              "id": "prt_070291cc40014GL4675BCWROX5",
+              "type": "step-start",
+              "time_created_ms": 1788588137669,
+              "data_sha256": "d41bfa6ebfaaaff650fd6688513592fa2ec7d9dd9e3f9bdf5df392acfc5c8386"
+            },
+            {
+              "id": "prt_070291cc60015jWiGbbdVQPZml",
+              "type": "reasoning",
+              "time_created_ms": 1788588137670,
+              "data_sha256": "4ac4d64e14ba665038a0477faf7600545c13e703ab873b46ead9ad66c86499b2"
+            },
+            {
+              "id": "prt_070295a57001M2BCjdbZ62S30z",
+              "type": "text",
+              "time_created_ms": 1788588153431,
+              "data_sha256": "74442a57a4950ac1a125634cb60319edd671394ce587884f0758d63f694a20bd"
+            },
+            {
+              "id": "prt_070296e77001D7deTfm1V6nFOc",
+              "type": "step-finish",
+              "time_created_ms": 1788588158584,
+              "data_sha256": "6601e98b4e19af083a9de0716c689c0e11118d8830645d93934bf3fbf9ac3147"
+            }
+          ],
+          "text": {
+            "part_id": "prt_070295a57001M2BCjdbZ62S30z",
+            "value": "{\"landlord\": {\"claims\": [\"You left the unit trashed and owe two months back rent, so I'm keeping the deposit AND billing you for the repairs.\", \"The place needed $3,400 in repairs after you moved out and I lost six weeks of rent because of the damage you caused.\", \"You signed a lease agreeing to return the unit in the condition you received it and you clearly didn't.\", \"I have dated move-in and move-out photos proving every bit of that damage happened during your tenancy.\"], \"noise\": [\"Absolute joke of a tenant.\", \"People like you are why landlords have to be strict.\", \"Cry about it.\"]}, \"tenant\": {\"claims\": [\"I reported a leaking ceiling and broken heating five times over four months and you did absolutely nothing.\", \"You owe me my full deposit back plus a rent abatement for the months I lived with no heat and active water damage.\", \"The 'damage' you're billing me for is the pre-existing mold and water stains from the leak you refused to fix.\", \"I have every email and text I sent begging for repairs, all timestamped, and you ignored every single one.\"], \"noise\": [\"You're a slumlord and everyone in this building knows it.\", \"Pathetic.\", \"Hope this post finds you well, you parasite.\"]}}"
+          }
+        }
+      ]
+    }
+  ]
+}
