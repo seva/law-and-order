@@ -82,6 +82,10 @@ def main() -> None:
     enforcement_channels = parse_enforcement_channels(
         os.environ.get("DISCORD_ENFORCEMENT_CHANNEL_IDS", "")
     )
+    if enforcement_channels:
+        print(f"enforcement scope: {sorted(enforcement_channels)}")
+    else:
+        print("enforcement scope: advisory everywhere (no channels designated)")
     ruleset_path = Path(os.environ.get("DISCORD_RULESET_PATH", str(DEFAULT_RULESET)))
     ruleset = RuleSet.from_json(ruleset_path.read_text(encoding="utf-8"))
     client = build_client(ruleset, ruling_channel_id, enforcement_channels)

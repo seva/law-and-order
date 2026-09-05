@@ -79,7 +79,7 @@ _Last verified: 2026-09-05_
 | `src/law_and_order/adapters/sim.py` | Simulation adapter: dispute-event ingest, ruling emission | `SimAdapter(on_ruling)` implements `PlatformAdapter` |
 | `src/law_and_order/sim/population.py` | Deterministic conflict population | `Persona`, `default_population()` |
 | `src/law_and_order/sim/engine.py` | Simulation production surface: round-based conflict dynamics, protocol installation, friction measurement; resolution by due process — matched non-inert rulings publish, settlement only via both-ACCEPT (dead letter under the initial table) or appellate affirm, overturn/REJECT persist, unripe disputes (counterpart never spoke) emit no ruling | `run(population, rounds, seed, installed, ruleset)` |
-| `src/law_and_order/wiring/discord_live.py` | Live Discord wiring layer: binds the dependency-inverted adapter to a real gateway; sole discord.py importer (isolation of fragility); token environment-only | `build_client(ruleset, ruling_channel_id) -> discord.Client`, `main()` |
+| `src/law_and_order/wiring/discord_live.py` | Live Discord wiring layer: binds the dependency-inverted adapter to a real gateway; sole discord.py importer (isolation of fragility); token environment-only; enforcement scope applied here (channel-membership gate, default empty = advisory everywhere) | `build_client(ruleset, ruling_channel_id, enforcement_channels=frozenset()) -> discord.Client`, `main()` |
 
 _Last verified: 2026-09-05_
 

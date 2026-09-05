@@ -32,6 +32,23 @@ def test_malformed_entry_fails_fast():
         parse_enforcement_channels("123,not-a-channel")
 
 
+def test_underscore_entry_is_rejected():
+    with pytest.raises(ValueError):
+        parse_enforcement_channels("12_3")
+
+
+def test_signed_entry_is_rejected():
+    with pytest.raises(ValueError):
+        parse_enforcement_channels("-123")
+    with pytest.raises(ValueError):
+        parse_enforcement_channels("+123")
+
+
+def test_zero_is_rejected():
+    with pytest.raises(ValueError):
+        parse_enforcement_channels("0")
+
+
 def test_parse_is_deterministic():
     raw = "123,456"
     assert parse_enforcement_channels(raw) == parse_enforcement_channels(raw)

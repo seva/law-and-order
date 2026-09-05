@@ -14,8 +14,18 @@ _DELETE_ACTIONS = frozenset({"drop", "reject_oversize"})
 
 
 def parse_enforcement_channels(raw: str) -> frozenset[int]:
-    entries = [entry.strip() for entry in raw.split(",")]
-    return frozenset(int(entry) for entry in entries if entry)
+    channels = set()
+    for entry in raw.split(","):
+        entry = entry.strip()
+        if not entry:
+            continue
+        # Strict positive digits: reject signs, underscores, and zero —
+        # int() would silently accept them and an underscore typo could
+        # redirect a designation to a real snowflake.
+        if not entry.isdigit() or int(entry) == 0:
+            raise ValueError(f"invalid channel id: {entry!r}")
+        channels.add(int(entry))
+    return frozenset(channels)
 
 
 def enforcement_for(ruling: Ruling) -> Enforcement:
