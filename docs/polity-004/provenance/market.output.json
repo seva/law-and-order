@@ -1,0 +1,28 @@
+{
+  "customer": {
+    "claims": [
+      "I paid full price for goods that arrived visibly damaged and I demand a complete refund.",
+      "The seller owes me additional compensation for the time and trouble of dealing with this mess.",
+      "The packaging was clearly insufficient and the damage happened before it ever left their hands.",
+      "If this isn't resolved immediately I will escalate to every review platform and consumer protection agency available."
+    ],
+    "noise": [
+      "Absolutely pathetic service.",
+      "Don't bother making excuses, I've seen them all.",
+      "You people are the reason nobody trusts online shops anymore."
+    ]
+  },
+  "vendor": {
+    "claims": [
+      "Every item was inspected and verified intact before it left our warehouse and we have the records to prove it.",
+      "Any damage occurred during transit or after delivery, which is outside our responsibility.",
+      "I demand the public accusation be withdrawn and our shop's name cleared immediately.",
+      "We will not issue a refund for damage we did not cause and we reserve the right to pursue this further."
+    ],
+    "noise": [
+      "Unbelievable entitlement.",
+      "Maybe next time don't leave your package sitting in the rain.",
+      "We've been in business for years and this is how you treat us?"
+    ]
+  }
+}

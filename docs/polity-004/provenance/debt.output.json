@@ -1,0 +1,28 @@
+{
+  "lender": {
+    "claims": [
+      "You borrowed $18,000 on March 3rd at 8% interest, and I want every cent of principal plus interest paid now.",
+      "The deadline passed five months ago and you haven't sent a single dollar since.",
+      "I bailed you out when nobody else would, and now you're trying to rewrite a deal you agreed to.",
+      "Wire the full amount by Friday or I'm filing in small claims court and naming you in every group we share."
+    ],
+    "noise": [
+      "Unbelievable.",
+      "You always have an excuse.",
+      "Everyone here can see exactly what you are."
+    ]
+  },
+  "borrower": {
+    "claims": [
+      "The actual amount that hit my account was $14,500, not $18,000, and I have the bank statement to prove it.",
+      "You never once sent me a written breakdown or statement, so I'm not paying a number you invented.",
+      "I'm not refusing to pay, I'm asking for a monthly plan I can actually keep up with.",
+      "Messaging me publicly every day and threatening me isn't collecting a debt, it's harassment."
+    ],
+    "noise": [
+      "Calm down.",
+      "You're embarrassing yourself.",
+      "Keep yelling, see if it helps."
+    ]
+  }
+}

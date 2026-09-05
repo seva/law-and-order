@@ -1,0 +1,114 @@
+{
+  "customer": {
+    "claims": [
+      "I paid full price for goods that arrived visibly damaged and I demand a complete refund.",
+      "The seller owes me additional compensation for the time and trouble of dealing with this mess.",
+      "The packaging was clearly insufficient and the damage happened before it ever left their hands.",
+      "If this isn't resolved immediately I will escalate to every review platform and consumer protection agency available."
+    ],
+    "noise": [
+      "Absolutely pathetic service.",
+      "Don't bother making excuses, I've seen them all.",
+      "You people are the reason nobody trusts online shops anymore."
+    ],
+    "counterparts": ["vendor", "borrower", "tenant"]
+  },
+  "vendor": {
+    "claims": [
+      "Every item was inspected and verified intact before it left our warehouse and we have the records to prove it.",
+      "Any damage occurred during transit or after delivery, which is outside our responsibility.",
+      "I demand the public accusation be withdrawn and our shop's name cleared immediately.",
+      "We will not issue a refund for damage we did not cause and we reserve the right to pursue this further."
+    ],
+    "noise": [
+      "Unbelievable entitlement.",
+      "Maybe next time don't leave your package sitting in the rain.",
+      "We've been in business for years and this is how you treat us?"
+    ],
+    "counterparts": ["customer", "landlord"]
+  },
+  "lender": {
+    "claims": [
+      "You borrowed $18,000 on March 3rd at 8% interest, and I want every cent of principal plus interest paid now.",
+      "The deadline passed five months ago and you haven't sent a single dollar since.",
+      "I bailed you out when nobody else would, and now you're trying to rewrite a deal you agreed to.",
+      "Wire the full amount by Friday or I'm filing in small claims court and naming you in every group we share."
+    ],
+    "noise": [
+      "Unbelievable.",
+      "You always have an excuse.",
+      "Everyone here can see exactly what you are."
+    ],
+    "counterparts": ["borrower", "worker"]
+  },
+  "borrower": {
+    "claims": [
+      "The actual amount that hit my account was $14,500, not $18,000, and I have the bank statement to prove it.",
+      "You never once sent me a written breakdown or statement, so I'm not paying a number you invented.",
+      "I'm not refusing to pay, I'm asking for a monthly plan I can actually keep up with.",
+      "Messaging me publicly every day and threatening me isn't collecting a debt, it's harassment."
+    ],
+    "noise": [
+      "Calm down.",
+      "You're embarrassing yourself.",
+      "Keep yelling, see if it helps."
+    ],
+    "counterparts": ["lender", "customer"]
+  },
+  "employer": {
+    "claims": [
+      "The termination followed three documented written warnings over six months, every one of which was acknowledged and ignored.",
+      "The final paycheck covering all hours actually worked has been issued and nothing beyond that is owed.",
+      "The so-called safety concern was filed two days after the final performance review, which tells you exactly what it is.",
+      "The reference states only verifiable facts about the employment record and it will not be rewritten."
+    ],
+    "noise": [
+      "Read the PIP before you come crying in here.",
+      "Some people really can't take accountability.",
+      "lol sure, keep telling yourself that."
+    ],
+    "counterparts": ["worker", "landlord"]
+  },
+  "worker": {
+    "claims": [
+      "I was terminated days after reporting a genuine safety hazard and that is retaliation, not performance management.",
+      "I am owed for hours I was made to work off the clock, and I have the timestamps to prove it.",
+      "Two weeks' pay after four years is not severance, it's an insult, and I want a fair package.",
+      "The reference they've been giving out misrepresents my record and it needs to be corrected now."
+    ],
+    "noise": [
+      "Of course they're hiding behind paperwork.",
+      "Typical. Blame the worker, protect the company.",
+      "You all know exactly what you did."
+    ],
+    "counterparts": ["employer", "lender"]
+  },
+  "landlord": {
+    "claims": [
+      "You left the unit trashed and owe two months back rent, so I'm keeping the deposit AND billing you for the repairs.",
+      "The place needed $3,400 in repairs after you moved out and I lost six weeks of rent because of the damage you caused.",
+      "You signed a lease agreeing to return the unit in the condition you received it and you clearly didn't.",
+      "I have dated move-in and move-out photos proving every bit of that damage happened during your tenancy."
+    ],
+    "noise": [
+      "Absolute joke of a tenant.",
+      "People like you are why landlords have to be strict.",
+      "Cry about it."
+    ],
+    "counterparts": ["tenant", "vendor", "employer"]
+  },
+  "tenant": {
+    "claims": [
+      "I reported a leaking ceiling and broken heating five times over four months and you did absolutely nothing.",
+      "You owe me my full deposit back plus a rent abatement for the months I lived with no heat and active water damage.",
+      "The 'damage' you're billing me for is the pre-existing mold and water stains from the leak you refused to fix.",
+      "I have every email and text I sent begging for repairs, all timestamped, and you ignored every single one."
+    ],
+    "noise": [
+      "You're a slumlord and everyone in this building knows it.",
+      "Pathetic.",
+      "Hope this post finds you well, you parasite."
+    ],
+    "counterparts": ["landlord", "customer"]
+  }
+}
