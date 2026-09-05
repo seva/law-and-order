@@ -44,6 +44,16 @@ Correction: this record's first revision claimed the 19 `order_refund` rulings w
 
 **Guardrail, extended:** any evolution of the reaction table or the ruleset must be a genuine capability fix validated across polities, never a fit to polity-004's wording — fitting would re-author the conflict this record exists to evidence.
 
+## 2026-09-05 — Reaction-policy generalization (addendum)
+
+The blocker named above — reaction-marker coverage of unauthored phrasing — was attacked next cycle as the top-RAROC action. Stance markers were expanded as linguistic families (claim: demand/want/expect/owed refund families; refusal: will-not/won't issue/pay/refund families), documented in `docs/mechanism3-reaction-spec.md`; red spec first (8f7a4c2), implementation measured and re-pinned.
+
+Re-measured under the generalized policy (seed 7, 60 rounds): full v2 delta **0.17210341982989713**, 4/9 settled, 14 rulings published (4 × order_refund + 4 × affirm + 6 × escalate_to_human); probe 0.000 (0/9, 5 published); nonsense 0.000 (0 published); empty 0.000. Installed tail 0.25783699444690156 (DISORDERED but below baseline) — the nonsense test flips on this polity for the first time. All four settlements are genuine due-process settlements: order_refund → counterparty appeal → appellate affirm on merits.
+
+Guardrail check, recorded honestly: the generalization was motivated by this polity's diagnosed gap and its lines sit in the motivating family; the defense against fit-to-wording is the standing validation gate — nonsense substitutions stayed resolved-zero on all three polities, empty rulesets stayed zero, and polity-002/003 measured byte-identical (no disturbance of prior dynamics; only previously-unmatched phrasing moved). Whether the motivation contaminates the generalization is surfaced to the Critic and the Owner, not self-adjudicated.
+
+**Booking status, updated:** a candidate number now exists — polity-004 (provenance-evidenced authorship boundary) delta 0.17210341982989713 under settlement semantics. Booking remains the Owner's act. Residuals unchanged: strong unauthorship is the Owner's interpretation; the external session store is the one non-authorship evidence the repo cannot self-persist.
+
 ## Residuals, flagged not hidden
 
 1. Provenance proves integrity and separation; it does not prove AI wording is "unauthored" in the strong sense, nor that authored mandates do not make the conflict authored — the Owner's interpretation, as protocol.md states.

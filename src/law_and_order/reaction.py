@@ -22,8 +22,37 @@ class Reaction(Enum):
     REJECT = auto()
 
 
-CLAIM_MARKERS = ("demand a refund", "refund of", "full refund", "refund within")
-REFUSAL_MARKERS = ("refuse", "refusal", "decline", "will not refund", "no refund")
+CLAIM_MARKERS = (
+    "demand a refund",
+    "refund of",
+    "full refund",
+    "refund within",
+    "complete refund",
+    "entire refund",
+    "immediate refund",
+    "want a refund",
+    "want my money back",
+    "get my money back",
+    "expect a refund",
+    "owed a refund",
+)
+REFUSAL_MARKERS = (
+    "refuse",
+    "refusal",
+    "decline",
+    "will not refund",
+    "no refund",
+    "will not issue",
+    "won't issue",
+    "not issuing",
+    "will not pay",
+    "won't pay",
+    "not paying",
+    "won't refund",
+    "won't get a refund",
+    "not giving a refund",
+    "won't give a refund",
+)
 
 _INVERTED = {Stance.CLAIM: Stance.REFUSAL, Stance.REFUSAL: Stance.CLAIM, Stance.NEUTRAL: Stance.NEUTRAL}
 _FAVORED_STANCE = {"order_refund": Stance.CLAIM}

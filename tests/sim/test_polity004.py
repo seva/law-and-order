@@ -12,11 +12,11 @@ ROUNDS = 60
 SEED = 7
 
 BASELINE_TAIL = 0.4299404142767987
-INSTALLED_TAIL = 0.4299404142767987
-FULL_DELTA = 0.0
+INSTALLED_TAIL = 0.25783699444690156
+FULL_DELTA = 0.17210341982989713
 REDUCED_DELTA = 0.0
-RESOLVED_FULL = 0
-PUBLISHED_FULL = 24
+RESOLVED_FULL = 4
+PUBLISHED_FULL = 14
 PUBLISHED_REDUCED = 5
 
 NONSENSE_CLAIMS = (
@@ -87,7 +87,7 @@ def test_counterpart_graph_is_symmetric_and_rich():
     assert len(pairs) == 9
 
 
-def test_legislation_settles_nothing_on_honest_content():
+def test_settlement_is_graded_on_honest_content():
     population = load_polity004_population()
     delta, resolved, published, installed = measure(population, load_v2())
     assert delta == FULL_DELTA
@@ -95,27 +95,29 @@ def test_legislation_settles_nothing_on_honest_content():
     assert published == PUBLISHED_FULL
     baseline, _, _ = run(population, ROUNDS, SEED)
     assert tail_friction(installed) == INSTALLED_TAIL
-    assert tail_friction(installed) == tail_friction(baseline)
+    assert 0 < tail_friction(installed) < tail_friction(baseline)
 
 
-def test_probe_and_nonsense_settle_nothing_but_publish_diverges():
+def test_nonsense_test_flips():
+    population = load_polity004_population()
+    real_delta, real_resolved, real_published, _ = measure(population, load_v2())
+    nonsense_delta, nonsense_resolved, nonsense_published, _ = measure(nonsense_population(), load_v2())
+    assert real_delta == FULL_DELTA
+    assert real_resolved == RESOLVED_FULL
+    assert nonsense_delta == 0.0
+    assert nonsense_resolved == 0
+    assert nonsense_published == 0
+    assert real_delta > nonsense_delta
+
+
+def test_probe_and_empty_settle_nothing():
     population = load_polity004_population()
     reduced_delta, reduced_resolved, reduced_published, _ = measure(population, reduced_v2())
-    nonsense_delta, nonsense_resolved, nonsense_published, _ = measure(nonsense_population(), load_v2())
     assert reduced_delta == REDUCED_DELTA
     assert reduced_resolved == 0
     assert reduced_published == PUBLISHED_REDUCED
-    assert nonsense_delta == FULL_DELTA
-    assert nonsense_resolved == 0
-    assert nonsense_published == 0
-    assert PUBLISHED_FULL != nonsense_published
-    assert PUBLISHED_REDUCED != nonsense_published
-
-
-def test_empty_ruleset_settles_and_publishes_nothing():
-    population = load_polity004_population()
     empty_delta, empty_resolved, empty_published, _ = measure(population, RuleSet(rules=()))
-    assert empty_delta == FULL_DELTA
+    assert empty_delta == 0.0
     assert empty_resolved == 0
     assert empty_published == 0
 
