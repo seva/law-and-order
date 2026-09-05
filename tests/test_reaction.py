@@ -43,6 +43,27 @@ def test_stance_of_matching_is_case_insensitive_substring():
     assert stance_of("") is Stance.NEUTRAL
 
 
+def test_stance_of_recognizes_natural_claim_phrasing():
+    assert stance_of("I paid full price and I demand a complete refund.") is Stance.CLAIM
+    assert stance_of("we expect an entire refund for the damaged item") is Stance.CLAIM
+    assert stance_of("I want a refund for the broken item.") is Stance.CLAIM
+    assert stance_of("I want my money back now.") is Stance.CLAIM
+    assert stance_of("I expect a refund of the charges.") is Stance.CLAIM
+    assert stance_of("we are owed a refund under the warranty") is Stance.CLAIM
+
+
+def test_stance_of_recognizes_natural_refusal_phrasing():
+    assert stance_of("We will not issue a refund for that.") is Stance.REFUSAL
+    assert stance_of("we won't issue any refund at all") is Stance.REFUSAL
+    assert stance_of("we will not pay for that.") is Stance.REFUSAL
+    assert stance_of("you won't get a refund from us") is Stance.REFUSAL
+
+
+def test_stance_of_refusal_precedes_claim_on_new_markers():
+    assert stance_of("we refuse to give a complete refund") is Stance.REFUSAL
+    assert stance_of("I want my money back but will not pay your fee") is Stance.REFUSAL
+
+
 def test_reaction_is_total():
     for action, party in itertools.product((*KNOWN_ACTIONS, UNKNOWN_ACTION), Party):
         for statement in (CLAIM_STATEMENT, REFUSAL_STATEMENT, NEUTRAL_STATEMENT):

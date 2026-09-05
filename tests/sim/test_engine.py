@@ -113,6 +113,35 @@ def test_settlement_flows_through_affirm_on_appeal():
     assert sum(tail_frictions(installed)) / WINDOW < sum(tail_frictions(baseline)) / WINDOW
 
 
+def natural_claim_population() -> tuple[Persona, ...]:
+    return (
+        Persona(
+            name="buyer",
+            claims=("I paid full price and I demand a complete refund.",),
+            noise=("zeta eta theta",),
+            counterparts=("seller",),
+        ),
+        Persona(
+            name="seller",
+            claims=("We will not issue a refund for that.",),
+            noise=("iota kappa lambda",),
+            counterparts=("buyer",),
+        ),
+    )
+
+
+def test_natural_claim_phrasing_settles_through_due_process():
+    population = natural_claim_population()
+    installed, published, resolved = run(
+        population, ROUNDS, SEED, installed=True, ruleset=load_ruleset()
+    )
+    baseline, _, _ = run(population, ROUNDS, SEED)
+    assert resolved == 1
+    assert len(published) >= 2
+    assert any(ruling.action == "affirm" for ruling in published)
+    assert sum(tail_frictions(installed)) / WINDOW < sum(tail_frictions(baseline)) / WINDOW
+
+
 def overturn_population() -> tuple[Persona, ...]:
     return (
         Persona(
