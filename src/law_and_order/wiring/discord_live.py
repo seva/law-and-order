@@ -42,6 +42,10 @@ def build_client(
     machine = StateMachine(ruleset)
 
     @client.event
+    async def on_ready() -> None:
+        print(f"gateway ready: logged in as {client.user} (id={client.user.id})")
+
+    @client.event
     async def on_message(message: discord.Message) -> None:
         if message.author == client.user:
             return

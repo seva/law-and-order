@@ -6,3 +6,5 @@ htmlcov/
 .venv/
 dist/
 *.egg-info/
+
+logs/
