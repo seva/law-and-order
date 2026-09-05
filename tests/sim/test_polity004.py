@@ -112,6 +112,14 @@ def test_probe_and_nonsense_settle_nothing_but_publish_diverges():
     assert PUBLISHED_REDUCED != nonsense_published
 
 
+def test_empty_ruleset_settles_and_publishes_nothing():
+    population = load_polity004_population()
+    empty_delta, empty_resolved, empty_published, _ = measure(population, RuleSet(rules=()))
+    assert empty_delta == FULL_DELTA
+    assert empty_resolved == 0
+    assert empty_published == 0
+
+
 def test_measurement_is_replay_stable():
     population = load_polity004_population()
     first, _, _, _ = measure(population, load_v2())

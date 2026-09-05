@@ -27,7 +27,7 @@ Each generation instance persists, in-repo:
 
 1. **Verbatim.** Every claim and noise line in `minds.json` appears, character-for-character, in the corresponding `provenance/<domain>.output.json`. Enforced by `tests/sim/test_polity004_provenance.py`. If a line cannot be traced, the polity is invalid.
 2. **No content selection.** A generation pass is accepted as produced. The only permitted re-draw is a malformed/non-JSON response, and that is a process act logged in `record.md`. Rejecting or editing content for any content reason is authorship and is prohibited.
-3. **Neutral mandate.** Mandates prescribe the persona's situation, never the vocabulary, the presence or absence of rule-matching words, or the outcome.
+3. **Neutral mandate.** Mandates prescribe the persona's situation, never the outcome, and never the *required or forbidden presence* of rule-matching vocabulary in the outputs. Situation-natural vocabulary is permitted — a refund dispute's mandate will name refunds — provided it describes the situation rather than prescribing the content's coverage. The market mandate's use of "refund" is disclosed under this reading in record.md.
 
 ## What this protocol proves, and what it cannot
 
