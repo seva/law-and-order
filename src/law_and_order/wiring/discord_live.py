@@ -31,6 +31,8 @@ def build_client(ruleset: RuleSet, ruling_channel_id: int) -> discord.Client:
         channel = client.get_channel(channel_id)
         if channel is not None:
             await channel.send(text)
+        else:
+            print(f"pronouncement lost: channel {channel_id} not in cache")
 
     adapter = DiscordAdapter(ruling_channel_id=ruling_channel_id, send=send)
     machine = StateMachine(ruleset)
@@ -52,7 +54,11 @@ def build_client(ruleset: RuleSet, ruling_channel_id: int) -> discord.Client:
         }
         signal = await adapter.ingest(json.dumps(envelope), source="discord-live")
         ruling = machine.step(signal)
-        await adapter.publish(ruling)
+        try:
+            await adapter.publish(ruling)
+        except discord.HTTPException as exc:
+            print(f"pronouncement failed; enforcement skipped — visible over silent: {exc}")
+            return
         enforcement = enforcement_for(ruling)
         if enforcement is Enforcement.DELETE:
             try:
