@@ -15,14 +15,18 @@ from pathlib import Path
 import discord
 
 from ..adapters.discord import DiscordAdapter
-from ..enforcement import Enforcement, enforcement_for
+from ..enforcement import Enforcement, enforcement_for, parse_enforcement_channels
 from ..ruleset import RuleSet
 from ..state_machine import StateMachine
 
 DEFAULT_RULESET = Path(__file__).resolve().parents[3] / "rulesets" / "v2.json"
 
 
-def build_client(ruleset: RuleSet, ruling_channel_id: int) -> discord.Client:
+def build_client(
+    ruleset: RuleSet,
+    ruling_channel_id: int,
+    enforcement_channels: frozenset[int] = frozenset(),
+) -> discord.Client:
     intents = discord.Intents.default()
     intents.message_content = True
     client = discord.Client(intents=intents)
@@ -60,7 +64,10 @@ def build_client(ruleset: RuleSet, ruling_channel_id: int) -> discord.Client:
             print(f"pronouncement failed; enforcement skipped — visible over silent: {exc}")
             return
         enforcement = enforcement_for(ruling)
-        if enforcement is Enforcement.DELETE:
+        # Scoping decision 2026-09-05 (Owner ruling on issue #8): coercive
+        # acts only in designated channels; empty config = advisory
+        # everywhere. Pronouncement is unaffected — adjudication stays global.
+        if enforcement is Enforcement.DELETE and message.channel.id in enforcement_channels:
             try:
                 await message.delete()
             except discord.HTTPException as exc:
@@ -72,9 +79,12 @@ def build_client(ruleset: RuleSet, ruling_channel_id: int) -> discord.Client:
 def main() -> None:
     token = os.environ["DISCORD_BOT_TOKEN"]
     ruling_channel_id = int(os.environ["DISCORD_RULING_CHANNEL_ID"])
+    enforcement_channels = parse_enforcement_channels(
+        os.environ.get("DISCORD_ENFORCEMENT_CHANNEL_IDS", "")
+    )
     ruleset_path = Path(os.environ.get("DISCORD_RULESET_PATH", str(DEFAULT_RULESET)))
     ruleset = RuleSet.from_json(ruleset_path.read_text(encoding="utf-8"))
-    client = build_client(ruleset, ruling_channel_id)
+    client = build_client(ruleset, ruling_channel_id, enforcement_channels)
     client.run(token)
 
 

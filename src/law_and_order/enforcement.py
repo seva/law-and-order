@@ -13,6 +13,11 @@ class Enforcement(Enum):
 _DELETE_ACTIONS = frozenset({"drop", "reject_oversize"})
 
 
+def parse_enforcement_channels(raw: str) -> frozenset[int]:
+    entries = [entry.strip() for entry in raw.split(",")]
+    return frozenset(int(entry) for entry in entries if entry)
+
+
 def enforcement_for(ruling: Ruling) -> Enforcement:
     # reject_oversize stays mapped though unreachable on Discord (kernel
     # bound 4096 exceeds the platform's 2000-char message limit): the

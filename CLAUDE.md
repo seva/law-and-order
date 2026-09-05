@@ -18,7 +18,7 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 ## Conventions
 
 - Operating cycle: `CYCLE.md` — scope-anchored iteration loop (Orient → Decide → Execute → Audit → Repair → Repeat). Extends, does not replace, METHODOLOGY.md: the cycle selects the work, METHODOLOGY governs how each step is done
-- Scope position: S1 in operation (appellate game-proofed 2026-08-24; polities 001–004 stood up — 004 provenance-first; measurement graded and settlement-sensitive since 2026-09-04; Discord enforcement live 2026-09-05, audit-repaired; next pressures: Owner's blast-radius scoping decision, community stand-up, live settlement semantics) — updated by cycle step 1
+- Scope position: S1 in operation (appellate game-proofed 2026-08-24; polities 001–004 stood up — 004 provenance-first; measurement graded and settlement-sensitive since 2026-09-04; Discord enforcement live 2026-09-05, audit-repaired, channel-scoped with advisory default; next pressures: bot persistence fix, live measurement harness, staged stand-up) — updated by cycle step 1
 
 - Language/runtime: Python 3.11+ (developed on 3.12), async-first. TypeScript parity is a planned track; the language boundary will sit at the adapter layer, keeping the deterministic kernel single-source
 - Test runner: pytest — `python -m pytest`
