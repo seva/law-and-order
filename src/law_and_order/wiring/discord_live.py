@@ -15,6 +15,7 @@ from pathlib import Path
 import discord
 
 from ..adapters.discord import DiscordAdapter
+from ..enforcement import Enforcement, enforcement_for
 from ..ruleset import RuleSet
 from ..state_machine import StateMachine
 
@@ -52,6 +53,12 @@ def build_client(ruleset: RuleSet, ruling_channel_id: int) -> discord.Client:
         signal = await adapter.ingest(json.dumps(envelope), source="discord-live")
         ruling = machine.step(signal)
         await adapter.publish(ruling)
+        enforcement = enforcement_for(ruling)
+        if enforcement is Enforcement.DELETE:
+            try:
+                await message.delete()
+            except discord.HTTPException as exc:
+                print(f"enforcement failed (needs MANAGE_MESSAGES?): {exc}")
 
     return client
 
