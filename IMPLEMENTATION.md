@@ -154,7 +154,7 @@ Status: complete — verification satisfied 2026-08-24: gaming-resistance proven
 2. LLM attachment point and how determinism is preserved at that seam — resolved 2026-08-21, see ARCHITECTURE.md Design Decisions
 3. TypeScript parity: parallel kernel or wrapper over the Python kernel — open
 4. Source of network graph data for `topology.py` — open, Phase 3 (Discord channel activity sampling; survey open item 5)
-5. Live settlement semantics — filed 2026-09-05: engine settlement (Mechanism 3) requires dispute state (pairs, last-said, appeals); adapters are constitutionally stateless, so the live surface currently runs first-instance match semantics while the measurement apparatus runs settlement semantics. Options: a stateful adjudication service above the adapter; a narrowed statefulness exception for institutional memory; or first-instance semantics accepted as the live judicial tier with settlement reserved to measurement. Open; blocks any live surface from measuring what the sim measures
+5. Live settlement semantics — filed 2026-09-05; RESOLVED 2026-09-06 by option (a): settlement semantics extracted into `src/law_and_order/adjudication.py` (`SettlementService`) — a stateful component above the stateless adapter contract; the sim engine delegates to it (zero pin drift — every measurement byte-identical; red spec `tests/test_adjudication.py` first); ARCHITECTURE.md design decision records the choice and the rejections of (b)/(c). Open remainder, next decide: the live pairing policy — how Discord messages map to (speaker, counterpart) events, given the live envelope drops author identity at the ingest seam by design; wiring integration rides with it
 
 ---
 
