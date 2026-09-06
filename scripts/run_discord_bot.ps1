@@ -40,7 +40,12 @@ New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $log = Join-Path $logDir "discord_bot.log"
 
 Add-Content -LiteralPath $log -Value "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] launcher: starting discord_live"
-& $python -u -m law_and_order.wiring.discord_live *>> $log
+# cmd-level redirection: Windows PowerShell 5.1 converts native stderr into a
+# terminating NativeCommandError when ErrorActionPreference is Stop and the
+# stream is redirected - discord.py's INFO logs (stderr, even on success)
+# killed the launcher during the gateway handshake. cmd appends raw bytes.
+$env:PYTHONIOENCODING = "utf-8"
+cmd /c "`"$python`" -u -m law_and_order.wiring.discord_live >> `"$log`" 2>&1"
 $code = $LASTEXITCODE
 Add-Content -LiteralPath $log -Value "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] launcher: process exited code=$code"
 exit $code
