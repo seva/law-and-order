@@ -37,7 +37,7 @@ pytest
 
 This project operates on the [epistegrity](https://github.com/seva/epistegrity) scaffold, pinned to `6020e47` (`.epistegrity-version`). `CYCLE.md` here is the project instance of the scaffold's operating loop, which was extracted back upstream from this project — thrice: first the cycle and Definition of Success, then the autonomy doctrine and owner-sanction rule, then the claims-vs-evidence audit step, pin discipline, and sanction-is-permission interpretation.
 
-- `CLAUDE.md` — session bootstrap
+- `AGENTS.md` — session bootstrap + behavioral rules (consolidated from CLAUDE.md per epistegrity template a565cbd)
 - `METHODOLOGY.md` — operating protocol (verbatim)
 - `ARCHITECTURE.md` — system design, verified against code
 - `IMPLEMENTATION.md` — phase gates and task state

@@ -6,7 +6,7 @@
 
 | Artifact | Purpose |
 |---|---|
-| `CLAUDE.md` | Session bootstrap |
+| `AGENTS.md` | Session bootstrap |
 | `IMPLEMENTATION.md` | Task state — checkboxes updated in place |
 | GitHub issue per phase | Failure record — comments capture attempts and decisions |
 | `docs/` outputs | Phase 0 discovery artifacts — hard gates for dependent phases |
@@ -15,7 +15,7 @@
 
 ## Session Protocol
 
-**Start:** Read `CLAUDE.md` → open linked GitHub issue → scan `IMPLEMENTATION.md` checkboxes.
+**Start:** Read `AGENTS.md` → open linked GitHub issue → scan `IMPLEMENTATION.md` checkboxes.
 
 **End:** Update checkboxes + post one comment to the open issue (what was tried, what was found, what's next).
 
@@ -62,7 +62,7 @@ Discovery outputs (Phase 0) are hard prerequisites for implementation phases. No
 - **Checkboxes** — task complete or not. Binary.
 - **Issue comments** — everything else: failed attempts, decisions, partial findings, blockers.
 - **`docs/`** — structured discovery outputs. Committed, permanent, readable by any session.
-- **`CLAUDE.md`** — current phase pointer only. Updated when phase changes.
+- **`AGENTS.md`** — session bootstrap: prime directive, behavioral rules, declared conventions, current phase pointer. Updated when phase changes.
 - **`docs/walrus-YYYY-MM-DD.md`** — WaLRuS-DATA session summary. Written at session end, committed.
 
 ---
@@ -72,7 +72,7 @@ Discovery outputs (Phase 0) are hard prerequisites for implementation phases. No
 Prose does not execute; lessons without enforcers are wishes. RCA and evidence: `docs/rca-record-layer-drift-2026-09-06.md`. Enforcer of the mechanical parts: `tests/test_constitution_hygiene.py`.
 
 - **One home per fact.** Verification narratives live in their verdict/record file (`docs/`) or on the issue they were filed to; every other surface points at that home. Each duplicate of a narrative multiplies the drift surface. Pointers at `docs/` homes are existence-verified by the gate; issue references are accepted as declared.
-- **Content standards.** `ARCHITECTURE.md` lines = decision + choice + rationale + pointers, ≤600 chars (gated). `IMPLEMENTATION.md` = task state + pointers. `CLAUDE.md` = pointers only. Dated chronicles belong in dated records (issues, WaLRuS, verdict files), never in living rows.
+- **Content standards.** `ARCHITECTURE.md` lines = decision + choice + rationale + pointers, ≤600 chars (gated). `IMPLEMENTATION.md` = task state + pointers. `AGENTS.md` = bootstrap pointers + declarations. Dated chronicles belong in dated records (issues, WaLRuS, verdict files), never in living rows.
 - **Digest step.** Inline repair of a falsified claim is immediate honesty; the same cycle then compresses the repaired surface back to its content standard, pointing at the verdict/record. Corrections add facts, not prose.
 - **Lesson-Mechanism rule.** A recorded lesson must name its executing enforcer (a test, gate, or checklist item in a tool) or be explicitly marked ADVISORY (unenforced). Unenforced lessons are the gate backlog.
 - **Property enumeration** (extends Post-Phase Audit step 4): every declared property in touched records ("pinned", "identical", "bounded", "100%", "never") is mapped to its executing check or marked UNENFORCED.
@@ -81,7 +81,7 @@ Prose does not execute; lessons without enforcers are wishes. RCA and evidence: 
 
 ## Post-Phase Audit
 
-After each phase completion, before writing the WaLRuS, audit the current project state against the constitution — `CLAUDE.md`, `METHODOLOGY.md`, `ARCHITECTURE.md`, `IMPLEMENTATION.md`.
+After each phase completion, before writing the WaLRuS, audit the current project state against the constitution — `AGENTS.md`, `METHODOLOGY.md`, `ARCHITECTURE.md`, `IMPLEMENTATION.md`.
 
 1. **ARCHITECTURE.md** — verify every component's key interface matches current code signatures
 2. **Coverage** — run coverage; classify uncovered lines as *Acceptable* (document why) or *Gap* (add test)
