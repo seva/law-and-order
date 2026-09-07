@@ -85,3 +85,40 @@ def test_self_pair_is_rejected():
     s = service()
     with pytest.raises(ValueError):
         s.observe("alpha", "alpha", "demand a refund for the goods")
+
+
+def test_note_feeds_dispute_state_without_adjudicating():
+    s = service()
+    assert s.note("denier", "claimant", "I refuse to pay anything further") is None
+    assert s.note("claimant", "denier", "demand a refund for the goods") is None
+    assert not s.is_settled("claimant", "denier")
+    observation = s.observe("denier", "claimant", "demand a refund for the goods")
+    assert [ruling.action for ruling in observation.rulings] == ["order_refund", "affirm"]
+    assert observation.settled
+
+
+def test_note_rejects_self_pairs():
+    s = service()
+    with pytest.raises(ValueError):
+        s.note("alpha", "alpha", "demand a refund for the goods")
+
+
+def test_service_signal_matches_adapter_ingest():
+    import asyncio
+    import json
+
+    from law_and_order.adapters.sim import SimAdapter
+
+    captured = []
+
+    async def on_ruling(ruling, text):
+        captured.append(ruling)
+
+    adapter = SimAdapter(on_ruling=on_ruling)
+    raw = json.dumps({"dispute_key": "claimant|denier", "text": "demand a refund for the goods"})
+    signal = asyncio.run(adapter.ingest(raw, source="sim"))
+
+    s = service()
+    s.note("denier", "claimant", "I refuse to pay anything further")
+    observation = s.observe("claimant", "denier", "demand a refund for the goods")
+    assert observation.rulings[0].digest == signal.digest

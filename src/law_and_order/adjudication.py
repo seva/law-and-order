@@ -31,10 +31,19 @@ class SettlementService:
         self._last_said: dict[frozenset[str], dict[str, str]] = {}
         self._settled: set[frozenset[str]] = set()
 
-    def observe(self, speaker: str, counterpart: str, text: str) -> Observation:
+    @staticmethod
+    def _pair(speaker: str, counterpart: str) -> frozenset[str]:
         pair = frozenset((speaker, counterpart))
         if len(pair) != 2:
             raise ValueError("speaker and counterpart must differ")
+        return pair
+
+    def note(self, speaker: str, counterpart: str, text: str) -> None:
+        pair = self._pair(speaker, counterpart)
+        self._last_said.setdefault(pair, {})[speaker] = text
+
+    def observe(self, speaker: str, counterpart: str, text: str) -> Observation:
+        pair = self._pair(speaker, counterpart)
         if pair in self._settled:
             return Observation(rulings=(), settled=True)
         self._last_said.setdefault(pair, {})[speaker] = text

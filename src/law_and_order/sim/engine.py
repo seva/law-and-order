@@ -103,6 +103,8 @@ def run(
                 text = rng.choice(persona.claims)
             exchanges.append((persona.name, other, text, True))
             window_exchanges.append((round_index, persona.name, other, True))
+            if service is not None:
+                service.note(persona.name, other, text)
             open_disputes.add(pair)
 
         for persona in population:

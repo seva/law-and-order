@@ -8,6 +8,11 @@ RULESET_PATH = Path(__file__).resolve().parents[2] / "rulesets" / "v1.json"
 ROUNDS = 60
 SEED = 7
 
+DEFAULT_BASELINE_TAIL = 0.5382051282051282
+DEFAULT_INSTALLED_TAIL = 0.061080586080586086
+DEFAULT_PUBLISHED = 45
+DEFAULT_RESOLVED = 7
+
 
 def load_ruleset() -> RuleSet:
     return RuleSet.from_json(RULESET_PATH.read_text(encoding="utf-8"))
@@ -173,3 +178,19 @@ def test_counterclaim_marker_overturns_and_the_dispute_persists():
     assert [record.friction for record in baseline] == [
         record.friction for record in installed
     ]
+
+
+def test_default_sim_seed7_measurement_is_pinned():
+    ruleset = load_ruleset()
+    baseline, _, _ = run(default_population(), ROUNDS, SEED)
+    installed, published, resolved = run(
+        default_population(), ROUNDS, SEED, installed=True, ruleset=ruleset
+    )
+    assert sum(tail_frictions(baseline)) / WINDOW == DEFAULT_BASELINE_TAIL
+    assert sum(tail_frictions(installed)) / WINDOW == DEFAULT_INSTALLED_TAIL
+    assert (
+        DEFAULT_BASELINE_TAIL - DEFAULT_INSTALLED_TAIL
+        == 0.47712454212454214
+    )
+    assert len(published) == DEFAULT_PUBLISHED
+    assert resolved == DEFAULT_RESOLVED
