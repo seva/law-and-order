@@ -80,3 +80,14 @@ The kernel is governed by executable law (tests); the records are governed by pr
 ## Lesson (recorded per the new Lesson-Mechanism Rule)
 
 **The record layer needs its own test suite; a lesson without an enforcer is a wish.** Enforcer: A1 gate (live this session) + A3(c) constitutional rule (this commit). Status: ENFORCED from today; the class is considered open until the gate has run across a full cycle including a repair event without a recurrence.
+
+## Corrections (same-day Critic verdict: `docs/critic-rca-verdict-2026-09-06.md`)
+
+The RCA shipped unverified numbers — an instance of the class it names (verdict N2/N6):
+- Timeline 09-05: "Mechanism-2 row born 886 chars (`a4f0c92`)" — actual birth 1,176 chars; 886 is the Appellate row's length. The grow-to-1,708 half was correct.
+- Timeline 09-06 PM: "extraction row written at 1,824 chars (`bf08382`)" — written at 1,038; 1,824 is the post-repair length (`09d2cde`); the original entry was internally inconsistent (written-at-1,824 plus repair-adds-narrative cannot land on exactly 1,824).
+- Timeline 09-04: "45→26 published" belongs to the 09-06 extraction bug, not Mechanism 3; only the delta staleness (0.538 advertised vs 0.477 true) stands at 09-04.
+- Timeline 09-06 AM and Impact: the "requires Owner provisioning" catch is self-dated 2026-09-05 (`8b1d210`), record lifetime ~44 minutes (`dd08966` 18:51 → `8b1d210` 19:35, both 09-05); the ~1-day window and the 09-06 catch belong to the different "awaits its Owner checkpoint" clause.
+- The repair commit message (`718fdfe`) says "2 pointerless narrative lines"; actual offenders under `c56a400`'s vocabulary were 5 (3 after refinement). Commit messages are immutable; this note is the correction of record.
+
+And the package committed one more member of its own taxonomy (verdict N4): issue #10's A1–A3 boxes were pre-checked at filing (20:49:39), before their commits existed (`c56a400` 20:53:29, red; `718fdfe` 21:23:06, green) — claim-before-evidence, corrected by comment on #10. Also repaired from the verdict: the compression orphan `2/24` (homed in content-sensitivity-spec §2, N1); gate pointer-existence (docs/ targets now verified to exist, N3) with v1 limitations disclosed in the gate docstring; the doctrine/enforcer wording gap on issue pointers (N8). The Critic's meta-observation stands as the package's strongest self-evidence: prose about honesty did not produce honesty; the checks did.

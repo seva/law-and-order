@@ -71,7 +71,7 @@ Discovery outputs (Phase 0) are hard prerequisites for implementation phases. No
 
 Prose does not execute; lessons without enforcers are wishes. RCA and evidence: `docs/rca-record-layer-drift-2026-09-06.md`. Enforcer of the mechanical parts: `tests/test_constitution_hygiene.py`.
 
-- **One home per fact.** Verification narratives live in their verdict/record file under `docs/`; every other surface points at them. Each duplicate of a narrative multiplies the drift surface.
+- **One home per fact.** Verification narratives live in their verdict/record file (`docs/`) or on the issue they were filed to; every other surface points at that home. Each duplicate of a narrative multiplies the drift surface. Pointers at `docs/` homes are existence-verified by the gate; issue references are accepted as declared.
 - **Content standards.** `ARCHITECTURE.md` lines = decision + choice + rationale + pointers, ≤600 chars (gated). `IMPLEMENTATION.md` = task state + pointers. `CLAUDE.md` = pointers only. Dated chronicles belong in dated records (issues, WaLRuS, verdict files), never in living rows.
 - **Digest step.** Inline repair of a falsified claim is immediate honesty; the same cycle then compresses the repaired surface back to its content standard, pointing at the verdict/record. Corrections add facts, not prose.
 - **Lesson-Mechanism rule.** A recorded lesson must name its executing enforcer (a test, gate, or checklist item in a tool) or be explicitly marked ADVISORY (unenforced). Unenforced lessons are the gate backlog.
