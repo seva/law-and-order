@@ -151,3 +151,52 @@ def test_phase_reuses_the_kernel_primitive():
     m.record_message("c", "a", None, (), False)
     m.record_message("c", "b", "a", matched_ruling(), False)
     assert m.phase("c") is kernel_phase(m.network("c"))
+
+
+def test_phase_boundary_follows_the_kernel_threshold_exactly():
+    m = monitor()
+    pairs = (("a", "b"), ("x", "y"), ("p", "q"), ("m", "n"))
+    for index, (first, second) in enumerate(pairs):
+        m.record_message("c", first, None, (), False)
+        rulings = matched_ruling() if index == 0 else ()
+        m.record_message("c", second, first, rulings, False)
+    assert m.friction("c") == 0.25
+    assert m.phase("c") is Phase.DISORDERED
+    assert m.phase("c") is kernel_phase(m.network("c"))
+
+
+def test_inert_actions_never_conflict_even_under_merits_rule_ids():
+    m = monitor()
+    m.record_message("c", "a", None, (), False)
+    m.record_message("c", "b", "a", (("drop", "R1"),), False)
+    network = m.network("c")
+    assert network.edges == frozenset({frozenset({"a", "b"})})
+    assert network.conflict_edges == frozenset()
+    assert m.friction("c") == 0.0
+
+
+def test_boundary_rule_id_is_non_conflict_under_a_non_inert_action():
+    m = monitor()
+    m.record_message("c", "a", None, (), False)
+    m.record_message("c", "b", "a", (("order_refund", "R-boundary"),), False)
+    assert m.network("c").conflict_edges == frozenset()
+    assert m.friction("c") == 0.0
+
+
+def test_settlement_does_not_erase_prior_channel_history():
+    m = monitor()
+    m.record_message("c", "a", None, (), False)
+    m.record_message("c", "b", "a", matched_ruling(), False)
+    m.record_message("c", "e", None, (), False)
+    m.record_message("c", "f", "e", (), False)
+    m.record_message("c", "g", None, (), False)
+    m.record_message("c", "h", "g", (), False)
+    m.record_message("c", "c2", None, (), False)
+    m.record_message("c", "d", "c2", (("order_refund", "R1"), ("affirm", "R1")), True)
+    network = m.network("c")
+    assert network.nodes == frozenset({"a", "b", "e", "f", "g", "h", "c2", "d"})
+    assert len(network.edges) == 4
+    assert network.conflict_edges == frozenset(
+        {frozenset({"a", "b"}), frozenset({"c2", "d"})}
+    )
+    assert m.friction("c") == 0.5

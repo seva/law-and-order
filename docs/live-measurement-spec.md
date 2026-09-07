@@ -10,7 +10,7 @@ The live surface has settlement semantics (wiring integration, 2026-09-06): pair
 
 ## Fractal reuse — the kernel's metric, not a new one
 
-Friction is `topology.Network.friction()` — conflict-edge density over the window's exchange graph; phase is `topology.phase()` at `CRITICAL_FRICTION` (0.25). The monitor builds `Network(nodes, edges, conflict_edges)` per channel from recorded messages and computes nothing novel. Scope.md's kernel pre-adaptation: extensions reuse primitives; scale grows around the kernel, not inside it.
+Friction is `topology.Network.friction()` — conflict-edge density over the window's exchange graph; phase is `topology.phase()` at the kernel threshold 0.25 (topology's default parameter; the named constant `CRITICAL_FRICTION` lives in `sim/engine.py` at the same value — single value, two homes, attribution recorded per Critic N6). The monitor builds `Network(nodes, edges, conflict_edges)` per channel from recorded messages and computes nothing novel. Scope.md's kernel pre-adaptation: extensions reuse primitives; scale grows around the kernel, not inside it.
 
 ## Event model — what the wiring can honestly report
 
@@ -23,6 +23,8 @@ One recorded message = one window entry. Wiring calls, per processed message:
 - `settled` — whether the service observation settled the dispute on that message.
 
 No text parameter exists. Privacy (Security principle): live humans, not personas — the ledger and the monitor persist keys, counts, actions, rule ids, digests; never message content. The API makes content-capture unrepresentable, not merely avoided; the red contract pins the signature.
+
+Self-pairing degeneracy (disclosed per Critic N7): `record_message` with speaker == counterpart produces a degenerate self-edge counting toward friction — the monitor is garbage-in-garbage-out by contract; the pairing layer excludes self-pairs (`resolve` returns either a distinct counterpart or None), so the wiring feed cannot produce one.
 
 ## Conflict edge — the live definition
 
@@ -45,7 +47,7 @@ A settled message is itself conflicted (its rulings were pronounced — historic
 
 ## Delta methodology, declared honestly
 
-- **Immediate apparatus (this component):** the friction trajectory per channel under the installed protocol, with settlement decay as the order-producing mechanism. What it measures: whether legislation + due process produce declining conflict density on live, non-authored conflict. What it does NOT measure: a counterfactual baseline — there is no un-installed epoch in the same channel simultaneously.
+- **Immediate apparatus (this component):** the friction trajectory per channel under the installed protocol, with settlement decay as the order-producing mechanism. What it measures: whether legislation + due process produce declining conflict density on live, non-authored conflict — with a disclosed degeneracy (Critic N6): the spike-and-decay shape is not settlement-specific. Any conflict concentration decays after `MEASUREMENT_WINDOW` messages by window turnover alone; the settlement annotation is not a causal force inside the monitor. What settlement causally changes is FUTURE conflict production (a cleared pair adjudicates unripe instead of rematching), which trajectories across many windows distinguish from phrase exhaustion only statistically. The epoch methodology exists precisely to close this gap; until it runs, trajectory claims must name this degeneracy.
 - **Gold standard (dependency, declared not faked):** baseline-vs-installed epochs per channel require the staged stand-up and a pronunciation-scope configuration (observe-only epochs) — Owner-led surfaces. The ledger format is designed so epoch boundaries are annotations, not migrations.
 - **Candidate relation:** polity-004's 0.172 is a sim-semantics measurement on provenance-evidenced non-authored content. A live trajectory that settles real human disputes at declining friction supersedes it as the prime-directive evidence; the booking remains the Owner's act either way.
 
