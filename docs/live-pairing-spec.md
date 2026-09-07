@@ -1,6 +1,6 @@
 # Live Pairing Policy — Specification
 
-Status: specification + component contract. Committed before the wiring integration it gates. The wiring step (live behavior change) has its own verification and lands separately.
+Status: specification + component contract. Committed before the wiring integration it gates. The wiring step (live behavior change) has its own verification and lands separately. UPDATE 2026-09-06: wiring integration landed (red dec2930, green 11837ea) — extraction and routing contracts pinned gateway-free (`tests/test_wiring_pairing.py`); the continuity rule lives in `on_message` (gateway glue, Acceptable-uncovered); live restart verified under task control (gateway ready + advisory-everywhere logged). Disclosed limitation: institutional memory is in-process — restart clears last-said state and res-judicata scope, degrading to continuity semantics; persistence is a future step.
 
 ---
 
