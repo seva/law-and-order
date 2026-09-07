@@ -1,10 +1,12 @@
 import asyncio
 import hashlib
+import json
 from pathlib import Path
 from types import SimpleNamespace
 
 from law_and_order import RuleSet
 from law_and_order.adjudication import Observation, SettlementService
+from law_and_order.measurement import LiveFrictionMonitor
 from law_and_order.pairing import PairingTracker
 from law_and_order.protocol import Signal
 from law_and_order.state_machine import StateMachine
@@ -12,6 +14,8 @@ from law_and_order.wiring.discord_live import (
     LIVE_SOURCE,
     Routing,
     adjudicate_message,
+    build_ledger,
+    make_recorder,
     pair_event_from,
     route_paired_event,
 )
@@ -342,3 +346,63 @@ def test_record_reflects_the_pronounced_prefix_on_failure():
     assert recorded[0] == ("7", "101", None, (), False)
     assert recorded[1] == ("7", "202", "101", (), False)
     assert recorded[2] == ("7", "101", "202", (), True)
+
+
+def test_record_captures_a_partial_pronounced_prefix():
+    tracker, service = router()
+    machine = StateMachine(load_ruleset())
+    ingested = []
+    recorded = []
+    attempts = []
+
+    async def ingest(msg):
+        ingested.append(msg)
+        return Signal(source=LIVE_SOURCE, payload=msg.content if isinstance(msg.content, str) else "")
+
+    async def pronounce(ruling):
+        attempts.append(ruling)
+        return len(attempts) <= 3
+
+    def record(*facts):
+        recorded.append(facts)
+
+    def send(content, author_id):
+        asyncio.run(
+            adjudicate_message(
+                message(content=content, author_id=author_id),
+                self_user=SimpleNamespace(id=999), tracker=tracker, service=service,
+                machine=machine, ingest=ingest, pronounce=pronounce, record=record,
+            )
+        )
+
+    send("opening words", 101)
+    send("I refuse to pay anything further", 202)
+    send("demand a refund for the goods", 101)
+    assert [ruling.action for ruling in attempts[2:]] == ["order_refund", "affirm"]
+    assert recorded[2] == ("7", "101", "202", (("order_refund", "R1"),), True)
+
+
+def test_build_ledger_creates_the_startup_file(tmp_path):
+    path = tmp_path / "logs" / "measurement.jsonl"
+    assert not path.exists()
+    build_ledger(path)
+    assert path.exists()
+    assert path.read_text(encoding="utf-8") == ""
+
+
+def test_make_recorder_feeds_monitor_and_ledger_identical_facts(tmp_path):
+    monitor = LiveFrictionMonitor()
+    path = tmp_path / "measurement.jsonl"
+    ledger = build_ledger(path)
+    record = make_recorder(monitor, ledger)
+    record("7", "101", "202", (("order_refund", "R1"), ("affirm", "R1")), True)
+    entries = monitor._channels["7"]
+    assert len(entries) == 1
+    entry = entries[0]
+    assert (entry.speaker, entry.counterpart, entry.settled, entry.conflicted) == ("101", "202", True, True)
+    line = json.loads(path.read_text(encoding="utf-8").splitlines()[0])
+    assert line["settled"] is True
+    assert line["channel"] == "7"
+    assert line["speaker"] == "101"
+    assert line["counterpart"] == "202"
+    assert [tuple(ruling) for ruling in line["rulings"]] == [("order_refund", "R1"), ("affirm", "R1")]

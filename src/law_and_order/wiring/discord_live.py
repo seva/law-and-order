@@ -37,6 +37,26 @@ class Routing:
     observation: Observation | None
 
 
+def build_ledger(path: Path | str = MEASUREMENT_LEDGER) -> JsonlLedger:
+    ledger = JsonlLedger(path)
+    ledger.touch()
+    return ledger
+
+
+def make_recorder(monitor: LiveFrictionMonitor, ledger: JsonlLedger):
+    def record(
+        channel: str,
+        speaker: str,
+        counterpart: str | None,
+        rulings: tuple[tuple[str, str], ...],
+        settled: bool,
+    ) -> None:
+        monitor.record_message(channel, speaker, counterpart, rulings, settled)
+        ledger.append(channel, speaker, counterpart, rulings, settled)
+
+    return record
+
+
 def pair_event_from(message: discord.Message) -> PairEvent | None:
     author_id = getattr(getattr(message, "author", None), "id", None)
     channel_id = getattr(getattr(message, "channel", None), "id", None)
@@ -140,18 +160,8 @@ def build_client(
     tracker = PairingTracker(source_prefix=LIVE_SOURCE)
     service = SettlementService(ruleset, source=LIVE_SOURCE)
     monitor = LiveFrictionMonitor()
-    ledger = JsonlLedger(MEASUREMENT_LEDGER)
-    ledger.touch()
-
-    def record(
-        channel: str,
-        speaker: str,
-        counterpart: str | None,
-        rulings: tuple[tuple[str, str], ...],
-        settled: bool,
-    ) -> None:
-        monitor.record_message(channel, speaker, counterpart, rulings, settled)
-        ledger.append(channel, speaker, counterpart, rulings, settled)
+    ledger = build_ledger()
+    record = make_recorder(monitor, ledger)
 
     @client.event
     async def on_ready() -> None:

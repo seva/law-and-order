@@ -1,6 +1,6 @@
 # Live Measurement — Specification
 
-Status: specification + component contract. Committed before the component and ahead of the wiring feed it gates. Decide and RAROC forecast: issue #9, 2026-09-07 (session clock; local 2026-09-06 late).
+Status: specification + component contract. Committed before the component and ahead of the wiring feed it gates. Decide and RAROC forecast: issue #9, 2026-09-07 (session clock; local 2026-09-06 late). UPDATE 2026-09-07: wiring feed + JSONL ledger landed (red d39ae1a, green 94d60bf, Critic repairs per docs/critic-feed-verdict-2026-09-07.md) — the live bot records to logs/measurement.jsonl; replay determinism pinned beyond the window; recorder facts pinned via extracted `build_ledger`/`make_recorder`. Readout tooling remains a separate step.
 
 ---
 

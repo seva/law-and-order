@@ -78,6 +78,29 @@ def test_replay_skips_blank_lines(tmp_path):
     assert rebuilt.friction("c1") == live.friction("c1")
 
 
+def test_replay_preserves_order_beyond_the_window(tmp_path):
+    from law_and_order.measurement import MEASUREMENT_WINDOW
+
+    path = tmp_path / "measurement.jsonl"
+    live = LiveFrictionMonitor()
+    ledger = JsonlLedger(path)
+    total = MEASUREMENT_WINDOW + 50
+    for index in range(total):
+        event = (
+            "c1",
+            f"s{index}",
+            f"s{index - 1}" if index > 0 else None,
+            (("order_refund", "R1"),) if index % 7 == 0 else (),
+            index % 11 == 0,
+        )
+        live.record_message(*event)
+        ledger.append(*event)
+    rebuilt = replay(path)
+    assert rebuilt.network("c1") == live.network("c1")
+    assert rebuilt.friction("c1") == live.friction("c1")
+    assert rebuilt.phase("c1") == live.phase("c1")
+
+
 def test_touch_creates_the_empty_ledger_file(tmp_path):
     path = tmp_path / "logs" / "measurement.jsonl"
     ledger = JsonlLedger(path)
