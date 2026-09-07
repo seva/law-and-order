@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import os
+from collections.abc import Awaitable, Callable
 from pathlib import Path
 
 import discord
@@ -18,7 +19,7 @@ from ..adapters.discord import DiscordAdapter
 from ..adjudication import Observation, SettlementService
 from ..enforcement import Enforcement, enforcement_for, parse_enforcement_channels
 from ..pairing import PairEvent, PairingTracker
-from ..protocol import Ruling
+from ..protocol import Ruling, Signal
 from ..ruleset import RuleSet
 from ..state_machine import StateMachine
 
@@ -54,6 +55,29 @@ def route_paired_event(
     return observation
 
 
+async def adjudicate_message(
+    message,
+    *,
+    self_user,
+    tracker: PairingTracker,
+    service: SettlementService,
+    machine: StateMachine,
+    ingest: Callable[[object], Awaitable[Signal]],
+    pronounce: Callable[[Ruling], Awaitable[bool]],
+) -> None:
+    if message.author == self_user:
+        return
+    event = pair_event_from(message)
+    observation = route_paired_event(tracker, service, event) if event is not None else None
+    rulings = observation.rulings if observation is not None else ()
+    for ruling in rulings:
+        if not await pronounce(ruling):
+            break
+    if rulings:
+        return
+    await pronounce(machine.step(await ingest(message)))
+
+
 def build_client(
     ruleset: RuleSet,
     ruling_channel_id: int,
@@ -81,11 +105,20 @@ def build_client(
 
     @client.event
     async def on_message(message: discord.Message) -> None:
-        if message.author == client.user:
-            return
         # DECISION DEBT 2026-08-31: ruling-channel boundary removed; see
         # IMPLEMENTATION.md "Decision Debt". Revisit whether neutral placement
         # is load-bearing for the mission.
+
+        async def ingest(msg: discord.Message) -> Signal:
+            envelope = {
+                "t": "MESSAGE_CREATE",
+                "d": {
+                    "channel_id": str(msg.channel.id),
+                    "guild_id": str(msg.guild.id) if msg.guild else None,
+                    "content": msg.content,
+                },
+            }
+            return await adapter.ingest(json.dumps(envelope), source=LIVE_SOURCE)
 
         async def pronounce(ruling: Ruling) -> bool:
             try:
@@ -104,24 +137,15 @@ def build_client(
                     print(f"enforcement failed (needs MANAGE_MESSAGES?): {exc}")
             return True
 
-        event = pair_event_from(message)
-        observation = route_paired_event(tracker, service, event) if event is not None else None
-        rulings = observation.rulings if observation is not None else ()
-        for ruling in rulings:
-            if not await pronounce(ruling):
-                break
-        if rulings:
-            return
-        envelope = {
-            "t": "MESSAGE_CREATE",
-            "d": {
-                "channel_id": str(message.channel.id),
-                "guild_id": str(message.guild.id) if message.guild else None,
-                "content": message.content,
-            },
-        }
-        signal = await adapter.ingest(json.dumps(envelope), source=LIVE_SOURCE)
-        await pronounce(machine.step(signal))
+        await adjudicate_message(
+            message,
+            self_user=client.user,
+            tracker=tracker,
+            service=service,
+            machine=machine,
+            ingest=ingest,
+            pronounce=pronounce,
+        )
 
     return client
 

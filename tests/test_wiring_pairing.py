@@ -1,3 +1,4 @@
+import asyncio
 import hashlib
 from pathlib import Path
 from types import SimpleNamespace
@@ -5,7 +6,14 @@ from types import SimpleNamespace
 from law_and_order import RuleSet
 from law_and_order.adjudication import Observation, SettlementService
 from law_and_order.pairing import PairingTracker
-from law_and_order.wiring.discord_live import pair_event_from, route_paired_event
+from law_and_order.protocol import Signal
+from law_and_order.state_machine import StateMachine
+from law_and_order.wiring.discord_live import (
+    LIVE_SOURCE,
+    adjudicate_message,
+    pair_event_from,
+    route_paired_event,
+)
 
 RULESET_PATH = Path(__file__).resolve().parents[1] / "rulesets" / "v1.json"
 
@@ -16,6 +24,17 @@ def load_ruleset() -> RuleSet:
 
 def router() -> tuple[PairingTracker, SettlementService]:
     return PairingTracker(source_prefix="discord-live"), SettlementService(load_ruleset(), source="discord-live")
+
+
+def adjudication_fakes():
+    pronounced = []
+    ingested = []
+
+    async def ingest(msg):
+        ingested.append(msg)
+        return Signal(source=LIVE_SOURCE, payload=msg.content if isinstance(msg.content, str) else "")
+
+    return pronounced, ingested, ingest
 
 
 def message(content="message text", author_id=101, channel_id=7, reference=None):
@@ -104,3 +123,89 @@ def test_routing_digest_uses_the_live_source_prefix():
     observation = route_paired_event(tracker, service, pair_event_from(message(content=text, author_id=101)))
     expected = hashlib.sha256(f"discord-live:101|202:{text}".encode("utf-8")).hexdigest()
     assert observation.rulings[0].digest == expected
+
+
+def test_live_source_constant_is_pinned():
+    assert LIVE_SOURCE == "discord-live"
+
+
+def test_self_message_is_skipped_entirely():
+    tracker, service = router()
+    machine = StateMachine(load_ruleset())
+    pronounced, ingested, ingest = adjudication_fakes()
+
+    async def pronounce(ruling):
+        pronounced.append(ruling)
+        return True
+
+    msg = message(content="demand a refund", author_id=999)
+    asyncio.run(
+        adjudicate_message(
+            msg, self_user=msg.author, tracker=tracker, service=service,
+            machine=machine, ingest=ingest, pronounce=pronounce,
+        )
+    )
+    assert pronounced == []
+    assert ingested == []
+
+
+def test_service_rulings_suppress_the_legacy_path():
+    tracker, service = router()
+    machine = StateMachine(load_ruleset())
+    pronounced, ingested, ingest = adjudication_fakes()
+
+    async def pronounce(ruling):
+        pronounced.append(ruling)
+        return True
+
+    def send(content, author_id):
+        asyncio.run(
+            adjudicate_message(
+                message(content=content, author_id=author_id),
+                self_user=SimpleNamespace(id=999), tracker=tracker, service=service,
+                machine=machine, ingest=ingest, pronounce=pronounce,
+            )
+        )
+
+    send("opening words", 101)
+    assert len(ingested) == 1
+    send("I refuse to pay anything further", 202)
+    assert len(ingested) == 2
+    pronounced.clear()
+    send("demand a refund for the goods", 101)
+    assert [ruling.action for ruling in pronounced] == ["order_refund", "affirm"]
+    assert len(ingested) == 2
+
+
+def test_pronouncement_failure_skips_remaining_service_rulings():
+    tracker, service = router()
+    machine = StateMachine(load_ruleset())
+    ingested = []
+    attempts = []
+
+    async def ingest(msg):
+        ingested.append(msg)
+        return Signal(source=LIVE_SOURCE, payload=msg.content if isinstance(msg.content, str) else "")
+
+    async def pronounce(ruling):
+        attempts.append(ruling)
+        return False
+
+    def send(content, author_id):
+        asyncio.run(
+            adjudicate_message(
+                message(content=content, author_id=author_id),
+                self_user=SimpleNamespace(id=999), tracker=tracker, service=service,
+                machine=machine, ingest=ingest, pronounce=pronounce,
+            )
+        )
+
+    send("opening words", 101)
+    send("I refuse to pay anything further", 202)
+    attempts.clear()
+    send("demand a refund for the goods", 101)
+    assert len(attempts) == 1
+
+
+def test_non_str_content_extracts_empty_text():
+    assert pair_event_from(message(content=None)).text == ""
