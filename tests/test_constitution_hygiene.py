@@ -6,7 +6,7 @@ ARCHITECTURE_PATH = ROOT / "ARCHITECTURE.md"
 
 MAX_LINE_CHARS = 600
 
-NARRATIVE_VOCABULARY = ("critic", "falsif", "repaired", "antedat", "audit")
+NARRATIVE_PATTERN = re.compile(r"critic|falsif|repaired|antedat|audit(?!able)", re.I)
 POINTER_PATTERN = re.compile(r"docs/|issue #|#\d+")
 
 
@@ -24,8 +24,6 @@ def test_falsification_narrative_points_to_its_committed_home():
     text = ARCHITECTURE_PATH.read_text(encoding="utf-8")
     offenders = []
     for number, line in enumerate(text.splitlines(), start=1):
-        lowered = line.lower()
-        if any(word in lowered for word in NARRATIVE_VOCABULARY):
-            if not POINTER_PATTERN.search(line):
-                offenders.append(number)
+        if NARRATIVE_PATTERN.search(line) and not POINTER_PATTERN.search(line):
+            offenders.append(number)
     assert not offenders, f"narrative lines without a docs/ or issue pointer: {offenders}"

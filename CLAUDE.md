@@ -24,6 +24,7 @@ Single success criterion, until achieved: **a friction delta measured on conflic
 - Test runner: pytest — `python -m pytest`
 - Coverage (post-phase audit): `python -m pytest --cov=law_and_order --cov-report=term-missing` — kernel and adapters stay 100%; `wiring/discord_live.py` classified *Acceptable* at 0% (live-gateway glue with a discord.py dependency — untestable without a real gateway, same class as stdio/subprocess-only paths per METHODOLOGY Quality Signals; audit 2026-09-01); `adjudication.py` lines 61–62 (both-ACCEPT settlement branch, moved from `sim/engine.py` line 78 by the 2026-09-06 service extraction; engine now 100%) classified *Acceptable* uncovered — declared dead letter under the initial reaction table, kept for table evolution and tested when a policy change makes it reachable (2026-09-04)
 - Formatting / linting: none configured yet
+- Record-hygiene gate: `tests/test_constitution_hygiene.py` — ARCHITECTURE.md lines ≤600 chars; falsification narrative must point at its committed `docs/` home (Record Economics in METHODOLOGY.md; RCA `docs/rca-record-layer-drift-2026-09-06.md`)
 - Behavioral rules (zero-ego, deterministic output, compute subsidization, neutral arbitration) live in `AGENTS.md` and are enforced in code by `BoundaryConstraints`
 - Review roles (Steward, Critic, Auditor, Owner) and their separation live in `ROLES.md`; no role grades its own work
 - Deviations from METHODOLOGY.md:

@@ -67,6 +67,18 @@ Discovery outputs (Phase 0) are hard prerequisites for implementation phases. No
 
 ---
 
+## Record Economics
+
+Prose does not execute; lessons without enforcers are wishes. RCA and evidence: `docs/rca-record-layer-drift-2026-09-06.md`. Enforcer of the mechanical parts: `tests/test_constitution_hygiene.py`.
+
+- **One home per fact.** Verification narratives live in their verdict/record file under `docs/`; every other surface points at them. Each duplicate of a narrative multiplies the drift surface.
+- **Content standards.** `ARCHITECTURE.md` lines = decision + choice + rationale + pointers, ≤600 chars (gated). `IMPLEMENTATION.md` = task state + pointers. `CLAUDE.md` = pointers only. Dated chronicles belong in dated records (issues, WaLRuS, verdict files), never in living rows.
+- **Digest step.** Inline repair of a falsified claim is immediate honesty; the same cycle then compresses the repaired surface back to its content standard, pointing at the verdict/record. Corrections add facts, not prose.
+- **Lesson-Mechanism rule.** A recorded lesson must name its executing enforcer (a test, gate, or checklist item in a tool) or be explicitly marked ADVISORY (unenforced). Unenforced lessons are the gate backlog.
+- **Property enumeration** (extends Post-Phase Audit step 4): every declared property in touched records ("pinned", "identical", "bounded", "100%", "never") is mapped to its executing check or marked UNENFORCED.
+
+---
+
 ## Post-Phase Audit
 
 After each phase completion, before writing the WaLRuS, audit the current project state against the constitution — `CLAUDE.md`, `METHODOLOGY.md`, `ARCHITECTURE.md`, `IMPLEMENTATION.md`.
@@ -74,7 +86,7 @@ After each phase completion, before writing the WaLRuS, audit the current projec
 1. **ARCHITECTURE.md** — verify every component's key interface matches current code signatures
 2. **Coverage** — run coverage; classify uncovered lines as *Acceptable* (document why) or *Gap* (add test)
 3. **Cross-cutting** — scan for placeholder content, missing `.gitignore` entries, undocumented error types
-4. **Declared claims vs evidence** — every constitutional statement that asserts something about the world (assumptions, measured numbers, verification dates) is checked against the project's evidence (`docs/`, issues, runs); stale or falsified claims are corrected in the same commit as the falsifying evidence, or marked open
+4. **Declared claims vs evidence** — every constitutional statement that asserts something about the world (assumptions, measured numbers, verification dates) is checked against the project's evidence (`docs/`, issues, runs); stale or falsified claims are corrected in the same commit as the falsifying evidence, or marked open. Then, per Record Economics: enumerate every declared property in touched records and map each to its executing check, or mark it UNENFORCED
 
 Steps 1–3 check internal consistency (code↔records); step 4 checks external consistency (claims↔world). Internal consistency alone cannot catch a claim that survives its own falsification.
 
