@@ -51,6 +51,7 @@ Act as an unbribable router for community conflict resolution without extracting
 - Technical constraints and forbidden actions: home is `ARCHITECTURE.md` Constraints (pointer per Record Economics — one home per fact)
 - Deviations from the constitution (METHODOLOGY.md, CYCLE.md, ARCHITECTURE.md Engineering Invariants):
   - Test files do not mirror source structure one-to-one: a single `tests/test_determinism.py` covers cross-module kernel properties. Re-declared 2026-08-24 (original condition — kernel modules ≤6 — lapsed with Phase 4): accepted while `test_determinism.py` covers only cross-module properties and every module with its own contract has a dedicated test file (`test_ruleset_v1.py`, `test_ruleset_v2.py`, `test_polity.py`, `test_appeals.py`, `test_noise_filter.py`, `test_adjudication.py`, `test_pairing.py`, `test_measurement.py`, `test_ledger.py`, adapters, sim)
+  - Test-authenticity interpretation (declared at migration M5, 2026-09-07): the injected fakes in `test_wiring_pairing.py`/`test_adjudication.py`/`test_ledger.py` sit at the Discord-gateway boundary — an untestable-without-live-gateway external third-party surface (Acceptable-uncovered classification, audit 2026-09-01) — and are dependency-injected callables, not mocks of internal boundaries. No tautological pins: every contract carries mutation-probe verification; survivors are repaired in-cycle (verdict files in `docs/`). Coverage practice (kernel, adapters, ledger, measurement at 100%) is diagnostic discipline per Quality Signals, never an aggregate target
 
 ## Current phase
 
