@@ -8,9 +8,11 @@ A simple, iterative, scope-anchored loop. Deterministic: identical state yields 
 
 ### 1. Orient — status quo against maximal scope
 
-Inputs: `docs/scope.md`, `IMPLEMENTATION.md`, open issues, latest WaLRuS, and realized RAROC of completed tasks.
+Inputs: `docs/scope.md` (including its compiled terminal-bound constraints), `IMPLEMENTATION.md`, open issues, latest WaLRuS, and realized RAROC of completed tasks.
 Output: current scope position and the gap to the next rung.
 Question answered: *where is the project on its ladder, and what is missing to reach the next level?*
+
+Horizon check (`HORIZONS.md`): the compiled terminal-bound constraints are compared against the current reading — one comparison, no recomputation. A crossing found fires re-derivation of the affected commitment's far positions; a crossing absorbed without registering is a gap. Realized RAROC is itself a reading: it expires with substrate drift, and calibration older than the drift it measured is a stale claim, not evidence (Audit item 4 applies).
 
 ### 2. Decide — the next required atomic step
 
@@ -21,11 +23,17 @@ Select exactly one step satisfying all four:
 - **Choosable** — requires no unsanctioned external dependency
 - **Maximal** — highest RAROC among choosable steps that advance scope position
 
-**Decomposability** — atomicity constrains step granularity, never goal eligibility. A direction (a multi-step goal) that outranks the current step on RAROC must be decomposed into atomic steps and scored; it may not be dismissed as infeasible. RAROC ranks directions; Decide picks the next atomic step toward the top-ranked direction.
+**Decomposability** — atomicity constrains step granularity, never goal eligibility. A direction (a multi-step goal) that outranks the current step on RAROC must be decomposed into atomic steps and scored; it may not be dismissed as infeasible. Ranking ranks directions; Decide picks the next atomic step toward the top-ranked direction.
 
-RAROC = (V × P) / C — V: value protected or unlocked (1–5), P: probability it materializes (0–1), C: cost to remediate or execute (1–5).
+**Filter before rank** (`HORIZONS.md`) — directions carrying commitments that are negative at the terminal bound, or that spend irrecoverable margin for recoverable return, are excluded before any scoring runs. The boundary is a filter, not a term in a sum; no near return outweighs it, and no ratio computes it.
 
-Every step that advances scope position is scored and its value made visible — including steps requiring unsanctioned external dependencies. Whenever the top-scoring feasible step is unchoosable solely for lack of sanction, it is surfaced to the Owner as a sanction decision — whether or not a lower-scoring choosable step executes. "Optional" (not a gate) governs whether the cycle stalls, never whether a step is scored or surfaced.
+**Marginal, not level** — a step is scored by what the next increment of budget buys, at its commitment's current phase. Banked value of incumbent commitments never enters the comparison; a newcomer's full projected profile against an incumbent's remaining margin is the serial-abandonment error. Projected rates carry an epistemic discount (a lower P) — never a temporal one, and never disqualification.
+
+**Refinement level scales with commitment cost** — recoverable steps are scored on scalar RAROC; steps committing irrecoverable margin are scored per horizon position (profile, not total) at the refinement set the commitment costs, and their profile is never aggregated into a single number.
+
+RAROC = (V × P) / C — V: value protected or unlocked (1–5), P: probability it materializes (0–1), C: cost to remediate or execute (1–5). P is the epistemic discount; distance in time discounts nothing by itself.
+
+Every step that advances scope position is scored and its value made visible — including steps requiring unsanctioned external dependencies. Whenever the top-scoring feasible step is unchoosable solely for lack of sanction, it is surfaced to the Owner as a sanction decision — whether or not a lower-scoring choosable step executes. "Choosable" governs whether the cycle stalls, never whether a step is scored or surfaced.
 
 Output: the step, recorded as a GitHub issue or an `IMPLEMENTATION.md` task, together with its expected-RAROC forecast (V, P, C) — the value that success must demonstrate.
 Never queue a second step; the next is chosen only after the current one completes.
@@ -42,12 +50,16 @@ Post-Phase Audit procedure (METHODOLOGY.md), generalized, executed per the role 
 2. Coverage run; uncovered lines classified *Acceptable* or *Gap*
 3. Cross-cutting: placeholders, `.gitignore`, record sync (issues ↔ `IMPLEMENTATION.md`), session-protocol compliance
 4. Declared claims versus evidence: constitutional statements about the world (assumptions, measured numbers, verification dates) checked against `docs/` and issue evidence; stale or falsified claims corrected or marked open
+5. Engineering invariants: new and changed code scanned against `ARCHITECTURE.md` Engineering Invariants and Banned Patterns; violations closed or declared as deviations
+6. Horizon integrity: error-signature scan per `HORIZONS.md` — override (continuation without a successor forecast), unbounded terminal position, level-versus-margin comparisons in the record, stale decomposition, under-refinement against the split signals
 
 Output: classified gap list. Zero gaps is the only passing state.
 
 ### 5. Repair
 
 Gaps ranked by RAROC, executed in order. Each gap is an atomic step of a repair sub-cycle — the same Definition of Success applies: return to step 4 after repairs until the audit passes clean.
+
+**Revision escalation** (`HORIZONS.md`): repair inside the current decomposition is Adaptation. When repairs repeatedly succeed locally while the same audit findings or gap class recurs — no aggregate recovery — the decomposition itself has expired. Escalate to Revision: rebuild the phase and term structure (`IMPLEMENTATION.md`, `docs/scope.md`, declared non-drifting terms) instead of repairing within it. Nothing signals this; the recurrence record is the only trigger.
 
 ### 6. Repeat
 
@@ -80,29 +92,41 @@ The owner stands outside the cycle as its legislative layer and may sanction exc
 
 External prerequisites are real: they block the deployments they gate, and gap analysis states them plainly. Sanction is permission, not provision — the owner legislates the exception; the provisioning work belongs to the cycle (autonomous stand-up). "Blocked on owner" is not a state the cycle may occupy; absent sanction, the state is inversion, not waiting.
 
+Disposition is legislative. Deciding that a commitment has reached Acceptance — longevity (preserve the substrate, extend current positions) versus seeding (fund a successor, release the substrate) — and deriving a successor at Reinception are Owner acts of the sanction class: surfaced by the cycle with its evidence, decided outside it, recorded on the relevant issue. The cycle never disposes of the entity it runs in.
+
 ---
 
 ## Selection function (compressed)
 
 ```
-feasible  = { s : advances scope position ∧ passes phase gate ∧ atomic }
+filter    = directions whose commitments are negative at the terminal bound, or that spend
+            irrecoverable margin for recoverable return, are excluded before scoring
+            (HORIZONS.md) — the boundary is never a term in a sum
+feasible  = { s : advances scope position ∧ passes phase gate ∧ atomic ∧ survives filter }
 choosable = { s ∈ feasible : requires no unsanctioned external dependency }
 scored    = feasible — every feasible step is scored and made visible, sanctioned or not
+score     = marginal return of the next budget increment at the commitment's current
+            phase; banked value never enters; projections carry an epistemic discount P,
+            never a temporal one
+refine    = recoverable steps scored scalar; steps committing irrecoverable margin scored
+            per-position (profile, not total) at the set their cost licenses
 decompose = atomicity constrains step granularity, never goal eligibility; a direction
             that outranks the current step is decomposed into atomic steps and scored,
-            never dismissed whole; RAROC ranks directions, Decide picks the next atomic
+            never dismissed whole; ranking ranks directions, Decide picks the next atomic
             step toward the top-ranked direction
 next_step = argmax RAROC(s) over s ∈ choosable, if choosable ≠ ∅
             else no step executes; the top-scoring feasible step awaits sanction
 surface   = whenever the top-scoring feasible step is unchoosable, escalate it to the
             Owner as a sanction decision, whether or not a choosable step executes
+revise    = repairs locally successful ∧ gap class recurs ⇒ decomposition expired;
+            rebuild term/phase structure instead of repairing within it
 proof     = working in production ∧ expected RAROC actively demonstrated
 ```
-
-_Extraction note: the feasible / choosable / scored split is project-agnostic — it applies to any scaffolded project with an Owner-sanction path. Part of the epistegrity extraction batch with `ROLES.md`, to be extracted once validated in a live cycle._
 
 ---
 
 ## Termination
 
 Asymptotic. The cycle runs until the terminal form declared in `docs/scope.md`. There is no completion, only convergence.
+
+Scale condition (`HORIZONS.md`): cycle termination is project-scale — a successor state exists, so the record of where Ends fell against where they were called calibrates the next cycle. The operator-scale bound is never modeled inside the cycle; modeling it there would give the terminal position a successor, unbound it, and remove the filter. It lives compiled in `docs/scope.md` and is owned by the Owner.
