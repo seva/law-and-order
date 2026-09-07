@@ -15,11 +15,43 @@ from pathlib import Path
 import discord
 
 from ..adapters.discord import DiscordAdapter
+from ..adjudication import Observation, SettlementService
 from ..enforcement import Enforcement, enforcement_for, parse_enforcement_channels
+from ..pairing import PairEvent, PairingTracker
+from ..protocol import Ruling
 from ..ruleset import RuleSet
 from ..state_machine import StateMachine
 
 DEFAULT_RULESET = Path(__file__).resolve().parents[3] / "rulesets" / "v2.json"
+LIVE_SOURCE = "discord-live"
+
+
+def pair_event_from(message: discord.Message) -> PairEvent | None:
+    author_id = getattr(getattr(message, "author", None), "id", None)
+    channel_id = getattr(getattr(message, "channel", None), "id", None)
+    if author_id is None or channel_id is None:
+        return None
+    resolved = getattr(getattr(message, "reference", None), "resolved", None)
+    referenced_id = getattr(getattr(resolved, "author", None), "id", None)
+    content = message.content
+    return PairEvent(
+        channel=str(channel_id),
+        speaker=str(author_id),
+        referenced_speaker=str(referenced_id) if referenced_id is not None else None,
+        text=content if isinstance(content, str) else "",
+    )
+
+
+def route_paired_event(
+    tracker: PairingTracker, service: SettlementService, event: PairEvent
+) -> Observation | None:
+    counterpart = tracker.resolve(event)
+    if counterpart is None:
+        return None
+    observation = service.observe(event.speaker, counterpart, event.text)
+    if observation.settled:
+        service.clear(event.speaker, counterpart)
+    return observation
 
 
 def build_client(
@@ -40,6 +72,8 @@ def build_client(
 
     adapter = DiscordAdapter(ruling_channel_id=ruling_channel_id, send=send)
     machine = StateMachine(ruleset)
+    tracker = PairingTracker(source_prefix=LIVE_SOURCE)
+    service = SettlementService(ruleset, source=LIVE_SOURCE)
 
     @client.event
     async def on_ready() -> None:
@@ -52,6 +86,32 @@ def build_client(
         # DECISION DEBT 2026-08-31: ruling-channel boundary removed; see
         # IMPLEMENTATION.md "Decision Debt". Revisit whether neutral placement
         # is load-bearing for the mission.
+
+        async def pronounce(ruling: Ruling) -> bool:
+            try:
+                await adapter.publish(ruling)
+            except discord.HTTPException as exc:
+                print(f"pronouncement failed; enforcement skipped — visible over silent: {exc}")
+                return False
+            enforcement = enforcement_for(ruling)
+            # Scoping decision 2026-09-05 (Owner ruling on issue #8): coercive
+            # acts only in designated channels; empty config = advisory
+            # everywhere. Pronouncement is unaffected — adjudication stays global.
+            if enforcement is Enforcement.DELETE and message.channel.id in enforcement_channels:
+                try:
+                    await message.delete()
+                except discord.HTTPException as exc:
+                    print(f"enforcement failed (needs MANAGE_MESSAGES?): {exc}")
+            return True
+
+        event = pair_event_from(message)
+        observation = route_paired_event(tracker, service, event) if event is not None else None
+        rulings = observation.rulings if observation is not None else ()
+        for ruling in rulings:
+            if not await pronounce(ruling):
+                break
+        if rulings:
+            return
         envelope = {
             "t": "MESSAGE_CREATE",
             "d": {
@@ -60,22 +120,8 @@ def build_client(
                 "content": message.content,
             },
         }
-        signal = await adapter.ingest(json.dumps(envelope), source="discord-live")
-        ruling = machine.step(signal)
-        try:
-            await adapter.publish(ruling)
-        except discord.HTTPException as exc:
-            print(f"pronouncement failed; enforcement skipped — visible over silent: {exc}")
-            return
-        enforcement = enforcement_for(ruling)
-        # Scoping decision 2026-09-05 (Owner ruling on issue #8): coercive
-        # acts only in designated channels; empty config = advisory
-        # everywhere. Pronouncement is unaffected — adjudication stays global.
-        if enforcement is Enforcement.DELETE and message.channel.id in enforcement_channels:
-            try:
-                await message.delete()
-            except discord.HTTPException as exc:
-                print(f"enforcement failed (needs MANAGE_MESSAGES?): {exc}")
+        signal = await adapter.ingest(json.dumps(envelope), source=LIVE_SOURCE)
+        await pronounce(machine.step(signal))
 
     return client
 

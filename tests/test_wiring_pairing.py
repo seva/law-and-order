@@ -98,8 +98,9 @@ def test_settlement_clears_the_pair_for_a_new_dispute():
 
 def test_routing_digest_uses_the_live_source_prefix():
     tracker, service = router()
-    route_paired_event(tracker, service, pair_event_from(message(content="I refuse to pay anything further", author_id=101)))
+    route_paired_event(tracker, service, pair_event_from(message(content="opening words", author_id=101)))
+    route_paired_event(tracker, service, pair_event_from(message(content="I refuse to pay anything further", author_id=202)))
     text = "demand a refund for the goods"
-    observation = route_paired_event(tracker, service, pair_event_from(message(content=text, author_id=202)))
+    observation = route_paired_event(tracker, service, pair_event_from(message(content=text, author_id=101)))
     expected = hashlib.sha256(f"discord-live:101|202:{text}".encode("utf-8")).hexdigest()
     assert observation.rulings[0].digest == expected
