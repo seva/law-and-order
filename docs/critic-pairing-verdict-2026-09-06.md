@@ -1,0 +1,29 @@
+# Critic Verdict — Live Pairing Policy (spec + component)
+
+**Provenance.** Verdict of a Critic subagent — a separate instance with an opposed mandate and fragmented context (claims + evidence, not the Steward's reasoning) — run at step completion, ROLES cadence. Committed as a file per the standing verdict-artifact discipline. Known limitation, stated plainly: same base model as the system under review; separation is distinct context and opposed mandate, not a distinct model.
+
+**Review date:** 2026-09-06. Claims under review: commits 2c7c5f9 (spec + red contract) and 7254ec0 (component). Files: `docs/live-pairing-spec.md`, `src/law_and_order/pairing.py`, `tests/test_pairing.py`.
+
+## Verdicts
+
+- **C1 (red-first discipline)** — SUPPORTED. 2c7c5f9 contains spec + tests only; `git show 2c7c5f9:src/law_and_order/pairing.py` fails (path absent); red tree extracted via git archive → collection error, contract red before the component.
+- **C2 (code implements spec semantics exactly)** — SUPPORTED on all declared semantics, via probes: reference-first incl. unseen and evicted referents (bypass, see N7), self-reference ignored, adjacency = most recent other speaker, window eviction exact at boundary, channels isolated, every resolution (reference included) feeds recency, resolve mutates on None (spec-declared), `event.text` never read.
+- **C3 (test-contract completeness)** — FALSIFIED. Ten tests, not nine (description error, N5). Verification item 4 unpinned in substance: mutation probes M1 (`deque()` unbounded) → 10/10 pass; M2 (`RECENCY_WINDOW = 50`) → 10/10 pass; the flood test was parametric in the constant and single-speaker, so boundedness, the value 8, and stale-counterpart eviction were undetectable. Same error class the previous step's Critic found (property declared "pinned by test" that the pins cannot detect). Items 1,2,3,5,6,7 genuinely pinned; wiring-step contracts correctly declared as such and not silently implemented or contradicted.
+- **C4 (dispute-key tie)** — SUPPORTED. Convention identical to `adjudication.py` construction by source inspection; the tie test uses a real r1 ruling digest from a real `SettlementService`, cross-order, with symmetry assertion; divergence probes (unsorted join, dropped prefix) each fail the suite.
+- **C5 (no live behavior change)** — SUPPORTED. 7254ec0 touches only ARCHITECTURE.md, CLAUDE.md, pairing.py; repo-wide grep: the single importer of `law_and_order.pairing` is the test; suite 161 green, pairing.py 100% coverage — matching the commit's claims.
+- **C6 (record sync)** — CHALLENGED. ARCHITECTURE rows exact and same-commit; CLAUDE.md list synced; but IMPLEMENTATION.md:157 still named the pairing policy as the open "next decide" remainder after it had been decided (living status doc, stale — N4).
+- **C7 (identity-freedom honesty)** — CHALLENGED. Core claim holds (strings-only component; keys cannot reach merits; provenance widening genuinely flagged as an Owner interpretation item, mitigation pre-named). But two spec sentences overclaimed: "the red contract pins that the resolution is content-blind" (M4 text-dependent mutation → 10/10 pass, N2) and window "pinned by test" (M2, N1).
+
+## Findings and repairs (all repaired in-cycle, 2026-09-06)
+
+1. **N1 — material.** Boundedness, the window VALUE, and distinct-speaker eviction unpinned (M1/M2 survive). **REPAIRED:** `test_recency_window_value_is_legislated` (pins `RECENCY_WINDOW == 8`), `test_evicted_speakers_do_not_resolve` (distinct prior speaker evicted by flood → None — kills M1 and M2). Mutation-sensitivity verified empirically: M1+M2+M4 applied to the component flip the strengthened tests red (3 failed / 12 passed), revert restores 15 green — the verification can now fail, which was the standing lesson from the settlement step.
+2. **N2 — material.** Spec's "pins content-blind" false as written (M4 survives). **REPAIRED:** `test_resolution_is_content_blind` (parallel trackers, identical structure, divergent text incl. mutation trigger → identical resolutions; kills M4 — verified by probe); spec sentence corrected to name the pin and disclose that the original claim was false as first written.
+3. **N3 — minor.** Reference resolutions feeding recency unpinned (append-in-adjacency-branch mutation survives). **REPAIRED:** `test_reference_resolutions_feed_recency` (after a reference resolution, the next speaker resolves the referrer).
+4. **N4 — minor.** IMPLEMENTATION.md:157 stale. **REPAIRED:** remainder progression recorded — pairing DECIDED, next remainder is wiring integration.
+5. **N5 — minor.** "9 tests" count wrong (10 at both commits). **REPAIRED:** noted here; the count error lived in the review request, not in repo records. Post-repair count: 15.
+6. **N6 — minor.** Degenerate tokens (empty/None speaker, channel, reference) unspecified; empty counterpart would yield a degenerate dispute key. **REPAIRED by disclosure:** spec now names garbage-in-garbage-out as the component contract and assigns the guard to the wiring extraction site (where platform types are known), with the degenerate-key consequence stated as the reason.
+7. **N7 — minor.** Reference-first bypasses the recency window; spec silent, behavior code-decided. **REPAIRED:** bypass stated in the spec's pairing semantics and pinned (`test_reference_bypasses_the_recency_window`: unseen referenced speaker resolves).
+
+## Standing observation
+
+Second consecutive step where the Critic found the verification weaker than the claim — first parity ("byte-identical" that pins could not detect), now completeness ("pinned by test" that mutations walked through). The repair pattern is converging: every declared property gets a pin, and every new pin gets a mutation probe proving it can fail. Recommend this become the declared bar in the spec-writing discipline, not a per-step repair.

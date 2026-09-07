@@ -70,6 +70,46 @@ def test_recency_window_is_bounded():
     assert t.resolve(event("c1", "b", "someone new")) == "a"
 
 
+def test_recency_window_value_is_legislated():
+    assert RECENCY_WINDOW == 8
+
+
+def test_evicted_speakers_do_not_resolve():
+    t = tracker()
+    t.resolve(event("c1", "a", "spoken once"))
+    for _ in range(RECENCY_WINDOW):
+        t.resolve(event("c1", "b", "flooding"))
+    assert t.resolve(event("c1", "b", "after eviction")) is None
+
+
+def test_resolution_is_content_blind():
+    plain = tracker()
+    poisoned = tracker()
+    structure = (("a", None), ("b", None), ("a", "b"), ("c", "a"), ("b", None))
+    plain_results = [
+        plain.resolve(event("c1", speaker, "neutral text", referenced=ref))
+        for speaker, ref in structure
+    ]
+    poisoned_results = [
+        poisoned.resolve(event("c1", speaker, "zzz neutral text zzz", referenced=ref))
+        for speaker, ref in structure
+    ]
+    assert plain_results == poisoned_results
+
+
+def test_reference_resolutions_feed_recency():
+    t = tracker()
+    for speaker in ("a", "b", "c"):
+        t.resolve(event("c1", speaker, f"{speaker} speaks"))
+    assert t.resolve(event("c1", "d", "answering a", referenced="a")) == "a"
+    assert t.resolve(event("c1", "e", "next in channel")) == "d"
+
+
+def test_reference_bypasses_the_recency_window():
+    t = tracker()
+    assert t.resolve(event("c1", "d", "answering a ghost", referenced="ghost")) == "ghost"
+
+
 def test_replay_is_deterministic():
     events = (
         event("c1", "a", "one"),
