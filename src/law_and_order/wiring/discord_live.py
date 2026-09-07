@@ -10,7 +10,8 @@ from __future__ import annotations
 
 import json
 import os
-from collections.abc import Awaitable, Callable
+from collections.abc import Awaitable, Callable, Iterable
+from dataclasses import dataclass
 from pathlib import Path
 
 import discord
@@ -18,13 +19,22 @@ import discord
 from ..adapters.discord import DiscordAdapter
 from ..adjudication import Observation, SettlementService
 from ..enforcement import Enforcement, enforcement_for, parse_enforcement_channels
+from ..ledger import JsonlLedger
+from ..measurement import LiveFrictionMonitor
 from ..pairing import PairEvent, PairingTracker
 from ..protocol import Ruling, Signal
 from ..ruleset import RuleSet
 from ..state_machine import StateMachine
 
 DEFAULT_RULESET = Path(__file__).resolve().parents[3] / "rulesets" / "v2.json"
+MEASUREMENT_LEDGER = Path(__file__).resolve().parents[3] / "logs" / "measurement.jsonl"
 LIVE_SOURCE = "discord-live"
+
+
+@dataclass(frozen=True, slots=True)
+class Routing:
+    counterpart: str | None
+    observation: Observation | None
 
 
 def pair_event_from(message: discord.Message) -> PairEvent | None:
@@ -45,14 +55,35 @@ def pair_event_from(message: discord.Message) -> PairEvent | None:
 
 def route_paired_event(
     tracker: PairingTracker, service: SettlementService, event: PairEvent
-) -> Observation | None:
+) -> Routing:
     counterpart = tracker.resolve(event)
     if counterpart is None:
-        return None
+        return Routing(counterpart=None, observation=None)
     observation = service.observe(event.speaker, counterpart, event.text)
     if observation.settled:
         service.clear(event.speaker, counterpart)
-    return observation
+    return Routing(counterpart=counterpart, observation=observation)
+
+
+def feed_measurement(
+    record: Callable[[str, str, str | None, tuple[tuple[str, str], ...], bool], None] | None,
+    event: PairEvent,
+    counterpart: str | None,
+    pronounced: Iterable[Ruling],
+    settled: bool,
+) -> None:
+    if record is None:
+        return
+    try:
+        record(
+            event.channel,
+            event.speaker,
+            counterpart,
+            tuple((ruling.action, ruling.rule_id) for ruling in pronounced),
+            settled,
+        )
+    except Exception as exc:
+        print(f"measurement feed failed - isolated, adjudication unaffected: {exc}")
 
 
 async def adjudicate_message(
@@ -64,18 +95,28 @@ async def adjudicate_message(
     machine: StateMachine,
     ingest: Callable[[object], Awaitable[Signal]],
     pronounce: Callable[[Ruling], Awaitable[bool]],
+    record: Callable[[str, str, str | None, tuple[tuple[str, str], ...], bool], None] | None = None,
 ) -> None:
     if message.author == self_user:
         return
     event = pair_event_from(message)
-    observation = route_paired_event(tracker, service, event) if event is not None else None
-    rulings = observation.rulings if observation is not None else ()
-    for ruling in rulings:
+    if event is None:
+        await pronounce(machine.step(await ingest(message)))
+        return
+    routing = route_paired_event(tracker, service, event)
+    observation = routing.observation
+    service_rulings = observation.rulings if observation is not None else ()
+    pronounced: list[Ruling] = []
+    for ruling in service_rulings:
         if not await pronounce(ruling):
             break
-    if rulings:
+        pronounced.append(ruling)
+    if service_rulings:
+        feed_measurement(record, event, routing.counterpart, pronounced, observation.settled)
         return
-    await pronounce(machine.step(await ingest(message)))
+    ruling = machine.step(await ingest(message))
+    announced = await pronounce(ruling)
+    feed_measurement(record, event, routing.counterpart, (ruling,) if announced else (), False)
 
 
 def build_client(
@@ -98,6 +139,19 @@ def build_client(
     machine = StateMachine(ruleset)
     tracker = PairingTracker(source_prefix=LIVE_SOURCE)
     service = SettlementService(ruleset, source=LIVE_SOURCE)
+    monitor = LiveFrictionMonitor()
+    ledger = JsonlLedger(MEASUREMENT_LEDGER)
+    ledger.touch()
+
+    def record(
+        channel: str,
+        speaker: str,
+        counterpart: str | None,
+        rulings: tuple[tuple[str, str], ...],
+        settled: bool,
+    ) -> None:
+        monitor.record_message(channel, speaker, counterpart, rulings, settled)
+        ledger.append(channel, speaker, counterpart, rulings, settled)
 
     @client.event
     async def on_ready() -> None:
@@ -145,6 +199,7 @@ def build_client(
             machine=machine,
             ingest=ingest,
             pronounce=pronounce,
+            record=record,
         )
 
     return client

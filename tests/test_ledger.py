@@ -65,6 +65,19 @@ def test_replay_of_missing_file_is_an_empty_monitor(tmp_path):
     assert rebuilt.friction("any") == 0.0
 
 
+def test_replay_skips_blank_lines(tmp_path):
+    path = tmp_path / "measurement.jsonl"
+    ledger = JsonlLedger(path)
+    ledger.append(*EVENTS[1])
+    with path.open("a", encoding="utf-8", newline="\n") as ledger_file:
+        ledger_file.write("\n")
+    rebuilt = replay(path)
+    live = LiveFrictionMonitor()
+    live.record_message(*EVENTS[1])
+    assert rebuilt.network("c1") == live.network("c1")
+    assert rebuilt.friction("c1") == live.friction("c1")
+
+
 def test_touch_creates_the_empty_ledger_file(tmp_path):
     path = tmp_path / "logs" / "measurement.jsonl"
     ledger = JsonlLedger(path)
