@@ -35,7 +35,7 @@ pytest
 
 ## Constitution (epistegrity)
 
-This project operates on the [epistegrity](https://github.com/seva/epistegrity) scaffold, pinned to `6020e47` (`.epistegrity-version`). `CYCLE.md` here is the project instance of the scaffold's operating loop, which was extracted back upstream from this project — thrice: first the cycle and Definition of Success, then the autonomy doctrine and owner-sanction rule, then the claims-vs-evidence audit step, pin discipline, and sanction-is-permission interpretation.
+This project operates on the [epistegrity](https://github.com/seva/epistegrity) scaffold, pinned to `a565cbd` (`.epistegrity-version`). `CYCLE.md` here is the project instance of the scaffold's operating loop, which was extracted back upstream from this project — thrice: first the cycle and Definition of Success, then the autonomy doctrine and owner-sanction rule, then the claims-vs-evidence audit step, pin discipline, and sanction-is-permission interpretation. The 2026-09-07 migration (issue #11) adopted the scaffold's PRAROC-7 doctrine back: HORIZONS.md, selection function v3, engineering invariants, and the AGENTS.md bootstrap consolidation.
 
 - `AGENTS.md` — session bootstrap + behavioral rules (consolidated from CLAUDE.md per epistegrity template a565cbd)
 - `METHODOLOGY.md` — operating protocol (verbatim)
