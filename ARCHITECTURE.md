@@ -20,6 +20,50 @@ Code as documentation — names and structure must be self-explanatory. Comments
 
 ---
 
+## Engineering Invariants
+
+Enforced at audit (METHODOLOGY.md Post-Phase Audit, item 5). Deviations must be declared in `AGENTS.md` Conventions with rationale — undeclared violations are gaps.
+
+**Boundary defense** — all untrusted input (HTTP parameters and bodies, queue messages, environment variables, files from other systems) passes a runtime schema parser at the ingestion boundary. Internal code trusts validated contracts and omits redundant defensive checks for guaranteed fields. Never pass unvalidated dynamic types into domain functions.
+
+**Re-entrant mutations** — every state-altering operation (write endpoints, queue consumers, scheduled jobs) accepts an idempotency key or deterministic deduplication token, checked atomically before execution, with the result written back on completion. Financial and counter mutations never execute without an explicit transaction lock or idempotency guard.
+
+**Non-destructive schema evolution** — migrations run Expand → dual-write → backfill → Contract, each in a distinct deployment; forward- and backward-compatible with N−1 running instances. Substrates that cannot contract (deployed smart contracts, append-only stores) substitute versioned parallel deployment; the substitution is recorded under Constraints.
+
+**Vertical slice locality** — code grouped by domain feature, not technical layer. A feature slice co-locates its route, schema, domain rules, and queries. A single business-capability change touching more than three distinct folders is a design smell — reject or document the exception.
+
+**Indirection cap** — at most three hops within a feature domain: handler → domain rule → persistence. Abstractions generalize only after the same logic occurs at ≥3 production call-sites (Rule of Three).
+
+---
+
+## Banned Patterns
+
+| Pattern | Replacement |
+|---|---|
+| Generic repository abstraction over the ORM | Native ORM queries or type-safe compiled SQL directly in the slice |
+| Premature microservices | Modular monolith with language-enforced visibility boundaries |
+| Global DRY across bounded contexts | Context-local duplication; integrate through contracts, not shared models |
+| Speculative OOP (AbstractFactory, Strategy/Visitor classes for one implementation) | Functions, guard clauses, native pattern matching |
+| Unstructured logging | Structured logs with correlation/trace/tenant IDs propagated across async boundaries |
+| Mock-testing internal boundaries; tautological tests asserting mock calls | Real ephemeral dependencies (Testcontainers or local instances); mocks only for external third-party APIs |
+
+---
+
+## Invariant Applicability (migration M6, 2026-09-07 — declarations per the deviation rule)
+
+| Invariant / pattern | Status here | Basis |
+|---|---|---|
+| Boundary defense | PARTIAL — declared deviation | Adapter ingest validates envelope shape by guard clauses with explicit `ValueError`s (`adapters/discord.py`: event type, dict `d`, required `channel_id`/`content`); payload is opaque text to the pure kernel; env config is fail-fast validated (launcher, `parse_enforcement_channels`). A runtime schema parser is deferred until a second live input surface exists; deviation declared in AGENTS.md |
+| Re-entrant mutations | ADOPTED by equivalent | Kernel is pure (no mutations to re-enter); the live surface's re-entrancy control is the launcher single-instance guard (demonstrated live 2026-09-06: duplicate startup refused); delete actuation is idempotent per message (second delete → logged HTTP failure); ledger seq is the dedup token, single-writer by the same guard |
+| Non-destructive schema evolution | ADOPTED via substitution | No database; the JSONL ledger is append-only — a substrate that cannot contract. Substitution (per the invariant's own clause, recorded under Constraints): schema changes use versioned parallel files, never in-place migration |
+| Vertical slice locality | DEVIATION — declared | The kernel is layered by constitutional design: the fractal primitive chain (Signal → classify → RuleSet → Dispute → Ruling → friction) IS the product (docs/scope.md — scale grows around the kernel, not inside it). Capability changes touch one layer's contract + records; the three-folder smell targets route/schema/query sprawl, which has no analogue here |
+| Indirection cap | COMPLIANT under declared interpretation | Hops count to the actuation/persistence boundary; kernel-internal delegation (wiring → adjudicate → service → machine) is the domain-rule layer's interior, not added hops |
+| Generic repo abstraction / premature microservices / global DRY / speculative OOP | N/A or compliant | No ORM, single process; single-source settlement semantics is contract-sharing (the prescribed replacement form); frozen dataclasses + functions throughout |
+| Unstructured logging | GAP — declared, backlog filed | Wiring prints unstructured lines to `logs/discord_bot.log`; structured lines (ts/level/event/message-id correlation) are an independent atomic step (live-visible change, own verification) — issue #11 backlog; deviation declared until landed |
+| Mock-testing internal boundaries | COMPLIANT under declared interpretation | Injected fakes sit at the Discord-gateway boundary (external third-party, untestable without a live gateway); mutation-probe verification is the anti-tautology evidence (AGENTS.md deviation, migration M5) |
+
+---
+
 ## System Diagram
 
 ```
@@ -137,5 +181,6 @@ _Last verified: 2026-09-06_
 - Simulation assumptions, declared with falsification status: settlement is mediated by due process — a ruling settles the dispute **only if** no party appeals or the appellate affirms; REJECT unsettles (Phase 4; engine 2026-09-04); unvalued text starves without reaction (wild-experienced since 2026-09-05: docs/critic-mechanism2-verdict-2026-09-05.md); engine resolution by rule match + due process (catch-all falsified 2026-08-30: docs/critic-constitution-audit-2026-08-30.md); friction is pair-based over a sliding window. Live operation against real minds remains the falsification surface
 - Autonomy: the cycle is self-sufficient. By default no step may require owner action or externally provisioned accounts; live surfaces are surfaces the project controls or autonomously stands up, and the first live polity is artificial minds under opposing mandates (S11 — substrate-blind design makes them legitimate parties). External platforms are optional expansions, never gates. The owner may sanction exceptions by prompt — a sanctioned prompt is the only legitimate path by which an external dependency enters the cycle, and every sanction is recorded on the relevant issue
 - Sanction and blocking (interpretation constitutionalized 2026-08-24): external prerequisites are real — they block the deployments they gate, and gap analysis states them plainly. Sanction is permission, not owner labor: the owner legislates the exception, the provisioning work belongs to the cycle (autonomous stand-up). "Blocked on owner" is not a state the cycle may occupy; absent sanction the state is inversion, not waiting
+- Append-only substrates (the JSONL measurement ledger) cannot contract: schema evolution uses versioned parallel files (measurement-v2.jsonl), never in-place migration — the Non-destructive-schema-evolution substitution, recorded here per the invariant (migration M6, 2026-09-07)
 
 _Last verified: 2026-09-06_
