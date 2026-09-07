@@ -74,3 +74,8 @@ class SettlementService:
 
     def is_settled(self, speaker: str, counterpart: str) -> bool:
         return frozenset((speaker, counterpart)) in self._settled
+
+    def clear(self, speaker: str, counterpart: str) -> None:
+        pair = self._pair(speaker, counterpart)
+        self._settled.discard(pair)
+        self._last_said.pop(pair, None)

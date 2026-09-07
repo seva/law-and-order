@@ -122,3 +122,37 @@ def test_service_signal_matches_adapter_ingest():
     s.note("denier", "claimant", "I refuse to pay anything further")
     observation = s.observe("claimant", "denier", "demand a refund for the goods")
     assert observation.rulings[0].digest == signal.digest
+
+
+def test_cleared_settled_pair_readjudicates_afresh():
+    s = service()
+    s.note("denier", "claimant", "I refuse to pay anything further")
+    settled = s.observe("claimant", "denier", "demand a refund for the goods")
+    assert settled.settled
+    s.clear("claimant", "denier")
+    assert not s.is_settled("claimant", "denier")
+    s.note("denier", "claimant", "I refuse to pay anything further")
+    renewed = s.observe("claimant", "denier", "demand a refund for the goods")
+    assert renewed == settled
+    assert renewed.settled
+
+
+def test_clear_removes_dispute_memory_not_only_the_settlement():
+    s = service()
+    s.note("denier", "claimant", "I refuse to pay anything further")
+    s.note("claimant", "denier", "demand a refund for the goods")
+    s.clear("claimant", "denier")
+    observation = s.observe("claimant", "denier", "demand a refund for the goods")
+    assert observation == Observation(rulings=(), settled=False)
+
+
+def test_clear_of_unknown_pair_is_a_noop():
+    s = service()
+    assert s.clear("ghost", "stranger") is None
+    assert not s.is_settled("ghost", "stranger")
+
+
+def test_clear_rejects_self_pairs():
+    s = service()
+    with pytest.raises(ValueError):
+        s.clear("alpha", "alpha")
