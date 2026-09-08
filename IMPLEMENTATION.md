@@ -193,6 +193,21 @@ Session note 2026-09-08 (enforcement LIVE on the designated channel): Owner ruli
 
 ---
 
+### Reddit collection channel — direction A's provisioning dependency, decomposed
+
+**SANCTIONED 2026-09-08 (Owner direction, verbatim: "incorporate it as a full task (full transition from now to done)" — sanctioning the Reddit OAuth credential path as the external dependency's entry, per CYCLE.md Autonomy; browser emulation considered and rejected pre-rank: ToS circumvention spending the platform-standing margin the S3 Reddit track needs — `docs/platform-survey.md`, `docs/scope.md` Terminal bound row 1 class; recorded on issue #12).** Public unauthenticated JSON confirmed blocked from this host (HTTP 403, honest UA, single probe — issue #12). Spec: `docs/legislative-corpus-spec.md` (committed before corpus contact; A1 verification holds).
+
+| Step | Atomic? | Choosable? | V | P | C | RAROC |
+|---|---|---|---|---|---|---|
+| (R1) Red contract + pure component: `PostRef` closed/frozen/contentless, split rule by SHA-256 of post id, 24h age boundary, manifest schema closed, credential check fail-fast value-silent, asyncpraw confinement pinned | yes | yes — no network, no credentials | 4 | 0.9 | 1 | 3.6 |
+| (†R) Create Reddit app (type "script", read-only) + persist `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET` user-scope env — **non-coding, Owner act, interactive**; secrets never in chat/repo/artifacts; the cycle verifies presence only, never reads values (step-† precedent) | yes | Owner-gated | — | — | — | — |
+| (R2) Collector + live manifest run — FIRST corpus contact: ≥2 subreddits × ≥100 aged self-posts, asyncpraw OAuth, ≥1s request spacing logged content-free, manifest committed (pointers + counts, zero content), repo-wide scan test green | yes | gated on (†R) | 4 | 0.7 | 2 | 1.4 |
+| (R3) Separate-instance Critic on the collection step: content-capture-unrepresentable claims falsified or supported; scan test mutation-probed; verdict committed | yes | yes | 3 | 0.9 | 1 | 2.7 |
+
+Execution order: R1 → (†R) → R2 → R3. R1 does not wait on (†R) — the contract and pure component need neither network nor credentials; only R2's live run does.
+
+---
+
 ## Phase 8 — Content-Sensitive Resolution
 
 **Goal:** the friction delta becomes a function of the conflict content, not the arena — the nonsense test fails, and a valid prime-directive measurement becomes possible.
