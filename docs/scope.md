@@ -68,6 +68,31 @@ The infiltrator vanishes. At the final level there was never anything to infiltr
 
 ---
 
+## Terminal bound
+
+Compiled per HORIZONS.md: derived once, compared each Orient, never consulted at the decision point. Owner ruling 2026-09-08 ("PROCEED" over the four-item ruling package, issue #11): option (a), adopted as drafted — including the interpretation note: the prime directive's number is a CHECK (Near-type — when it fires, a successor prediction must be made), and the terminal position is the compiled margin table below, not the number. The directive text itself is unamended.
+
+### Compiled constraints
+
+| Compiled constraint | Irrecoverable margin it protects |
+|---|---|
+| No coercion outside Owner-designated channels; advisory default everywhere; guild-wide enforcement never reachable by configuration drift | Live-community goodwill and platform standing — a ban or revocation is access loss no work re-establishes |
+| Conflict content never authored, edited, or selected; provenance committed before publication; no measurement booked without the Owner act | Record evidentiary value and metric integrity — a falsified ledger cannot be re-authored; a wrongly booked number permanently corrupts the single success criterion |
+| Secrets never surfaced; message content never persisted to repo, ledger, or logs (privacy by signature) | Participant trust and platform standing — live humans, not personas |
+| Kernel determinism never traded: no LLM at ruling emission, no clock/randomness in ruling paths, frozen versioned rulesets only | The substrate itself — a nondeterministic ruling is unreproducible; the property is the product |
+| Owner attention is never consumed by work the cycle can do: decisions surfaced with evidence, never queued as blockers | Your attention margin — the scarcest non-recoverable input; every unnecessary intervention is spent, and the autonomy doctrine protects the cycle, not excuses |
+
+### Refinement levels per commitment class
+
+| Commitment class | Refinement level (PRAROC-n) | Terms registered non-drifting (below the cut) |
+|---|---|---|
+| Kernel / records / measurement work (fully recoverable: revert, re-run, re-pin) | scalar RAROC (set 2) | Python runtime support, pytest behavior, host filesystem |
+| Live Discord deployment (exposes platform + community standing) | set 5 (Now/Near/Far/End/Unreachable) | Terms tracked: Discord ToS/API drift, gateway intent policy, discord.py currency. Non-drifting registered: token validity, host network |
+| Epistegrity scaffold alignment | set 3 | Template evolution rate; pin immutability semantics |
+| Mission disposition (prime directive: attainment, cessation, or successor) | set 7 — Owner-held; the cycle never disposes of the entity it runs in | Terms: Owner intent, ecosystem need for arbitration. Nothing registered non-drifting |
+
+---
+
 ## Constraint analysis
 
 No level S1→S15 requires a kernel rewrite. Binding constraints ascend with the ladder:
