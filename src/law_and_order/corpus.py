@@ -6,6 +6,8 @@ import os
 from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
 
+from .config import load_config
+
 MIN_AGE_HOURS = 24
 FETCH_FACTOR = 3
 
@@ -30,12 +32,14 @@ def is_aged(created_utc: float, now: float) -> bool:
 
 
 def require_credentials() -> tuple[str, str]:
-    client_id = os.environ.get("REDDIT_CLIENT_ID")
-    client_secret = os.environ.get("REDDIT_CLIENT_SECRET")
+    config = load_config()
+    client_id = config.get("REDDIT_CLIENT_ID") or os.environ.get("REDDIT_CLIENT_ID")
+    client_secret = config.get("REDDIT_CLIENT_SECRET") or os.environ.get("REDDIT_CLIENT_SECRET")
     if not client_id or not client_secret:
         raise RuntimeError(
-            "missing Reddit credentials: set REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET "
-            "in the user-scope environment (values are read at runtime only, never logged)"
+            "missing Reddit credentials: copy config.env.example to config.env (gitignored) and set "
+            "REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET there, or export them as environment variables "
+            "(config file wins; values are read at runtime only, never logged)"
         )
     return client_id, client_secret
 

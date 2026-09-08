@@ -1,11 +1,11 @@
 import hashlib
 import inspect
 import json
-import os
 from dataclasses import FrozenInstanceError
 
 import pytest
 
+from law_and_order import config as config_module
 from law_and_order.corpus import (
     MIN_AGE_HOURS,
     PostRef,
@@ -141,13 +141,15 @@ def test_manifest_line_is_closed_sorted_and_contentless():
     }
 
 
-def test_require_credentials_returns_pair_when_both_present(monkeypatch):
+def test_require_credentials_returns_pair_when_both_present(monkeypatch, tmp_path):
+    monkeypatch.setattr(config_module, "CONFIG_PATH", tmp_path / "absent.env")
     monkeypatch.setenv("REDDIT_CLIENT_ID", "id-value")
     monkeypatch.setenv("REDDIT_CLIENT_SECRET", "secret-value")
     assert require_credentials() == ("id-value", "secret-value")
 
 
-def test_require_credentials_fails_fast_naming_both_vars(monkeypatch):
+def test_require_credentials_fails_fast_naming_both_vars(monkeypatch, tmp_path):
+    monkeypatch.setattr(config_module, "CONFIG_PATH", tmp_path / "absent.env")
     monkeypatch.delenv("REDDIT_CLIENT_ID", raising=False)
     monkeypatch.delenv("REDDIT_CLIENT_SECRET", raising=False)
     with pytest.raises(RuntimeError) as excinfo:
@@ -157,7 +159,8 @@ def test_require_credentials_fails_fast_naming_both_vars(monkeypatch):
     assert "REDDIT_CLIENT_SECRET" in message
 
 
-def test_require_credentials_error_never_echoes_the_present_value(monkeypatch):
+def test_require_credentials_error_never_echoes_the_present_value(monkeypatch, tmp_path):
+    monkeypatch.setattr(config_module, "CONFIG_PATH", tmp_path / "absent.env")
     monkeypatch.setenv("REDDIT_CLIENT_ID", "id-sentinel-8817")
     monkeypatch.delenv("REDDIT_CLIENT_SECRET", raising=False)
     with pytest.raises(RuntimeError) as excinfo:
