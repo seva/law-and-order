@@ -1,4 +1,5 @@
 import inspect
+import json
 from dataclasses import FrozenInstanceError
 
 import pytest
@@ -123,3 +124,51 @@ def test_summary_type_is_closed_and_frozen():
 
 def test_summarize_signature_is_path_only():
     assert list(inspect.signature(summarize).parameters) == ["path"]
+
+
+def test_channel_order_is_first_appearance_not_sorted(tmp_path):
+    events = (
+        ("zebra", "z", None, (), False),
+        ("alpha", "a", None, (), False),
+    )
+    summaries = summarize(build_ledger(tmp_path, events))
+    assert [summary.channel for summary in summaries] == ["zebra", "alpha"]
+
+
+def test_topology_is_windowed_not_full_history(tmp_path):
+    events = [
+        ("c1", "a", None, (), False),
+        ("c1", "b", "a", (("order_refund", "R1"),), False),
+    ]
+    for pair in range(52):
+        events.append(("c1", f"p{pair}", None, (), False))
+        events.append(("c1", f"q{pair}", f"p{pair}", (), False))
+    summary = summarize(build_ledger(tmp_path, tuple(events)))[0]
+    assert (summary.messages, summary.ruled, summary.settled) == (106, 1, 0)
+    assert summary.peak_friction == 1.0
+    assert summary.edges == 50
+    assert summary.conflict_edges == 0
+    assert summary.friction == 0.0
+    assert summary.phase is Phase.ORDERED
+
+
+def test_trajectory_stride_counts_per_channel(tmp_path):
+    events = []
+    for round_index in range(20):
+        events.append(("c1", f"s{round_index}", None, (), False))
+        events.append(("c2", f"t{round_index}", None, (), False))
+    summaries = summarize(build_ledger(tmp_path, tuple(events)))
+    c1, c2 = summaries
+    assert c1.trajectory == ((9, 0.0), (19, 0.0))
+    assert c2.trajectory == ((9, 0.0), (19, 0.0))
+
+
+def test_malformed_line_fails_loudly(tmp_path):
+    path = tmp_path / "measurement.jsonl"
+    path.write_text(
+        '{"seq":0,"channel":"c1","speaker":"a","counterpart":null,"rulings":[],"settled":false}\n'
+        "NOT JSON\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(json.JSONDecodeError):
+        summarize(path)
